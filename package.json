@@ -229,7 +229,13 @@
     "webpack-manifest-plugin": "1.1.0",
     "webpack-md5-hash": "0.0.5",
     "webpack-merge": "4.1.0",
-    "yargs": "7.0.2"
+    "yargs": "7.0.2",
+    "clean-webpack-plugin": "0.1.16",
+    "optimize-js-plugin": "0.0.4",
+    "sasslint-webpack-plugin": "1.0.4",
+    "sass-lint": "1.10.2",
+    "precss": "2.0.0",
+    "sass-loader": "6.0.6"
   },
   "repository": {
     "type": "git",
