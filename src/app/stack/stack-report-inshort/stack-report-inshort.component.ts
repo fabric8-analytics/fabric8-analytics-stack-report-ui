@@ -1,43 +1,88 @@
-import {Component, Input, OnChanges, Output, EventEmitter} from '@angular/core';
+import {Component, Input, OnChanges, ViewEncapsulation} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {StackAnalysesService} from '../stack-analyses.service';
+import {getStackReportModel} from '../utils/stack-api-utils';
 
-import {UserStackInfoModel, ComponentInformationModel} from '../models/stack-report.model';
+import {StackReportModel, ResultInformationModel, UserStackInfoModel, RecommendationsModel, ComponentInformationModel} from '../models/stack-report.model';
 
 @Component({
-    selector: 'stack-level-information',
-    templateUrl: './stack-level.component.html',
-    styleUrls: ['./stack-level.component.scss'],
+    selector: 'stack-report-inshort',
+    templateUrl: './stack-report-inshort.component.html',
+    providers: [StackAnalysesService],
+    encapsulation: ViewEncapsulation.None,
+    styleUrls: ['./stack-report-inshort.component.scss'],
 })
 
-export class StackLevelComponent {
-    @Input() userStack: UserStackInfoModel;
-    @Input() outliers: any;
+export class StackReportInShortComponent implements OnChanges {
+    @Input() stackUrl;
+    @Input() repoInfo;
+    @Input() buildNumber;
+    @Input() appName;
 
-    @Output() changeFilter: EventEmitter<any> = new EventEmitter();
-
-    public licenseInfo: any = {};
-    public licenseOutliers: number = 0;
+    public tabs: Array<any> = [];
+    public result: StackReportModel;
+    public stackLevel: UserStackInfoModel;
+    public recommendations: RecommendationsModel;
+    public licenseInfo: any;
     public securityInfo: any;
-    public recommendations: any;
     public stackLevelOutliers: any;
+    public dataLoaded: boolean = false;
+    public error: any;
+    public licenseOutliers: number = 0;
 
-    constructor() {}
+    private cache: string = '';
+
+    constructor(private stackAnalysisService: StackAnalysesService) {}
 
     ngOnChanges(): void {
-        if (this.userStack) {
-            this.handleLicenseInformation(this.userStack);
-            this.handleSecurityInformation(this.userStack);
-        }
-        if (this.outliers) {
-            this.handleStatistics(this.outliers);
+        if (this.stackUrl && this.stackUrl !== this.cache) {
+            this.cache = this.stackUrl;
+            this.dataLoaded = false;
+            this.stackAnalysisService
+                .getStackAnalyses(this.stackUrl)
+                .subscribe((data) => {
+                    if (data && (!data.hasOwnProperty('error') && Object.keys(data).length !== 0)) {
+                        let resultInformation: Observable<StackReportModel> = getStackReportModel(data);
+                        if (resultInformation) {
+                            resultInformation.subscribe((response) => {
+                                this.result = response;
+                                this.buildReportInShort();
+                            });
+                        }
+                    } else {
+                        // Handle Errors here 'API error'
+                        this.handleError({
+                            title: data.error
+                        });
+                    }
+                }, error => {
+                    // Handle server errors here
+                    this.handleError({
+                        title: 'Something unexpected happened'
+                    });
+                });
+        } else {
+
         }
     }
 
-    public handleFilter(filterBy: any): void {
-        this.changeFilter.emit(filterBy);
+    public handleError(error: any): void {
+        this.error = error;
+        this.dataLoaded = true;
     }
 
-    private handleStatistics(outliers: any): void {
-        this.stackLevelOutliers = outliers;
+    public tabSelection(tab: any): void {
+        tab['active'] = true;
+        let currentIndex: number = tab['index'];
+        this.stackLevel = tab.content.user_stack_info;
+        this.recommendations = tab.content.recommendation;
+        if (this.recommendations) {
+            this.stackLevelOutliers = {
+                'usage': this.recommendations.usage_outliers
+            };
+        }
+        this.handleLicenseInformation(this.stackLevel);
+        this.handleSecurityInformation(this.stackLevel);
     }
 
     private sortChartColumnData(array: Array<Array<any>>): Array<Array<any>> {
@@ -95,16 +140,15 @@ export class StackLevelComponent {
     }
 
     private handleLicenseInformation(tab: UserStackInfoModel): void {
-        
+
         let licenses: any = {};
-        this.licenseOutliers = 0;
         let columnData: Array<Array<any>> = [];
         let columnDataLength: number = 0;
         let otherLicensesArray: Array<string> = [];
         let otherLicensesRatio: any = 0;
 
         let temp: Array<any> = [];
-
+        this.licenseOutliers = 0;
         tab.dependencies.forEach((t) => {
             t.licenses.forEach((license) => {
                 if (!licenses[license]) {
@@ -146,8 +190,8 @@ export class StackLevelComponent {
             },
             chartOptions: {
                 size: {
-                    height: 150,
-                    width: 250
+                    height: 100,
+                    width: 100
                 },
                 donut: {
                     width: 13,
@@ -159,7 +203,7 @@ export class StackLevelComponent {
             },
             configs: {
                 legend: {
-                    position: 'right'
+                    show: false
                 },
                 tooltip: {
                     format: {
@@ -176,5 +220,29 @@ export class StackLevelComponent {
                 }
             }
         };
+    }
+
+    private resetFields(): void {
+        this.securityInfo = null;
+        this.stackLevelOutliers = null;
+        this.stackLevel = null;
+    }
+
+    private buildReportInShort(): void {
+        this.resetFields();
+        let resultInformation: Array<ResultInformationModel> = this.result.result;
+        if (resultInformation && resultInformation.length > 0) {
+            resultInformation.forEach((one: ResultInformationModel, index: number) => {
+                this.tabs[index] = {
+                    title: one.manifest_file_path,
+                    content: one,
+                    index: index
+                };
+            });
+            if (this.tabs[0]) this.tabs[0]['active'] = true;
+            this.tabSelection(this.tabs[0]);
+            this.dataLoaded = true;
+            this.error = null;
+        }
     }
 }

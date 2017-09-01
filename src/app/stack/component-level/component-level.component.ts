@@ -1,11 +1,17 @@
 import {Component, Input, OnChanges} from '@angular/core';
 
+
+import { Observable } from 'rxjs/Observable';
+import { Space, Contexts } from 'ngx-fabric8-wit';
+
 import {ComponentInformationModel, RecommendationsModel, OutlierInformationModel} from '../models/stack-report.model';
+import { AddWorkFlowService } from '../stack-details/add-work-flow.service';
 
 @Component({
     selector: 'component-level-information',
     templateUrl: './component-level.component.html',
-    styleUrls: ['component-level.component.scss']
+    styleUrls: ['./component-level.component.scss'],
+    providers: [AddWorkFlowService],
 })
 
 export class ComponentLevelComponent implements OnChanges {
@@ -18,9 +24,14 @@ export class ComponentLevelComponent implements OnChanges {
     @Input() header: string;
     @Input() subHeader: string;
 
+    @Input() data;
+
+    public workItemResponse: Array<any> = [];
     public dependencies: Array<ComponentInformationModel> = [];
     public recommendations: RecommendationsModel;
     public messages: any;
+    public angleDown: string = 'fa-angle-down';
+    public sortDirectionClass: string = this.angleDown;
 
     private dependenciesList: Array<any> = [];
     private headers: Array<any> = [];
@@ -37,12 +48,41 @@ export class ComponentLevelComponent implements OnChanges {
     private orderByName: string = '';
     private direction: string = '';
     private angleUp: string = 'fa-angle-up';
-    private angleDown: string = 'fa-angle-down';
 
-    public sortDirectionClass: string = this.angleDown;
+    private spaceName: string;
+    private userName: string;
 
 
-    constructor() {
+    constructor(
+        private addWorkFlowService: AddWorkFlowService,
+        private context: Contexts
+    ) {
+        this.messages = {
+            'title': 'Recommendations',
+            'sub_title': {
+                'firstPart': 'Based on our analytics engine we found ',
+                'secondPart': ' recommendations to improve your application stack:'
+            },
+            'create_work_item': 'Create Work Item',
+            'create_work_items': 'Create Work Items',
+            'view_work_item': 'View Work Item',
+            'select_all_text': 'Select All',
+            'no_recommendations_text': 'No recommendations.',
+            'no_recommendations_suggestion': ' For your stack there are currently no recommendations. Below is some general information about it.',
+            'toastDisplay': {
+                'text1': 'Workitem with ID ',
+                'text2': ' has been added to the backlog.'
+            },
+            'create_work_item_error': 'There was a error while creating work item.',
+            'default_stack_name': 'An existing stack'
+        };
+        if (this.context && this.context.current) {
+            this.context.current.subscribe(val => {
+                this.spaceName = val.name;
+                this.userName = val.user.attributes.username;
+            });
+        }
+
         this.keys = {
             name: 'name',
             currentVersion: 'curret_version',
@@ -73,6 +113,10 @@ export class ComponentLevelComponent implements OnChanges {
         }, {
             name: 'Alternate Components',
             identifier: 'isChild',
+            class: 'fa fa-database child-icon alternate-component-icon'
+        }, {
+            name: 'Grouped Components',
+            identifier: 'isGrouped',
             class: 'fa fa-database child-icon alternate-component-icon'
         }];
 
@@ -128,9 +172,61 @@ export class ComponentLevelComponent implements OnChanges {
         event.preventDefault();
     }
 
+    /*
+     *  handleCreateWorkItemAction - takes recommendation and returns nothing
+     *  Creates work items in specified format to be consumed for POST request
+     */
+    public handleCreateWIclick(recommender: any, event: Event): void {
+        let workItems = [];
+        let message: string = '';
+        let codebaseobj: any = {
+            codebase: {
+              'repository': 'Test_Repo',
+              'branch': 'task-1234',
+              'filename': this.component['manifestinfo'],
+              'linenumber': 1
+            }
+        };
+
+        // TODO form data to be shared with recommender object
+        if (recommender && recommender.hasOwnProperty('isChild') && recommender['isChild']) {
+            message = `Stack analysis has identified alternate components for **${recommender.parentName}**.
+            You have chosen to replace **${recommender.parentName}** with **${recommender.name}** and version: **${recommender.recommended_version}** in your application stack`;
+        } else {
+            message = `Stack analysis has identified some additional components for your application stack.
+            You have chosen to add **${recommender.name}** with **${recommender.recommended_version}** to your application stack`;
+        }
+        let description: string = message;
+        let codebase: any = codebaseobj;
+        if (this.data && this.data.git) {
+            codebase['repository'] = this.data.git.uri || '';
+            codebase['branch'] = this.data.git.ref || 'master';
+        }
+        description += ' \n\n ';
+        description += '\n\n **Repository:** ' + codebase['repository'];
+        description += '\n\n **Branch:** ' + codebase['branch'];
+        description += '\n\n **Filename:** ' + codebase['codebase']['filename'];
+        description += '\n\n **Line Number:**' + codebase['codebase']['linenumber'];
+        let item: any = {
+            title: recommender['action'],
+            description: description,
+            markup: 'Markdown',
+            codebase: codebase,
+            key: recommender['name']
+        };
+
+        workItems.push(item);
+
+        if (workItems.length > 0) {
+            this.addWorkItems(workItems[0]);
+        } else {
+            console.log('Work items are empty and cannot be added');
+        }
+    }
+
     /**
      * Handles the column header click.
-     * This changes the tables entries either to ascending order or 
+     * This changes the tables entries either to ascending order or
      * desending order in context to the field
      */
     public handleTableOrderClick(header: any): void {
@@ -149,16 +245,11 @@ export class ComponentLevelComponent implements OnChanges {
 
     ngOnChanges(): void {
         if (this.component) {
-            console.log(this.component);
             if (this.isCompanion === undefined) {
-                if (this.component['dependencies']) {
-                    this.dependencies = this.component['dependencies'];
-                }
-                if (this.component['recommendations']) {
-                    this.recommendations = this.component['recommendations'];
-                    this.alternate = this.recommendations.alternate;
-                    this.usageOutliers = this.recommendations['usage_outliers'];
-                }
+                this.dependencies = this.component['dependencies'];
+                this.recommendations = this.component['recommendations'];
+                this.alternate = this.recommendations.alternate;
+                this.usageOutliers = this.recommendations['usage_outliers'];
             } else {
                 this.dependencies = this.component['dependencies'];
             }
@@ -167,6 +258,21 @@ export class ComponentLevelComponent implements OnChanges {
         if (this.filterBy) {
             this.fieldName = this.filterBy;
             this.currentFilter = this.filters.filter((f) => f.identifier === this.fieldName)[0].name;
+        }
+    }
+
+    private toggleEntries(id: string, isCollapsed: boolean): void {
+        let rows = document.getElementsByClassName(id);
+        let len: number = rows.length;
+        if (isCollapsed) {
+            for (let i: number = 0; i < len; ++ i) {
+                if (rows[i].classList.contains('collapse'))
+                    rows[i].classList.remove('collapse');
+            }
+        } else {
+            for (let i: number = 0; i < len; ++ i) {
+                rows[i].classList.add('collapse');
+            }
         }
     }
 
@@ -215,7 +321,10 @@ export class ComponentLevelComponent implements OnChanges {
                     name: 'Categories',
                     class: 'medium',
                     order: 10
-                }
+                }, {
+                     name: 'Action',
+                     class: 'small'
+                 }
             ];
 
             if (this.isCompanion) {
@@ -234,9 +343,10 @@ export class ComponentLevelComponent implements OnChanges {
                 this.dependenciesList.push(dependency);
                 tempLen = this.dependenciesList.length;
                 if (this.alternate) {
-                    this.checkAlternate(eachOne['name'], eachOne['version'], this.dependenciesList, dependency['compId']);
+                    this.checkAlternate(eachOne['name'], eachOne['version'], this.dependenciesList, dependency['compId'], dependency['name']);
                     if (tempLen !== this.dependenciesList.length) {
                         dependency['isParent'] = true;
+                        dependency['isGrouped'] = true;
                     }
                 }
             }
@@ -274,6 +384,7 @@ export class ComponentLevelComponent implements OnChanges {
         output['used_by'] = github['used_by'];
         output['categories'] = input['topic_list'];
         output['categories'] = (output['categories'] && output['categories'].length > 0 && output['categories'].join(', ')) || '';
+        output['action'] = canCreateWorkItem ? 'Create Work Item' : '';
         return output;
     }
 
@@ -281,28 +392,15 @@ export class ComponentLevelComponent implements OnChanges {
         return !count || count < 0 ? '-' : count;
     }
 
-    private toggleEntries(id: string, isCollapsed: boolean): void {
-        let rows = document.getElementsByClassName(id);
-        let len: number = rows.length;
-        if (isCollapsed) {
-            for (let i: number = 0; i < len; ++ i) {
-                if (rows[i].classList.contains('collapse'))
-                    rows[i].classList.remove('collapse');
-            }
-        } else {
-            for (let i: number = 0; i < len; ++ i) {
-                rows[i].classList.add('collapse');
-            }
-        }
-    }
-
-    private checkAlternate (name: string, version: string, list: Array<any>, parentId: string) {
+    private checkAlternate (name: string, version: string, list: Array<any>, parentId: string, parentName: string) {
         if (this.alternate && this.alternate.length > 0) {
             let recom: Array<ComponentInformationModel> = this.alternate.filter((a) => a.replaces[0].name === name && a.replaces[0].version === version);
             recom.forEach(r => {
                 let obj: any = this.setParams(r, true);
                 obj['isChild'] = true;
                 obj['parent-reference'] = parentId;
+                obj['isGrouped'] = true;
+                obj['parentName'] = parentName;
                 list.push(obj);
             });
         }
@@ -314,5 +412,103 @@ export class ComponentLevelComponent implements OnChanges {
             return result && result.length > 0;
         }
     }
+
+     /*
+     *  getWorkItemData - Takes nothing, returns Object
+     *  It returns the predefined JSON structure to be sent as an input
+     *  for work item creation request.
+     */
+    private getWorkItemData(): any {
+        let workItemData = {
+            'data': {
+                'attributes': {
+                    'system.state': 'open',
+                    'system.title': '',
+                    'system.codebase': ''
+                },
+                'type': 'workitems',
+                'relationships': {
+                    'baseType': {
+                        'data': {
+                            'id': '26787039-b68f-4e28-8814-c2f93be1ef4e',
+                            'type': 'workitemtypes'
+                        }
+                    }
+                }
+            }
+        };
+        return workItemData;
+    }
+
+    /*
+     *  addWorkItems - takes workitems array, return nothing
+     *  A generic function that recieves workitems in a predefined format
+     *  Creates work items based on the data
+     *  Handles single as well as multiple work items 
+     */
+    private addWorkItems(workItem: Array<any>): void {
+        //let length: number = workItems.length;
+        let newItem: any; //, workItem: any;
+        newItem = this.getWorkItemData();
+        //for (let i: number = 0; i < length; ++i) {
+            //if (workItems[i]) {
+                //workItem = workItems[i];
+                // TODO: Handle the case of sending multiple work items concurrently
+                // once the API Payload is properly set at the receiving end.
+                if (newItem) {
+                    newItem.data.attributes['system.title'] = workItem['title'];
+                    newItem.data.attributes['system.description'] = workItem['description'];
+                    newItem.data.attributes['system.codebase'] = workItem['codebase'];
+                    newItem.data.attributes['system.description.markup'] = workItem['markup'];
+                    newItem.key = workItem['key'];
+                }
+           // }
+        //}
+
+        let workFlow: Observable<any> = this.addWorkFlowService.addWorkFlow(newItem);
+        workFlow.subscribe((data) => {
+            if (data) {
+                let inputUrlArr: Array<string> = [];
+                if (data.links && data.links.self && data.links.self.length) {
+                    inputUrlArr = data.links.self.split('/api/');
+                    let hostString = inputUrlArr[0] ? inputUrlArr[0].replace('api.', '') : '';
+                    let baseUrl: string = hostString +
+                        `/${this.userName}/${this.spaceName}/plan/detail/` + data.data.id;
+                    this.displayWorkItemResponse(baseUrl, data.data.id);
+                    newItem.url = baseUrl;
+                    //TODO :: toggle Worke item link and toast notification
+                    //this.toggleWorkItemButton(newItem);
+                }
+            }
+        });
+    }
+
+     /**
+     * displayWorkItemResponse - takes a message string and returns nothing
+     * Displays the response received from the creation of work items
+     */
+    private displayWorkItemResponse(url: string, id: any): void {
+        let notification = {
+            iconClass: '',
+            alertClass: '',
+            text: null,
+            link: null,
+            linkText: this.messages.view_work_item
+        };
+        if (id) {
+            notification.iconClass = 'pficon-ok';
+            notification.alertClass = 'alert-success';
+            notification.text = this.messages.toastDisplay.text1 +
+                id + this.messages.toastDisplay.text2;
+            notification.link = url;
+        } else {
+            notification.iconClass = 'pficon-error-circle-o';
+            notification.alertClass = 'alert-danger';
+            notification.text = this.messages.create_work_item_error;
+        }
+        this.workItemResponse.push(notification);
+    }
+
+
 
 }

@@ -9,6 +9,7 @@ var gulp = require('gulp'),
   ngc = require('gulp-ngc'),
   changed = require('gulp-changed'),
   sass = require('./config/sass'),
+  minify = require('gulp-minifier'),
   argv = require('yargs').argv;
 
 var appSrc = 'src';
@@ -58,6 +59,20 @@ function transpileSASS(src, debug) {
 /**
  * TASKS
  */
+
+gulp.task('minify', function() {
+  return gulp.src('./dist/**/*').pipe(minify({
+    minify: true,
+    collapseWhitespace: true,
+    conservativeCollapse: true,
+    minifyJS: true,
+    minifyCSS: true,
+    getKeptComment: function (content, filePath) {
+        var m = content.match(/\/\*![\s\S]*?\*\//img);
+        return m && m.join('\n') + '\n' || '';
+    }
+  })).pipe(gulp.dest('minify-dist'));
+});
 
 gulp.task('post-transpile', ['transpile'], function () {
   return gulp.src(['dist/src/app/**/*.js'])

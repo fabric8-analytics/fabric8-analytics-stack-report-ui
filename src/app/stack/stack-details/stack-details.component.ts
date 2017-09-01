@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges} from '@angular/core';
+import {Component, Input, OnChanges, ViewChild, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
 import {StackAnalysesService} from '../stack-analyses.service';
@@ -9,13 +9,22 @@ import {StackReportModel, ResultInformationModel, UserStackInfoModel, ComponentI
     selector: 'stack-details',
     templateUrl: './stack-details.component.html',
     providers: [StackAnalysesService],
-    styleUrls: ['stack-details.component.scss']
+    encapsulation: ViewEncapsulation.None,
+    styleUrls: ['./stack-details.component.scss'],
 })
 
 export class StackDetailsComponent implements OnChanges {
     @Input() stack: string;
-    
-    public error: any = {};
+    @Input() displayName;
+    @Input() repoInfo;
+    @Input() buildNumber;
+    @Input() appName;
+    @Input() stackResponse;
+
+    public errorMessage: any = {};
+    public cache: string = '';
+    public cacheResponse: any;
+    public modalHeader: string = null;
     public userStackInformation: UserStackInfoModel;
     public componentLevelInformation: any = {};
     public userComponentInformation: Array<ComponentInformationModel> = [];
@@ -28,6 +37,8 @@ export class StackDetailsComponent implements OnChanges {
     public componentLevel: any = {};
 
     public componentFilterBy: string = '';
+    public customClass: string = 'accordion-custom';
+    public analysis: any = {};
 
 
     public feedbackConfig: any = {};
@@ -39,28 +50,69 @@ export class StackDetailsComponent implements OnChanges {
 
     private stackId: string;
 
+    public showStackModal(event: Event): void {
+        event.preventDefault();
+    }
+
+    /**
+     * Gets triggered on close of modal,
+     * Clears the existing states to make it proper on open
+     */
+    public handleModalClose(): void {
+        this.resetFields();
+    }
+
     public tabSelection(tab: any): void {
         tab['active'] = true;
         let currentIndex: number = tab['index'];
         let recommendations: RecommendationsModel = this.recommendationsArray[currentIndex];
+        let alternate: number = 0, companion: number = 0;
         if (recommendations) {
             this.stackLevelOutliers = {
                 'usage': recommendations.usage_outliers
             };
             this.companionLevelRecommendation = {
-                dependencies: recommendations.companion
+                dependencies: recommendations.companion,
+                manifestinfo: tab.content.manifest_name
             };
+            alternate = recommendations.alternate ? recommendations.alternate.length : 0;
+            companion = recommendations.companion ? recommendations.companion.length : 0;
         }
+        let total: number = 0;
+        let analyzed: number = 0;
+        let unknown: number = 0;
+
+        if (tab.content && tab.content.user_stack_info) {
+            let userStackInfo: UserStackInfoModel = tab.content.user_stack_info;
+            if (userStackInfo.dependencies) {
+                analyzed = tab.content.user_stack_info.dependencies.length;
+            }
+            if (userStackInfo.analyzed_dependencies) {
+                total = userStackInfo.analyzed_dependencies.length;
+            }
+            if (userStackInfo.unknown_dependencies) {
+                unknown = userStackInfo.unknown_dependencies.length;
+            }
+        }
+
+        this.analysis = {
+            stackLevel: 'Total: ' +  total + ' | Analyzed: ' + analyzed + ' | Unknown: ' + unknown,
+            alternate: '[' + alternate + ' alternate components match your stack composition and may be more appropriate]',
+            companion: '[' + companion + ' additional components are often used by similar stacks]'
+        };
         this.componentLevelInformation = {
             recommendations: recommendations,
-            dependencies: tab.content.user_stack_info.dependencies
+            dependencies: tab.content.user_stack_info.dependencies,
+            manifestinfo: tab.content.manifest_name
         };
     }
 
     ngOnChanges(): void {
+        if (this.stack && this.stack !== this.cache) {
+            this.cache = this.stack;
         this.resetFields();
         this.stackId = this.stack && this.stack.split('/')[this.stack.split('/').length - 1];
-        this.init(this.stack);
+        // this.init(this.stack);
         this.initFeedback();
         this.componentLevel = {
             header: 'Analysis of your application stack',
@@ -70,6 +122,9 @@ export class StackDetailsComponent implements OnChanges {
             header: 'Possible companion dependencies',
             subHeader: 'Consider theses additional dependencies'
         };
+        this.displayName = this.displayName || 'Stack Report';
+        this.init();
+        }
     }
 
     public handleChangeFilter(filterBy: any): void {
@@ -79,7 +134,9 @@ export class StackDetailsComponent implements OnChanges {
     constructor(private stackAnalysisService: StackAnalysesService) {}
 
     private handleError(error: any): void {
-        this.error = error;
+        this.errorMessage = error;
+        this.modalHeader = error.title;
+        this.dataLoaded = true;
     }
 
     private initFeedback(): void {
@@ -101,61 +158,78 @@ export class StackDetailsComponent implements OnChanges {
     }
 
     private resetFields(): void {
-        this.tabs = [];
+        this.tabs.length = 0;
+        this.dataLoaded = false;
+        this.errorMessage = null;
         this.recommendationsArray = [];
+        this.stackLevelOutliers = {};
+        this.componentLevelInformation = {};
+        this.companionLevelRecommendation = {};
+        this.cacheResponse = {};
         // this.dataLoaded = false;
     }
 
-    private init(url: string): void {
-        this.stackAnalysisService
-            .getStackAnalyses(url)
-            .subscribe((data) => {
-                this.error = null;
-                if (data && (!data.hasOwnProperty('error') && Object.keys(data).length !== 0)) {
-                    let resultInformation: Observable<StackReportModel> = getStackReportModel(data);
-                    resultInformation.subscribe((response) => {
-                        console.log(response);
-                        let result: Array<ResultInformationModel> = response.result;
-                        this.totalManifests = result.length;
-                        this.userStackInformationArray = result.map((r) => r.user_stack_info);
-                        result.forEach((r, index) => {
-                            console.log('HEre');
-                            this.tabs.push({
-                                title: r.manifest_file_path,
-                                content: r,
-                                index: index
-                            });
-                            this.recommendationsArray.push(r.recommendation);
-                        });
-
-                        this.dataLoaded = true;
-                        this.tabSelection(this.tabs[0]);
+    private handleResponse(data: any): void {
+        this.errorMessage = null;
+        this.tabs = [];
+        if (data && (!data.hasOwnProperty('error') && Object.keys(data).length !== 0)) {
+            let resultInformation: Observable<StackReportModel> = getStackReportModel(data);
+            resultInformation.subscribe((response) => {
+                let result: Array<ResultInformationModel> = response.result;
+                this.totalManifests = result.length;
+                this.userStackInformationArray = result.map((r) => r.user_stack_info);
+                result.forEach((r, index) => {
+                    this.tabs.push({
+                        title: r.manifest_file_path,
+                        content: r,
+                        index: index
                     });
-                } else {
-                    this.handleError({
-                        message: data.error,
-                        code: data.statusCode,
-                        title: 'Please, wait a while more'
-                    });
-                }
-            },
-            error => {
-                // this.handleError(error);
-                console.log(error);
-                let title: string = '';
-                if (error.status >= 500) {
-                    title = 'Something unexpected happened';
-                } else if (error.status === 404) {
-                    title = 'You are looking for something which isn\'t there';
-                } else if (error.status === 401) {
-                    title = 'You don\'t seem to have sufficient privileges to access this';
-                }
-                this.handleError({
-                    message: error.statusText,
-                    code: error.status,
-                    title: title
+                    this.recommendationsArray.push(r.recommendation);
                 });
-                console.log(this.error);
+                this.modalHeader = 'Updated just now';
+                this.dataLoaded = true;
+                this.tabSelection(this.tabs[0]);
             });
+        } else {
+            this.handleError({
+                message: data.error,
+                code: data.statusCode,
+                title: 'Updating ...'
+            });
+        }
+    }
+
+    private init(): void {
+        if (this.stackResponse && this.cacheResponse !== this.stackResponse) {
+            this.cacheResponse = this.stackResponse;
+            // Change this to some other logic
+            setTimeout(() => {
+                this.handleResponse(this.stackResponse);
+            }, 1000);
+        } else {
+            if (this.stack && this.stack !== '') {
+                this.stackAnalysisService
+                    .getStackAnalyses(this.stack)
+                    .subscribe((data) => {
+                        this.handleResponse(data);
+                    },
+                    error => {
+                        let title: string = '';
+                        if (error.status >= 500) {
+                            title = 'Something unexpected happened';
+                        } else if (error.status === 404) {
+                            title = 'You are looking for something which isn\'t there';
+                        } else if (error.status === 401) {
+                            title = 'You don\'t seem to have sufficient privileges to access this';
+                        }
+                        title = 'Report failed ...'; // Check if just this message is enough.
+                        this.handleError({
+                            message: error.statusText,
+                            status: error.status,
+                            title: title
+                        });
+                    });
+            }
+        }
     }
 }

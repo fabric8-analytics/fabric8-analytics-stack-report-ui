@@ -4,12 +4,9 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
 import { ModalModule } from 'ngx-modal';
-import {TabsModule} from 'ng2-bootstrap';
+import {TabsModule, AccordionModule} from 'ngx-bootstrap';
 
 import { GlobalConstants } from '../constants/constants.service';
-import { OverviewModule } from '../overview/overview.module';
-import { RecommenderModule } from '../recommender/recommender.module';
-import { StackComponentsModule } from '../stack-components/stack-components.module';
 import { StackDetailsComponent } from './stack-details.component';
 
 /** New UX */
@@ -23,9 +20,10 @@ import {FeedbackModule} from '../feedback/feedback.module';
     CommonModule,
     HttpModule,
     FormsModule,
+    ModalModule,
     StackLevelModule,
     ComponentLevelModule,
-    FeedbackModule,
+    AccordionModule.forRoot(),
     TabsModule.forRoot()
   ],
   declarations: [
