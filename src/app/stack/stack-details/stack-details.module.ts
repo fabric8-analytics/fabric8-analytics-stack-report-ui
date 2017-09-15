@@ -22,6 +22,7 @@ import {FeedbackModule} from '../feedback/feedback.module';
     FormsModule,
     ModalModule,
     StackLevelModule,
+    FeedbackModule,
     ComponentLevelModule,
     AccordionModule.forRoot(),
     TabsModule.forRoot()

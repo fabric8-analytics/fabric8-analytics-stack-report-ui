@@ -51,6 +51,7 @@
         </tab>
     </tabset>
   </div>
+  <feedback *ngIf="dataLoaded" [config]="feedbackConfig"></feedback>
   <div *ngIf="!dataLoaded" class="pre-loader">
     <div class="pre-loader-spinner spinner spinner-lg"></div>
   </div>

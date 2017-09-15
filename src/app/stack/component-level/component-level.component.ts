@@ -321,10 +321,7 @@ export class ComponentLevelComponent implements OnChanges {
                     name: 'Categories',
                     class: 'medium',
                     order: 10
-                }, {
-                     name: 'Action',
-                     class: 'small'
-                 }
+                }
             ];
 
             if (this.isCompanion) {
@@ -384,7 +381,7 @@ export class ComponentLevelComponent implements OnChanges {
         output['used_by'] = github['used_by'];
         output['categories'] = input['topic_list'];
         output['categories'] = (output['categories'] && output['categories'].length > 0 && output['categories'].join(', ')) || '';
-        output['action'] = canCreateWorkItem ? 'Create Work Item' : '';
+        // output['action'] = canCreateWorkItem ? 'Create Work Item' : '';
         return output;
     }
 
