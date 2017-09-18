@@ -26,6 +26,8 @@ install_dependencies() {
     npm rebuild node-sass
     npm rebuild phantomjs-prebuilt
 
+    chmod +x /root/payload/node_modules/phantomjs-prebuilt/lib/phantom/bin/phantomjs
+
     if [ $? -eq 0 ]; then
         echo 'CICO: npm install : OK'
     else
