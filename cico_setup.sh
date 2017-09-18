@@ -12,7 +12,7 @@ load_jenkins_vars() {
 
 prep() {
     yum -y update
-    yum -y install docker make git gcc-c++
+    yum -y install docker make git gcc-c++ bzip2
     curl -sL https://rpm.nodesource.com/setup_6.x | sudo -E bash -
     yum -y install nodejs
     systemctl start docker
