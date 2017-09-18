@@ -12,7 +12,5 @@ build_project
 
 build_image
 
-run_image
-
 push_image
 

@@ -13,7 +13,7 @@ fast-docker-build:
 	docker build --rm -t $(REGISTRY)/$(REPOSITORY):$(DEFAULT_TAG) .
 
 docker-run:
-	docker run --rm --detach=true --name=$(REPOSITORY) -it $(REGISTRY)/$(REPOSITORY):$(DEFAULT_TAG)
+	docker run --detach=true --name=$(REPOSITORY) -it $(REGISTRY)/$(REPOSITORY):$(DEFAULT_TAG)
 
 get-image-name:
 	@echo $(REGISTRY)/$(REPOSITORY):$(DEFAULT_TAG)
