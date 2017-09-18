@@ -12,7 +12,7 @@ load_jenkins_vars() {
 
 prep() {
     yum -y update
-    yum -y install docker make git gcc-c++ bzip2
+    yum -y install docker make git gcc-c++ bzip2 fontconfig
     curl -sL https://rpm.nodesource.com/setup_6.x | sudo -E bash -
     yum -y install nodejs
     systemctl start docker
@@ -31,6 +31,7 @@ install_dependencies() {
     ls /usr/bin
     chmod +x /usr/bin/phantomjs
     chmod +x /root/payload/node_modules/phantomjs-prebuilt/lib/phantom/bin/phantomjs
+    pwd
 
     if [ $? -eq 0 ]; then
         echo 'CICO: npm install : OK'
