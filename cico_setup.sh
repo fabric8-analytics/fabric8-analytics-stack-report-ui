@@ -23,13 +23,14 @@ install_dependencies() {
     npm install;
 
     # Rebuilding node-sass to install the required binding
-    npm rebuild node-sass
-    npm rebuild phantomjs-prebuilt
+    # npm rebuild node-sass
+    # npm rebuild phantomjs-prebuilt
 
     cp /root/payload/node_modules/phantomjs-prebuilt/lib/phantom/bin/phantomjs /usr/bin/
     ls /root/payload/node_modules/phantomjs-prebuilt/lib/phantom/bin/
     ls /usr/bin
     chmod +x /usr/bin/phantomjs
+    chmod +x /root/payload/node_modules/phantomjs-prebuilt/lib/phantom/bin/phantomjs
 
     if [ $? -eq 0 ]; then
         echo 'CICO: npm install : OK'
