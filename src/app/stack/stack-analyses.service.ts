@@ -1,6 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, Response, Headers, RequestOptions  } from '@angular/http';
-import { AuthenticationService } from 'ngx-login-client';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -12,7 +11,7 @@ import {StackReportModel} from './models/stack-report.model';
 @Injectable()
 export class StackAnalysesService {
 
-  private headers: Headers = new Headers({'Content-Type': 'application/json'});
+  // private headers: Headers = new Headers();
   private stackAnalysesUrl: string = '';
   private cvssScale: any = {
     low: {
@@ -36,19 +35,25 @@ export class StackAnalysesService {
   };
 
   constructor(
-    private http: Http,
-    private auth: AuthenticationService,
-  ) {
-      if (this.auth.getToken() !== null) {
-        this.headers.set('Authorization', 'Bearer ' + this.auth.getToken());
-      }
-  }
+    private http: Http
+  ) {}
 
-  getStackAnalyses(url: string): Observable<any> {
-    let options = new RequestOptions({ headers: this.headers });
+  getStackAnalyses(url: string, params?: any): Observable<any> {
     let stackReport: StackReportModel = null;
+    debugger;
+    if (params) {
+      // this.headers.set('app_id', params['app_id']);
+      // this.headers.set('app_key', params['app_key']);
+      // this.headers.set('Authorization', 'Bearer ' + params['access_token']);
+    }
+    // let options = new RequestOptions({ headers: this.headers });
+    let headers: Headers = new Headers();
+    headers.append('Authorization', 'Bearer ' + params['access_token']);
+    let userKey: string = params['user_key'];
     // url = 'https://gist.githubusercontent.com/jyasveer/36d3197964899eef0f1fcf5a18063b76/raw/7792af364d3d35dc72e766c907db2023e4247e60/stack-analyses-v2-response.json';
-    return this.http.get(url, options)
+    return this.http.get(url + '?user_key=' + userKey, {
+      headers: headers
+    })
     // return this.http.get(url)
       .map(this.extractData)
       .map((data) => {

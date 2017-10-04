@@ -15,6 +15,7 @@ import {StackReportModel, ResultInformationModel, UserStackInfoModel, ComponentI
 
 export class StackDetailsComponent implements OnChanges {
     @Input() stack: string;
+    @Input() gatewayConfig;
     @Input() displayName;
     @Input() repoInfo;
     @Input() buildNumber;
@@ -209,7 +210,7 @@ export class StackDetailsComponent implements OnChanges {
         } else {
             if (this.stack && this.stack !== '') {
                 this.stackAnalysisService
-                    .getStackAnalyses(this.stack)
+                    .getStackAnalyses(this.stack, this.gatewayConfig)
                     .subscribe((data) => {
                         this.handleResponse(data);
                     },
