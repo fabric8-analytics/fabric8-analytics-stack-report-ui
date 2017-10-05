@@ -69,14 +69,14 @@ objects:
       targetPort: 8080
     selector:
       service: fabric8-analytics-stack-report-ui
-# - apiVersion: v1
-#   kind: Route
-#   metadata:
-#     name: fabric8-analytics-stack-report-ui
-#   spec:
-#     to:
-#       kind: Service
-#       name: fabric8-analytics-stack-report-ui
+- apiVersion: v1
+  kind: Route
+  metadata:
+    name: fabric8-analytics-stack-report-ui
+  spec:
+    to:
+      kind: Service
+      name: fabric8-analytics-stack-report-ui
 
 parameters:
 - description: Docker registry where the image is
