@@ -49,9 +49,10 @@ export class StackAnalysesService {
     // let options = new RequestOptions({ headers: this.headers });
     let headers: Headers = new Headers();
     headers.append('Authorization', 'Bearer ' + params['access_token']);
-    let userKey: string = params['user_key'];
+    // let userKey: string = params['user_key'];
+    // url = url + '?user_key=' + userKey;
     // url = 'https://gist.githubusercontent.com/jyasveer/36d3197964899eef0f1fcf5a18063b76/raw/7792af364d3d35dc72e766c907db2023e4247e60/stack-analyses-v2-response.json';
-    return this.http.get(url + '?user_key=' + userKey, {
+    return this.http.get(url, {
       headers: headers
     })
     // return this.http.get(url)

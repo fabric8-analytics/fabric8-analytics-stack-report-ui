@@ -68,7 +68,7 @@ export class StackDetailsComponent implements OnChanges {
         let currentIndex: number = tab['index'];
         let recommendations: RecommendationsModel = this.recommendationsArray[currentIndex];
         let alternate: number = 0, companion: number = 0;
-        if (recommendations) {
+        if (recommendations && recommendations !== null && recommendations !== undefined) {
             this.stackLevelOutliers = {
                 'usage': recommendations.usage_outliers
             };

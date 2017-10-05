@@ -50,9 +50,9 @@ export class AppComponent implements OnInit {
         console.log(this.label);
         if (this.label && this.label.trim() !== '') {
             this.routerLink = '/analyze/' + this.label;
-            this.gateway['user_key'] = this.apiData['user_key'];
+            // this.gateway['user_key'] = this.apiData['user_key'];
             this.gateway['access_token'] = this.apiData['access_token'];
-            this.stackUrl = this.apiData['url'] + '/api/v1/stack-analyses/' + this.label;
+            this.stackUrl = 'https://recommender.api.openshift.io/api/v1/stack-analyses/' + this.label;
             console.log('=========================');
             console.log(this.gateway);
             console.log(this.stackUrl);
