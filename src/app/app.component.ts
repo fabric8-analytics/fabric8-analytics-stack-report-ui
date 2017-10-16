@@ -31,7 +31,6 @@ export class AppComponent implements OnInit {
         let url: string = location.hash;
         let id: string = url.replace('#/analyze/', '');
         let splitParams: Array<string> = id.split('?');
-        debugger;
         console.log(this.route.queryParams);
         this.apiData = decodeURIComponent(splitParams[1].split('api_data=')[1]);
         try {

@@ -1,4 +1,7 @@
 .component-information {
+    & > .table-responsive {
+        overflow: visible;
+    }
     table {
         font-size: 13px;
         table-layout: fixed;
@@ -132,6 +135,10 @@
         color: #ed7b01;
     }
     .unknown-license {
+        font-size: 10px;
+        display: inline-block;
+        border-radius: 50%;
+        padding: 3px;
         background: #ed7b01 !important;
         color: #000 !important;
         &:after {
@@ -139,10 +146,28 @@
         }
     }
     .conflict-license {
+        font-size: 10px;
+        display: inline-block;
+        border-radius: 50%;
+        padding: 3px;
         background: #cc0000 !important;
         color: #fff !important;
         &:after {
             content: 'L';
         }
     }
+    .outlier-license-text {
+        font-weight: bold;
+    }
+
+    .unknown-license-text {
+        color: #ed7b01;
+        font-weight: bold;
+    }
+
+    .conflict-license-text {
+        color: #cc0000;
+        font-weight: bold;
+    }
+
 }

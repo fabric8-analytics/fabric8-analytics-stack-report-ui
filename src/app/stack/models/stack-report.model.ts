@@ -93,12 +93,48 @@ export class OutlierInformationModel {
     package_name: string;
 }
 
+export class ConflictPackageModel {
+    package1: string;
+    license1: string;
+    package2: string;
+    license2: string;
+}
+
+export class ReallyUnknownLicenseModel {
+    package: string;
+    license: string;
+}
+
+export class ComponentConflictLicenseModel {
+    license1: string;
+    license2: string;
+}
+
+export class ComponentConflictUnknownModel {
+    package: string;
+    conflict_licenses: Array<ComponentConflictLicenseModel>;
+}
+
+export class UnknownLicensesModel {
+    really_unknown: Array<ReallyUnknownLicenseModel> = [];
+    component_conflict: Array<ComponentConflictUnknownModel> = [];
+}
+
+export class StackLicenseAnalysisModel {
+    f8a_stack_licenses: Array<string> = [];
+    status: string;
+    conflict_packages: Array<ConflictPackageModel> = [];
+    unknown_licenses: UnknownLicensesModel;
+    outlier_packages: Array<ReallyUnknownLicenseModel> = [];
+}
+
 export class UserStackInfoModel {
     analyzed_dependencies: Array<any>;
     analyzed_dependencies_count: number;
     dependencies: Array<ComponentInformationModel>;
     distinct_licenses: Array<string>;
     ecosystem: string;
+    license_analysis: StackLicenseAnalysisModel;
     recommendation_ready: boolean;
     recommended_stack_licenses: Array<string>;
     stack_license_conflict: boolean;
