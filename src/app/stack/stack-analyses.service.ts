@@ -40,7 +40,6 @@ export class StackAnalysesService {
 
   getStackAnalyses(url: string, params?: any): Observable<any> {
     let stackReport: StackReportModel = null;
-    debugger;
     if (params) {
       // this.headers.set('app_id', params['app_id']);
       // this.headers.set('app_key', params['app_key']);
