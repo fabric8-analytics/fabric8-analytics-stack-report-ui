@@ -41,26 +41,21 @@ export class StackAnalysesService {
   getStackAnalyses(url: string, params?: any): Observable<any> {
     let stackReport: StackReportModel = null;
     if (params) {
-      // this.headers.set('app_id', params['app_id']);
-      // this.headers.set('app_key', params['app_key']);
-      // this.headers.set('Authorization', 'Bearer ' + params['access_token']);
+      if (params['access_token']) {
+        let headers: Headers = new Headers();
+        headers.append('Authorization', 'Bearer ' + params['access_token']);
+        return this.http.get(url, {
+          headers: headers
+        })
+        .map(this.extractData)
+        .map((data) => {
+          stackReport = data;
+          return stackReport;
+        })
+        .catch(this.handleError);
+      }
     }
-    // let options = new RequestOptions({ headers: this.headers });
-    let headers: Headers = new Headers();
-    headers.append('Authorization', 'Bearer ' + params['access_token']);
-    // let userKey: string = params['user_key'];
-    // url = url + '?user_key=' + userKey;
-    // url = 'https://gist.githubusercontent.com/jyasveer/36d3197964899eef0f1fcf5a18063b76/raw/7792af364d3d35dc72e766c907db2023e4247e60/stack-analyses-v2-response.json';
-    return this.http.get(url, {
-      headers: headers
-    })
-    // return this.http.get(url)
-      .map(this.extractData)
-      .map((data) => {
-        stackReport = data;
-        return stackReport;
-      })
-      .catch(this.handleError);
+    return null;
   }
 
   getCvssObj(score: number): any {

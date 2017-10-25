@@ -31,18 +31,16 @@ export class AppComponent implements OnInit {
         let url: string = location.hash;
         let id: string = url.replace('#/analyze/', '');
         let splitParams: Array<string> = id.split('?');
-        console.log(this.route.queryParams);
-        this.apiData = decodeURIComponent(splitParams[1].split('api_data=')[1]);
-        try {
-            this.apiData = JSON.parse(this.apiData);
-        } catch (err) {
-            console.log('Error parsing JSON');
-        }
-        console.log('Here we are');
-        console.log(this.apiData);
-        if (this.apiData) {
-            // this.label = splitParams[0];
-            this.changeLabel();
+        if (splitParams && splitParams.length > 1) {
+            this.apiData = decodeURIComponent(splitParams[1].split('api_data=')[1]);
+            try {
+                this.apiData = JSON.parse(this.apiData);
+            } catch (err) {
+                console.log('Error parsing JSON');
+            }
+            if (this.apiData) {
+                this.changeLabel();
+            }
         }
     }
     changeLabel(): void {

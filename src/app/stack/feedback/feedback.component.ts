@@ -11,6 +11,7 @@ import {FeedbackService} from './feedback.service';
 
 export class FeedbackComponent implements OnChanges {
     @Input() config: any;
+    @Input() gateway: any;
     public canShowModal: boolean = false;
     public hasEnteredFeedback: boolean = false;
     public result: any = {};
@@ -73,11 +74,14 @@ export class FeedbackComponent implements OnChanges {
         output['feedback'] = feedback;
         console.log(output);
 
-        this.service.submit(output).subscribe((response) => {
-            this.handleMessage('success');
-        }, error => {
-            this.handleMessage('error');
-        });
+        let observable: any = this.service.submit(output, this.gateway);
+        if (observable) {
+            observable.subscribe((response) => {
+                this.handleMessage('success');
+            }, error => {
+                this.handleMessage('error');
+            });
+        }
     }
 
     private handleMessage(type: string): void {

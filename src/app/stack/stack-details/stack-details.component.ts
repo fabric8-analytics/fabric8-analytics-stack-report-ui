@@ -211,9 +211,11 @@ export class StackDetailsComponent implements OnChanges {
             }, 1000);
         } else {
             if (this.stack && this.stack !== '') {
-                this.stackAnalysisService
-                    .getStackAnalyses(this.stack, this.gatewayConfig)
-                    .subscribe((data) => {
+                let analysis: Observable<any> = this.stackAnalysisService
+                                                    .getStackAnalyses(this.stack, this.gatewayConfig);
+
+                if (analysis) {
+                    analysis.subscribe((data) => {
                         this.handleResponse(data);
                     },
                     error => {
@@ -232,6 +234,7 @@ export class StackDetailsComponent implements OnChanges {
                             title: title
                         });
                     });
+                }
             }
         }
     }

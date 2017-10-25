@@ -7,25 +7,22 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class FeedbackService {
-    private headers: Headers = new Headers({'Content-Type': 'application/json'});
-    constructor(
-        private http: Http,
-        private auth: AuthenticationService) {
-            if (this.auth.getToken() !== null) {
-                this.headers.set('Authorization', 'Bearer ' + this.auth.getToken());
+    constructor(private http: Http) {}
+
+    public submit(feedback: any, params?: any): Observable<any> {
+        let url: string = 'https://recommender.api.openshift.io/api/v1/user-feedback';
+        if (params) {
+            if (params['access_token']) {
+                let headers: Headers = new Headers({'Content-Type': 'application/json'});
+                headers.append('Authorization', 'Bearer ' + params['access_token']);
+                return this.http
+                    .post(url, JSON.stringify(feedback), {
+                        headers: headers
+                    })
+                    .map(this.extractData)
+                    .catch(this.handleError);
             }
         }
-
-    public submit(feedback: any): Observable<any> {
-        let url: string = 'https://recommender.api.openshift.io/api/v1/user-feedback';
-        let options: RequestOptions = new RequestOptions({
-            headers: this.headers
-        });
-
-        return this.http
-            .post(url, JSON.stringify(feedback), options)
-            .map(this.extractData)
-            .catch(this.handleError);
     }
 
     private extractData(res: Response) {
