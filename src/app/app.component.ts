@@ -49,11 +49,33 @@ export class AppComponent implements OnInit {
             this.routerLink = '/analyze/' + this.label;
             // this.gateway['user_key'] = this.apiData['user_key'];
             this.gateway['access_token'] = this.apiData['access_token'];
-            this.stackUrl = 'https://recommender.api.openshift.io/api/v1/stack-analyses/' + this.label;
-            console.log('=========================');
-            console.log(this.gateway);
-            console.log(this.stackUrl);
-            console.log('=========================');
+            this.gateway['config'] = this.apiData['route_config'];
+
+            // {
+            //     "route_config": {
+            //         "api_url": ""
+            //     }
+            // }
+
+            // In case of 3 scale
+            // {
+            //     "route_config": {
+            //         "api_url": "",
+            //         "user_key": ""
+            //     }
+            // }
+            if (this.gateway['config'] && this.gateway['config']['api_url']) {
+                let apiHost: string = this.gateway['config']['api_url'];
+                if (apiHost.charAt(apiHost.length - 1) !== '/') {
+                    apiHost += '/';
+                    this.gateway['config']['api_url'] = apiHost;
+                }
+                this.stackUrl = apiHost + 'api/v1/stack-analyses/' + this.label;
+                console.log('=========================');
+                console.log(this.gateway);
+                console.log(this.stackUrl);
+                console.log('=========================');
+            }
         }
     }
 

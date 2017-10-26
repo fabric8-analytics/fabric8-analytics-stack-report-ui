@@ -10,17 +10,20 @@ export class FeedbackService {
     constructor(private http: Http) {}
 
     public submit(feedback: any, params?: any): Observable<any> {
-        let url: string = 'https://recommender.api.openshift.io/api/v1/user-feedback';
+        let url: string = 'api/v1/user-feedback';
         if (params) {
             if (params['access_token']) {
-                let headers: Headers = new Headers({'Content-Type': 'application/json'});
-                headers.append('Authorization', 'Bearer ' + params['access_token']);
-                return this.http
-                    .post(url, JSON.stringify(feedback), {
-                        headers: headers
-                    })
-                    .map(this.extractData)
-                    .catch(this.handleError);
+                if (params['config'] && params['config']['api_url']) {
+                    url = params['config']['api_url'] + url;
+                    let headers: Headers = new Headers({'Content-Type': 'application/json'});
+                    headers.append('Authorization', 'Bearer ' + params['access_token']);
+                    return this.http
+                        .post(url, JSON.stringify(feedback), {
+                            headers: headers
+                        })
+                        .map(this.extractData)
+                        .catch(this.handleError);
+                }
             }
         }
     }
