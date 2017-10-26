@@ -10,8 +10,6 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 export class UserIntentComponent implements OnInit {
     public stackUrl: string;
     public apiData: any;
-    public gateway: any = {};
-    public label: string;
     public routerLink: string;
 
     constructor(private route: ActivatedRoute) {
@@ -19,7 +17,6 @@ export class UserIntentComponent implements OnInit {
             let url: string = location.hash;
             let id: string = url.replace('#/user-intent/', '');
             let splitParams: Array<string> = id.split('?');
-            this.label = splitParams[0];
             this.onAppLoad();
         };
     }

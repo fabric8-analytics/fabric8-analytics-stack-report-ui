@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
-import { ModalModule } from 'ngx-modal';
-import { TabsModule, AccordionModule } from 'ngx-bootstrap';
 
 import { UserIntentComponent } from './user-intent.component';
 
@@ -12,10 +10,7 @@ import { UserIntentComponent } from './user-intent.component';
   imports: [
     CommonModule,
     HttpModule,
-    FormsModule,
-    ModalModule,
-    AccordionModule.forRoot(),
-    TabsModule.forRoot()
+    FormsModule
   ],
   declarations: [
     UserIntentComponent
