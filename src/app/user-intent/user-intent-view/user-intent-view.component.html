@@ -1,0 +1,12 @@
+<div class="container">
+    <div class="btn-group" dropdown>
+        <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+            Select Ecosystem <span class="caret"></span>
+        </button>
+        <ul *dropdownMenu class="dropdown-menu"  role="menu">
+            <li role="menuitem"><a class="dropdown-item" (click)="selectedEcosystem('Maven')">Maven</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="selectedEcosystem('Npm')">Npm</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="selectedEcosystem('Pypi')">Pypi</a></li>
+        </ul>
+    </div>
+</div>

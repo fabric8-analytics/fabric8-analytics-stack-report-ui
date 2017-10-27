@@ -10,33 +10,21 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 export class UserIntentComponent implements OnInit {
     public stackUrl: string;
     public apiData: any;
+    public tokenApi: string;
     public routerLink: string;
 
     constructor(private route: ActivatedRoute) {
+        this.route.paramMap.subscribe((params) => {
+            this.tokenApi = params.get('token');
+        });
         window.onhashchange = () => {
-            let url: string = location.hash;
-            let id: string = url.replace('#/user-intent/', '');
-            let splitParams: Array<string> = id.split('?');
             this.onAppLoad();
         };
     }
 
     onAppLoad(): void {
-        debugger;
-        let url: string = location.hash;
-        let id: string = url.replace('#/user-intent/', '');
-        let splitParams: Array<string> = id.split('?');
-        if (splitParams && splitParams.length > 1) {
-            this.apiData = decodeURIComponent(splitParams[1].split('api_data=')[1]);
-            try {
-                debugger;
-                this.apiData = JSON.parse(this.apiData);
-            } catch (err) {
-                console.log('Error parsing JSON');
-            }
-            if (this.apiData) {
-                //todo: function to be called
-            }
+        if(this.tokenApi){
+            console.log(this.tokenApi);
         }
     }
     
