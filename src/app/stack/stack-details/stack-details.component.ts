@@ -22,6 +22,8 @@ export class StackDetailsComponent implements OnChanges {
     @Input() appName;
     @Input() stackResponse;
 
+    @ViewChild('crowdModule') modalCrowdModule: any;
+
     public errorMessage: any = {};
     public cache: string = '';
     public cacheResponse: any;
@@ -53,6 +55,11 @@ export class StackDetailsComponent implements OnChanges {
 
     public showStackModal(event: Event): void {
         event.preventDefault();
+    }
+
+    public showCrowdModal(): void {
+        //event.preventDefault();
+        this.modalCrowdModule.open();
     }
 
     /**
@@ -203,6 +210,9 @@ export class StackDetailsComponent implements OnChanges {
     }
 
     private init(): void {
+        if(this.gatewayConfig["modal"]){
+            this.showCrowdModal();
+        }
         if (this.stackResponse && this.cacheResponse !== this.stackResponse) {
             this.cacheResponse = this.stackResponse;
             // Change this to some other logic

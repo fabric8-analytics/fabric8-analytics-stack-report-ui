@@ -98,13 +98,15 @@
     "webpack": "webpack"
   },
   "dependencies": {
+    "@angular/animations": "4.0.1",
     "@angular/common": "4.0.1",
     "@angular/core": "4.0.1",
     "@angular/forms": "4.0.1",
     "@angular/http": "4.0.1",
     "c3": "0.4.11",
-    "ngx-bootstrap": "1.9.0",
     "ngx-base": "1.2.9",
+    "ngx-bootstrap": "1.9.0",
+    "ngx-chips": "^1.5.3",
     "ngx-fabric8-wit": "6.18.11",
     "ngx-login-client": "0.6.32",
     "ngx-modal": "0.0.29",

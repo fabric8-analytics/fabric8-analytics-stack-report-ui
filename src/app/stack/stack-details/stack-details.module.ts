@@ -13,6 +13,7 @@ import { StackDetailsComponent } from './stack-details.component';
 import {StackLevelModule} from '../stack-level/stack-level.module';
 import {ComponentLevelModule} from '../component-level/component-level.module';
 import {FeedbackModule} from '../feedback/feedback.module';
+import {UserIntentModule} from '../../user-intent/user-intent.module';
 /** New UX */
 
 @NgModule({
@@ -24,6 +25,7 @@ import {FeedbackModule} from '../feedback/feedback.module';
     StackLevelModule,
     FeedbackModule,
     ComponentLevelModule,
+    UserIntentModule,
     AccordionModule.forRoot(),
     TabsModule.forRoot()
   ],

@@ -50,6 +50,9 @@ export class AppComponent implements OnInit {
             // this.gateway['user_key'] = this.apiData['user_key'];
             this.gateway['access_token'] = this.apiData['access_token'];
             this.gateway['config'] = this.apiData['route_config'];
+            if(this.apiData['show_modal']){
+                this.gateway['modal'] = this.apiData['show_modal'];
+            }
 
             // {
             //     "route_config": {

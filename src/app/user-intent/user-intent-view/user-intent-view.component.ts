@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,Input, OnInit } from '@angular/core';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 
 @Component({
@@ -8,6 +8,12 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 })
 
 export class UserIntentViewComponent implements OnInit {
+    @Input() gatewayConfig;
+
+    public masterTagList:any;
+    public modelContent:any = {};
+    public model:any = 1;
+    public addedTags:any;
 
     constructor(private route: ActivatedRoute) {
         window.onhashchange = () => {
@@ -16,7 +22,11 @@ export class UserIntentViewComponent implements OnInit {
     }
 
     onAppLoad(): void {
-
+       this.masterTagList = [{display: 'vertx', value: 0}, 'io', 'web','spring-boot','test','framework'];
+       this.modelContent["artifactId"] = "spring-boot-starter-web";
+       this.modelContent["groupId"] = "org.springframework.boot";
+       this.modelContent["name"] = "org.springframework.boot:spring-boot-starter-web";
+       this.addedTags = ['web'];
     }
     
 
@@ -24,8 +34,9 @@ export class UserIntentViewComponent implements OnInit {
         this.onAppLoad();
     }
 
-    selectedEcosystem(ecosystem: any): void {
-        console.log("selected");
+    addTagComponent(): void {
+        debugger
+        console.log("selected"+ this.addedTags);
     }
 
 }
