@@ -2,8 +2,6 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
-//import { DropdownModule } from "ngx-dropdown";
-import { BsDropdownModule } from 'ngx-bootstrap';
 import { TagInputModule } from 'ngx-chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // this is needed!
 
@@ -17,8 +15,7 @@ import { UserIntentViewComponent } from './user-intent-view/user-intent-view.com
     HttpModule,
     FormsModule,
     TagInputModule, 
-    BrowserAnimationsModule,
-    BsDropdownModule.forRoot()
+    BrowserAnimationsModule
   ],
   declarations: [
     UserIntentComponent,

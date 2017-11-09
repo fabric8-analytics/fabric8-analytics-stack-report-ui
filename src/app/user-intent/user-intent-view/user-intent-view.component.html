@@ -1,9 +1,10 @@
-<div>
+<div class="container">
     <div class="row user-intent-row">
         <div class="col-lg-12">
+            <h2>Looks like you are using stack analysis very frequently, prove you are a human by providing appropriate tags for the component below</h2>
             <form class="form-user-intent">
                 <div class = "form-inline">
-                    <label for = "artifacat">Artifacat ID: </label>
+                    <label for = "artifacat">Artifact ID: </label>
                     <span for = "artifacat">{{modelContent.artifactId}}</span>
                 </div>
                 
@@ -29,6 +30,9 @@
             <div class="btn-ctrls">
                 <button dropdownToggle type="button" class="btn btn-lg btn-primary" (click)="addTagComponent()">
                     Add 
+                </button>
+                <button dropdownToggle type="button" class="btn btn-lg btn-primary" (click)="moveStackReport()">
+                    Skip 
                 </button>
             </div>
         </div>
