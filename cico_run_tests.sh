@@ -7,3 +7,5 @@ set -ex
 install_dependencies
 
 run_unit_tests
+
+push_image
