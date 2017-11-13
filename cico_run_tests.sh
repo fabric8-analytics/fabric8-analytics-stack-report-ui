@@ -8,4 +8,5 @@ install_dependencies
 
 run_unit_tests
 
+build_image
 push_image
