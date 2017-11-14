@@ -13,7 +13,7 @@ export class UserIntentService {
      * @description save user tags for a component
      */
     public submitUserIntent(userIntentData: any, params?: any): Observable<any> {
-        let url: string = 'api/v1/user-intent';
+        let url: string = 'api/v1/set-tags';
         if (params) {
             if (params['access_token']) {
                 if (params['config'] && params['config']['api_url']) {
@@ -35,8 +35,8 @@ export class UserIntentService {
      * @method GET
      * @description get unknown component to be tagged
      */
-    public getUnknownComponent(ecosystem: any, params?: any): Observable<any> {
-        let url: string = 'api/v1/user-intent';
+    public getNextComponent(ecosystem: any, params?: any): Observable<any> {
+        let url: string = 'api/v1/get-next-component';
         if (params) {
             if (params['access_token']) {
                 if (params['config'] && params['config']['api_url']) {
@@ -44,7 +44,7 @@ export class UserIntentService {
                     let headers: Headers = new Headers({'Content-Type': 'application/json'});
                     headers.append('Authorization', 'Bearer ' + params['access_token']);
                     return this.http
-                        .get(url+"/"+ecosystem, {
+                        .post(url+"/"+ecosystem, {
                             headers:headers
                         })
                         .map(this.extractData)
@@ -59,7 +59,7 @@ export class UserIntentService {
      * @description get master taglist for ecosystem
      */
     public getMasterTagList(ecosystem: any, params?: any): Observable<any> {
-        let url: string = 'api/v1/master-taglist';
+        let url: string = 'api/v1/master-tags';
         if (params) {
             if (params['access_token']) {
                 if (params['config'] && params['config']['api_url']) {
