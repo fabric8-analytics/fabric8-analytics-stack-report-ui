@@ -225,7 +225,8 @@ export class StackDetailsComponent implements OnChanges {
                                                     .getStackAnalyses(this.stack, this.gatewayConfig);
 
                 if (analysis) {
-                    analysis.subscribe((data) => {
+                    let sub = analysis.subscribe((data) => {
+                        sub.unsubscribe();
                         this.handleResponse(data);
                     },
                     error => {
