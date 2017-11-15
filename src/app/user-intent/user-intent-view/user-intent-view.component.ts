@@ -55,11 +55,11 @@ export class UserIntentViewComponent implements OnInit {
     }
 
     getUnknownComponentEcosystem(): void {
-        let masterTagListData: Observable<any> = this.userIntentService
+        let nextCompToTagData: Observable<any> = this.userIntentService
                                                     .getNextComponent('maven', this.gatewayConfig);
 
-        if (masterTagListData) {
-                    masterTagListData.subscribe((data) => {
+        if (nextCompToTagData) {
+                    nextCompToTagData.subscribe((data) => {
                         if(data){
                             let compData = data.split(":");
                             this.modelContent["artifactId"] = compData[0];

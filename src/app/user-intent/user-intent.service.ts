@@ -41,10 +41,10 @@ export class UserIntentService {
             if (params['access_token']) {
                 if (params['config'] && params['config']['api_url']) {
                     url = params['config']['api_url'] + url;
-                    let headers: Headers = new Headers({'Content-Type': 'application/json'});
+                    let headers: Headers = new Headers();
                     headers.append('Authorization', 'Bearer ' + params['access_token']);
                     return this.http
-                        .post(url+"/"+ecosystem, {
+                        .post(url+"/"+ecosystem, null, {
                             headers:headers
                         })
                         .map(this.extractData)
