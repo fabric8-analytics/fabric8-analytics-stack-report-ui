@@ -52,6 +52,7 @@ export class StackDetailsComponent implements OnChanges {
     private totalManifests: number;
 
     private stackId: string;
+    private subPolling: any;
 
     public showStackModal(event: Event): void {
         event.preventDefault();
@@ -183,22 +184,29 @@ export class StackDetailsComponent implements OnChanges {
         this.errorMessage = null;
         this.tabs = [];
         if (data && (!data.hasOwnProperty('error') && Object.keys(data).length !== 0)) {
+            if(data.hasOwnProperty('result') && data.result instanceof Array && data.result.length>0 && 
+            data.result[0].hasOwnProperty('recommendation') && data.result[0].recommendation &&
+            data.result[0].recommendation.hasOwnProperty('alternate')) {
+                this.subPolling.unsubscribe();
+            }
             let resultInformation: Observable<StackReportModel> = getStackReportModel(data);
             resultInformation.subscribe((response) => {
                 let result: Array<ResultInformationModel> = response.result;
                 this.totalManifests = result.length;
-                this.userStackInformationArray = result.map((r) => r.user_stack_info);
-                result.forEach((r, index) => {
-                    this.tabs.push({
-                        title: r.manifest_file_path,
-                        content: r,
-                        index: index
+                if(this.totalManifests>0){
+                    this.userStackInformationArray = result.map((r) => r.user_stack_info);
+                    result.forEach((r, index) => {
+                        this.tabs.push({
+                            title: r.manifest_file_path,
+                            content: r,
+                            index: index
+                        });
+                        this.recommendationsArray.push(r.recommendation);
                     });
-                    this.recommendationsArray.push(r.recommendation);
-                });
-                this.modalHeader = 'Updated just now';
-                this.dataLoaded = true;
-                this.tabSelection(this.tabs[0]);
+                    this.modalHeader = 'Updated just now';
+                    this.dataLoaded = true;
+                    this.tabSelection(this.tabs[0]);
+                }
             });
         } else {
             this.handleError({
@@ -225,8 +233,7 @@ export class StackDetailsComponent implements OnChanges {
                                                     .getStackAnalyses(this.stack, this.gatewayConfig);
 
                 if (analysis) {
-                    let sub = analysis.subscribe((data) => {
-                        sub.unsubscribe();
+                     this.subPolling = analysis.subscribe((data) => {
                         this.handleResponse(data);
                     },
                     error => {
