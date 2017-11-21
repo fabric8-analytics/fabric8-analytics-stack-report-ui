@@ -1,11 +1,12 @@
 <div class="container">
     <div class="row">
-         <div class="col-lg-3">
+         <div class="col-xs-3">
          </div>
-          <div class="col-lg-6" style="border:1px solid #ccc; margin-top: 10%;margin-bottom: 10%;">
+          <div class="col-xs-6 user-intent-box">
             <div class="row user-intent-row">
-                <div class="col-lg-12">
-                    <h2>We are analyzing your stack, meanwhile would you like to help us improve the system by providing appropriate tags for following component </h2>
+                <div class="col-xs-12">
+                    <h2>Your stack is being analyzed...</h2>
+                    <h2 class="user-intent-desp">Meanwhile, can you help us improve our recommendations by providing appropriate tags for this component</h2>
                     <form class="form-user-intent">
                         <div class = "form-inline">
                             <label for = "artifacat">Artifact ID: </label>
@@ -33,16 +34,16 @@
 
                     <div class="btn-ctrls">
                         <button dropdownToggle type="button" class="btn btn-lg btn-primary" (click)="addTagComponent()">
-                            Add 
-                        </button>
-                        <button dropdownToggle type="button" class="btn btn-lg btn-primary" (click)="moveStackReport()">
-                            Skip 
+                            Add Tags
                         </button>
                     </div>
+                    <a href="#" (click)="moveStackReport($event)">
+                            View stack report
+                    </a>
                 </div>
             </div>
           </div>
-          <div class="col-lg-3">
+          <div class="col-xs-3">
          </div>
     </div>
 </div>

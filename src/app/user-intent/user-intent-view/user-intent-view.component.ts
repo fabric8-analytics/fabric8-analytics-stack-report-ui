@@ -108,7 +108,10 @@ export class UserIntentViewComponent implements OnInit {
         }
     }
 
-    moveStackReport(): void {
+    moveStackReport(ev?:Event): void {
+        if(ev){
+            ev.preventDefault();
+        }
         let api_data: any = {};
         if(this.gatewayConfig){
             api_data["access_token"] = this.gatewayConfig.access_token;
