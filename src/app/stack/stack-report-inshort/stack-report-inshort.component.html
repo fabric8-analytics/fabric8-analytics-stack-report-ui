@@ -49,16 +49,19 @@
                         <div class="stat-container outlier-stat">
                             <div class="stat-box">
                                 <h3>
-                                    <span>Usage</span>
+                                    <span>Usage Outliers</span>
                                 </h3>
                                 <div class="stat-content usage-outlier">
-                                    <div class="metric-container">
+                                    <div *ngIf="stackLevelOutliers && stackLevelOutliers.usage && stackLevelOutliers.usage.length" class="metric-container">
                                         <div class="metric-desc">
-                                            Components that aren't common
+                                            Components not used together
                                         </div>
                                         <div class="metric">
                                             <span>{{stackLevelOutliers && stackLevelOutliers.usage && stackLevelOutliers.usage.length}}</span>
                                         </div>
+                                    </div>
+                                    <div *ngIf="stackLevelOutliers && stackLevelOutliers.usage && !stackLevelOutliers.usage.length" class="center-text">
+                                        All the components in your stack work well with each other
                                     </div>
                                 </div>
                             </div>
