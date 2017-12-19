@@ -1,6 +1,39 @@
-/**
- * @author: @AngularClass
- */
+const {
+  SpecReporter
+} = require('jasmine-spec-reporter');
 
-// look in ./config for protractor.conf.js
-exports.config = require('./config/protractor.conf.js').config;
+exports.config = {
+  allScriptsTimeout: 50000,
+  seleniumAddress: 'http://localhost:4444/wd/hub',
+  specs: [
+    'src/tests/**/*.spec.js'
+  ],
+  capabilities: {
+    'browserName': 'chrome'
+  },
+  baseUrl: 'http://localhost:3333/',
+  framework: 'jasmine',
+  jasmineNodeOpts: {
+    showColors: true,
+    defaultTimeoutInterval: 30000,
+    print: function () {}
+  },
+  capabilities: {
+    'browserName': 'chrome',
+    'chromeOptions': {
+      'args': ['--headless']
+    }
+  },
+  onPrepare() {
+    jasmine.getEnv().addReporter(new SpecReporter({
+      spec: {
+        displayStacktrace: true
+      }
+    }));
+  },
+  params: {
+    ANALYSES_REQUEST_ID: 'default',
+    RECOMMENDER_API_TOKEN: 'default',
+    RECOMMENDER_API_END_POINT: 'default'
+  }
+};

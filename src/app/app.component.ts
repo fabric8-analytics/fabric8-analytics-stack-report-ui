@@ -54,19 +54,6 @@ export class AppComponent implements OnInit {
                 this.gateway['modal'] = this.apiData['show_modal'];
             }
 
-            // {
-            //     "route_config": {
-            //         "api_url": ""
-            //     }
-            // }
-
-            // In case of 3 scale
-            // {
-            //     "route_config": {
-            //         "api_url": "",
-            //         "user_key": ""
-            //     }
-            // }
             if (this.gateway['config'] && this.gateway['config']['api_url']) {
                 let apiHost: string = this.gateway['config']['api_url'];
                 if (apiHost.charAt(apiHost.length - 1) !== '/') {
@@ -88,3 +75,19 @@ export class AppComponent implements OnInit {
 
 
 }
+
+// format of the url
+// http://localhost:8080/#/analyze/6422008e69b9474195ef395918a2c892?api_data={
+//     "access_token": "",
+//     "route_config": {
+//         "api_url": "https://recommender.api.openshift.io/"
+//     }
+// }
+
+// dev cluster hosted end point
+//http://fabric8-analytics-stack-report-ui-jgotta-greenfield-test.dev.rdu2c.fabric8.io/#/analyze/4460cedfec3e49b5b6cf5712ccf7750b?api_data={
+//     "access_token": "<ACCESS_TOKEN>",
+//     "route_config": {
+//         "api_url": "https://recommender.api.openshift.io/"
+//     }
+// }
