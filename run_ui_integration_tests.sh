@@ -75,12 +75,12 @@ node_modules/protractor/bin/protractor --params.ANALYSES_REQUEST_ID=${ANALYSES_R
 TEST_RESULT=$?
 
 # Cleanup webdriver-manager and web app processes (for MACOS)
-lsof -i tcp:4444 | grep LISTEN | awk '{print $2}' | xargs kill
-lsof -i tcp:3333 | grep LISTEN | awk '{print $2}' | xargs kill
+# lsof -i tcp:4444 | grep LISTEN | awk '{print $2}' | xargs kill
+# lsof -i tcp:3333 | grep LISTEN | awk '{print $2}' | xargs kill
 
 # Cleanup webdriver-manager and web app processes (for LINUX)
-# fuser -k -n tcp 4444
-# fuser -k -n tcp 8088
+fuser -k -n tcp 4444
+fuser -k -n tcp 3333
 
 # Return test result
 if [ $TEST_RESULT -eq 0 ]; then
