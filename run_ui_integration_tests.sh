@@ -48,38 +48,13 @@ if [ -z ${RECOMMENDER_API_END_POINT} ]; then
   exit 5
 fi
 
-# Update webdriver manager
-npm run webdriver:update
-WEBDRIVER_UPDATE_RESULT=$?
-if [ $WEBDRIVER_UPDATE_RESULT -eq 0 ]; then
-  echo 'Web driver update OK'
-else
-  echo 'Web driver update FAIL'
-  exit 6
-fi
-
-# Update webdriver manager
-(npm run webdriver:start >>$LOGFILE 2>&1 &)
-WEBDRIVER_START_RESULT=$?
-if [ $WEBDRIVER_START_RESULT -eq 0 ]; then
-  echo 'Web driver start OK'
-else
-  echo 'Web driver start FAIL'
-  exit 7
-fi
-
 # Finally run protractor
 echo Running tests...
 node_modules/protractor/bin/protractor --params.ANALYSES_REQUEST_ID=${ANALYSES_REQUEST_ID} --params.RECOMMENDER_API_TOKEN=${RECOMMENDER_API_TOKEN} --params.RECOMMENDER_API_END_POINT=${RECOMMENDER_API_END_POINT}
 
 TEST_RESULT=$?
 
-# Cleanup webdriver-manager and web app processes (for MACOS)
-# lsof -i tcp:4444 | grep LISTEN | awk '{print $2}' | xargs kill
-# lsof -i tcp:3333 | grep LISTEN | awk '{print $2}' | xargs kill
-
 # Cleanup webdriver-manager and web app processes (for LINUX)
-fuser -k -n tcp 4444
 fuser -k -n tcp 3333
 
 # Return test result

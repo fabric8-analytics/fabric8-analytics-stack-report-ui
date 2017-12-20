@@ -4,7 +4,6 @@ const {
 
 exports.config = {
   allScriptsTimeout: 50000,
-  seleniumAddress: 'http://localhost:4444/wd/hub',
   specs: [
     'src/tests/**/*.spec.js'
   ],
