@@ -1,6 +1,7 @@
 REGISTRY?=registry.devshift.net
 REPOSITORY?=fabric8-analytics-stack-report-ui
 DEFAULT_TAG=latest
+REPOSITORY_UI_TESTS?=fabric8-analytics-stack-report-ui-tests
 
 .PHONY: all docker-build fast-docker-build test get-image-name get-image-repository
 
@@ -20,4 +21,7 @@ get-image-name:
 
 get-image-repository:
 	@echo $(REPOSITORY)
+
+get-test-image-name:
+	@echo $(REGISTRY)/$(REPOSITORY_UI_TESTS):$(DEFAULT_TAG)
 

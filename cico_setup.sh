@@ -15,6 +15,7 @@ prep() {
     yum -y install docker make git gcc-c++ bzip2 fontconfig
     curl -sL https://rpm.nodesource.com/setup_6.x | sudo -E bash -
     yum -y install nodejs
+    yum -y install java-1.8.0-openjdk
     systemctl start docker
 }
 
@@ -48,14 +49,24 @@ build_project() {
 }
 
 run_ui_integration_tests() {
-    # Exec functional tests
-    npm run test:func
+    # Build ui test docker image
+    docker build --no-cache --rm -f Dockerfile.tests -t $(make get-test-image-name) .
 
     if [ $? -eq 0 ]; then
-        echo 'CICO: ui integration tests OK'
+        echo 'CICO: test image build OK'
     else
-        echo 'CICO: ui integration tests FAIL'
+        echo 'CICO: test image build FAIL'
         exit 3
+    fi
+
+    # Run ui test docker image
+    docker run $(make get-test-image-name)
+
+    if [ $? -eq 0 ]; then
+        echo 'CICO: UI integration tests OK'
+    else
+        echo 'CICO: UI integration tests FAIL'
+        exit 4
     fi
 }
 
@@ -89,7 +100,7 @@ push_image() {
         docker login -u ${DEVSHIFT_USERNAME} -p ${DEVSHIFT_PASSWORD} ${push_registry}
     else
         echo "Could not login, missing credentials for the registry"
-        exit 4
+        exit 5
     fi
 
     if [ -n "${ghprbPullId}" ]; then

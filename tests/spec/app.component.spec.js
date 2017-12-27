@@ -1,7 +1,8 @@
 describe('fabric8-analytics-stack-report-ui', function () {
   beforeAll(function () {
     console.log('browser.params: ', browser.params);
-    var appUrl = '/#/analyze/' + browser.params.ANALYSES_REQUEST_ID + '?api_data={"access_token":"' + browser.params.RECOMMENDER_API_TOKEN + '","route_config": {"api_url":"' + browser.params.RECOMMENDER_API_END_POINT + '"}}';
+    var appUrl = '#/analyze/' + browser.params.ANALYSES_REQUEST_ID + '?api_data={"access_token":"' + browser.params.RECOMMENDER_API_TOKEN + '","route_config": {"api_url":"' + browser.params.RECOMMENDER_API_END_POINT + '"}}';
+    console.log('stack report url:', browser.baseUrl + appUrl);
     browser.get(appUrl);
   });
 
