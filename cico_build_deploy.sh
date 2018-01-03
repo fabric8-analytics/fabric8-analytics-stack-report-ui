@@ -10,6 +10,8 @@ run_unit_tests
 
 build_project
 
+run_ui_integration_tests
+
 build_image
 
 push_image

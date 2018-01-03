@@ -47,6 +47,18 @@ build_project() {
     npm run build:prod
 }
 
+run_ui_integration_tests() {
+    # Exec functional tests
+    npm run test:func
+
+    if [ $? -eq 0 ]; then
+        echo 'CICO: ui integration tests OK'
+    else
+        echo 'CICO: ui integration tests FAIL'
+        exit 3
+    fi
+}
+
 build_image() {
     make docker-build
 }
@@ -77,7 +89,7 @@ push_image() {
         docker login -u ${DEVSHIFT_USERNAME} -p ${DEVSHIFT_PASSWORD} ${push_registry}
     else
         echo "Could not login, missing credentials for the registry"
-        exit 1
+        exit 4
     fi
 
     if [ -n "${ghprbPullId}" ]; then

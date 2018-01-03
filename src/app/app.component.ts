@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
         console.log(this.label);
         if (this.label && this.label.trim() !== '') {
             this.routerLink = '/analyze/' + this.label;
-            // this.gateway['user_key'] = this.apiData['user_key'];
+            this.gateway['user_key'] = this.apiData['user_key']; 
             this.gateway['access_token'] = this.apiData['access_token'];
             this.gateway['config'] = this.apiData['route_config'];
             if(this.apiData['show_modal']){
@@ -60,7 +60,13 @@ export class AppComponent implements OnInit {
                     apiHost += '/';
                     this.gateway['config']['api_url'] = apiHost;
                 }
-                this.stackUrl = apiHost + 'api/v1/stack-analyses/' + this.label;
+
+                if(this.gateway['user_key']){
+                    this.stackUrl = apiHost + 'api/v1/stack-analyses/' + this.label +'?user_key='+ this.gateway['user_key'];
+                } else{
+                    this.stackUrl = apiHost + 'api/v1/stack-analyses/' + this.label;
+                }
+
                 console.log('=========================');
                 console.log(this.gateway);
                 console.log(this.stackUrl);
