@@ -1,7 +1,7 @@
 /**
  * @author: @AngularClass
  */
-
+const webpack = require('webpack');
 const helpers = require('./helpers');
 const webpackMerge = require('webpack-merge'); // used to merge webpack configs
 const commonConfig = require('./webpack.common.js'); // the settings that are common to prod and dev
@@ -31,7 +31,8 @@ const FABRIC8_REALM = process.env.FABRIC8_REALM || 'fabric8';
 const PUBLIC_PATH = process.env.PUBLIC_PATH || '/';
 const STACK_API_TOKEN = process.env.STACK_API_TOKEN;
 const extractCSS = new ExtractTextPlugin('stylesheets/[name].css');
-const extractSASS = new ExtractTextPlugin('stylesheets/[name].scss');
+// const extractSASS = new ExtractTextPlugin('stylesheets/[name].scss');
+const StyleLintPlugin = require('stylelint-webpack-plugin');
 
 // const OSO_CORS_PROXY = {
 //   target: `https://${process.env.KUBERNETES_SERVICE_HOST}:${process.env.KUBERNETES_SERVICE_PORT}`,
@@ -131,7 +132,18 @@ module.exports = function (options) {
     plugins: [
        new DashboardPlugin(),
       extractCSS,
-      extractSASS,
+      // extractSASS,
+      /*
+       * StyleLintPlugin
+       */
+      new StyleLintPlugin({
+        configFile: '.stylelintrc',
+        syntax: 'less',
+        context: 'src',
+        files: '**/*.less',
+        failOnError: true,
+        quiet: false,
+      }),
       
       /**
        * Plugin: DefinePlugin

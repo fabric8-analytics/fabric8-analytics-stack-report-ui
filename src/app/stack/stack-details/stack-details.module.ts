@@ -4,17 +4,27 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
 import { ModalModule } from 'ngx-modal';
-import {TabsModule, AccordionModule} from 'ngx-bootstrap';
+import { TabsModule, AccordionModule } from 'ngx-bootstrap';
 
 import { GlobalConstants } from '../constants/constants.service';
 import { StackDetailsComponent } from './stack-details.component';
 
 /** New UX */
-import {StackLevelModule} from '../stack-level/stack-level.module';
-import {ComponentLevelModule} from '../component-level/component-level.module';
-import {FeedbackModule} from '../feedback/feedback.module';
-import {UserIntentModule} from '../../user-intent/user-intent.module';
+// import {StackLevelModule} from '../stack-level/stack-level.module';
+// import {ComponentLevelModule} from '../component-level/component-level.module';
+import { FeedbackModule } from '../feedback/feedback.module';
 /** New UX */
+
+
+/** Stack Report Revamp - Latest */
+import { ReportSummaryModule } from '../report-summary/report-summary.module';
+import { CardDetailsModule } from '../card-details/card-details.module';
+/** Stack Report Revamp - Latest */
+
+const revampImports = [
+  ReportSummaryModule,
+  CardDetailsModule
+];
 
 @NgModule({
   imports: [
@@ -22,12 +32,11 @@ import {UserIntentModule} from '../../user-intent/user-intent.module';
     HttpModule,
     FormsModule,
     ModalModule,
-    StackLevelModule,
-    FeedbackModule,
-    ComponentLevelModule,
-    UserIntentModule,
+    // StackLevelModule,
+    // ComponentLevelModule,
     AccordionModule.forRoot(),
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    ...revampImports
   ],
   declarations: [
     StackDetailsComponent
@@ -35,7 +44,9 @@ import {UserIntentModule} from '../../user-intent/user-intent.module';
   exports: [
     StackDetailsComponent
   ],
-  providers: [ GlobalConstants ],
+  providers: [
+    GlobalConstants
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class StackDetailsModule {

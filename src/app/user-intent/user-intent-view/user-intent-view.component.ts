@@ -1,5 +1,5 @@
 import { Component,Input, OnInit } from '@angular/core';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import { ActivatedRoute, ParamMap, Router }  from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { UserIntentService } from '../user-intent.service';
@@ -8,7 +8,7 @@ import { UserIntentService } from '../user-intent.service';
     selector: 'f8-user-intent-view',
     templateUrl: './user-intent-view.component.html',
     providers: [UserIntentService],
-    styleUrls: ['./user-intent-view.component.scss']
+    styleUrls: ['./user-intent-view.component.less']
 })
 
 export class UserIntentViewComponent implements OnInit {

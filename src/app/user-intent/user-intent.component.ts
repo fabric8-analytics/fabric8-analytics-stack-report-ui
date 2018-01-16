@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {ActivatedRoute, ParamMap} from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
     selector: 'f8-user-intent',
     templateUrl: './user-intent.component.html',
     encapsulation: ViewEncapsulation.None,
-    styleUrls: ['./user-intent.component.scss']
+    styleUrls: ['./user-intent.component.less']
 })
 
 export class UserIntentComponent implements OnInit {
