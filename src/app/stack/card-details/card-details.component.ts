@@ -363,9 +363,31 @@ export class CardDetailsComponent implements OnInit, OnChanges {
     private getUnknownComponentDetails(cardType: string): Array<MComponentDetails> {
         let unknowns: Array<MComponentDetails> = [];
         let unknownComponents = (this.report && this.report.user_stack_info && this.report.user_stack_info.unknown_dependencies) || [];
-        // TODO: finish logic for unknown components
         unknownComponents.forEach((unknown) => {
-            
+            unknowns.push(new MComponentDetails(
+                new MComponentInformation(
+                    unknown.name,
+                    unknown.version,
+                    '',
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    false,
+                    null,
+                    false,
+                    null,
+                    null,
+                    null,
+                    null
+                ),
+                null
+            ));
         });
         return unknowns;
     }
@@ -779,11 +801,12 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                     //     'float-left small'
                     // ));
                 } else if (tabNo === 2) {
-                    headers.push(new MComponentHeaderColumn(
-                        'helpUsKnownMore',
-                        'Help us Know more about this component',
-                        'float-left large'
-                    ));
+                    // headers.push(new MComponentHeaderColumn(
+                    //     'helpUsKnownMore',
+                    //     'Help us Know more about this component',
+                    //     'float-left large'
+                    // ));
+                    // Ignored for now
                 }
                 break;
             default:
