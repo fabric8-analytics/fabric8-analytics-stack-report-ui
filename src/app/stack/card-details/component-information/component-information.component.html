@@ -32,14 +32,14 @@
                             <span *ngIf="!comp?.hasSecurityIssue" [innerText]="NA"></span>
                             <span *ngIf="comp?.hasSecurityIssue" [innerText]="comp?.securityDetails && comp?.securityDetails?.highestIssue?.cve"></span>
                         </div>
-                        <div *ngSwitchCase="'action'" class="action">
-                            <!-- Action -->
+                        <!-- Action -->
+                        <!-- <div *ngSwitchCase="'action'" class="action">
                             <span *ngIf="!comp?.workItem?.isWorkItemCreated" (click)="handleAction($event, comp)" [innerText]="comp?.action || '-----'" class="not-created"></span>
                             <span *ngIf="comp?.workItem?.isWorkItemCreated">
                                 Work item created
                                 <a class="created" target="_blank" href="{{comp?.workItem?.url}}">View here</a>
                             </span>
-                        </div>
+                        </div> -->
                         <!-- Security Card -->
 
                         

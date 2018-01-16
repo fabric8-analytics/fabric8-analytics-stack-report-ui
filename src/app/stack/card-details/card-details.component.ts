@@ -687,11 +687,11 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                     'CVE ID of highest CVSS score',
                     'float-left medium'
                 ));
-                headers.push(new MComponentHeaderColumn(
-                    'action',
-                    'Action',
-                    'float-left small'
-                ));
+                // headers.push(new MComponentHeaderColumn(
+                //     'action',
+                //     'Action',
+                //     'float-left small'
+                // ));
                 break;
             case 'insights':
                 headers.push(new MComponentHeaderColumn(
@@ -718,11 +718,11 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                     'Feedback',
                     'float-left small'
                 ));
-                headers.push(new MComponentHeaderColumn(
-                    'action',
-                    'Action',
-                    'float-left small'
-                ));
+                // headers.push(new MComponentHeaderColumn(
+                //     'action',
+                //     'Action',
+                //     'float-left small'
+                // ));
                 break;
             case 'licenses':
                 headers.push(new MComponentHeaderColumn(
@@ -749,11 +749,11 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                     'Alternate Components',
                     'float-left medium'
                 ));
-                headers.push(new MComponentHeaderColumn(
-                    'action',
-                    'Action',
-                    'float-left small'
-                ));
+                // headers.push(new MComponentHeaderColumn(
+                //     'action',
+                //     'Action',
+                //     'float-left small'
+                // ));
                 break;
             case 'compDetails':
                 headers.push(new MComponentHeaderColumn(
@@ -772,11 +772,11 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                         'Alternate Components',
                         'float-left medium'
                     ));
-                    headers.push(new MComponentHeaderColumn(
-                        'action',
-                        'Action',
-                        'float-left small'
-                    ));
+                    // headers.push(new MComponentHeaderColumn(
+                    //     'action',
+                    //     'Action',
+                    //     'float-left small'
+                    // ));
                 } else if (tabNo === 2) {
                     headers.push(new MComponentHeaderColumn(
                         'helpUsKnownMore',
