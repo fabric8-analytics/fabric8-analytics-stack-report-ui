@@ -17,6 +17,7 @@ main() {
   local suite=${1:-fullTest}
 
   # convert ts to js
+  npm install typescript -g
   tsc -p $SCRIPT_DIR/spec
   if [ $? -eq 0 ]; then
     echo 'ts to js OK'
