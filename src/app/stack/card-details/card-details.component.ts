@@ -267,55 +267,54 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                     ));
                 }
             });
-
-            let genericReport: MReportInformation = new MReportInformation(
-                null,
-                'component',
-                this.fillColumnHeaders(cardType, 1),
-                componentDetails
-            );
-
-            switch (cardType) {
-                case 'security':
-                    genericReport.name = 'securityTab';
-                    reportInformations.push(genericReport);
-                    break;
-                case 'insights':
-                    genericReport.name = 'Usage Outlier Details';
-                    reportInformations.push(genericReport);
-                    reportInformations.push(new MReportInformation(
-                        'Companion Component Details',
-                        'recommendation',
-                        this.fillColumnHeaders(cardType, 2),
-                        this.getCompanionComponentDetails()
-                    ));
-                    break;
-                case 'licenses':
-                    genericReport.name = 'Conflicting License(s) details';
-                    reportInformations.push(genericReport);
-                    reportInformations.push(new MReportInformation(
-                        'Unknown license(s) details',
-                        'component',
-                        this.fillColumnHeaders(cardType, 2),
-                        this.getUnknownLicenseComponentDetails()
-                    ));
-                    break;
-                case 'compDetails':
-                    genericReport.name = 'Analyzed component Details';
-                    reportInformations.push(genericReport);
-                    reportInformations.push(new MReportInformation(
-                        'Unknown Component details',
-                        'component',
-                        this.fillColumnHeaders(cardType, 2),
-                        this.getUnknownComponentDetails(cardType)
-                    ));
-                    break;
-                default:
-                    break;
-            }
-            return reportInformations;
         }
-        return null;
+
+        let genericReport: MReportInformation = new MReportInformation(
+            null,
+            'component',
+            this.fillColumnHeaders(cardType, 1),
+            componentDetails
+        );
+
+        switch (cardType) {
+            case 'security':
+                genericReport.name = 'securityTab';
+                reportInformations.push(genericReport);
+                break;
+            case 'insights':
+                genericReport.name = 'Usage Outlier Details';
+                reportInformations.push(genericReport);
+                reportInformations.push(new MReportInformation(
+                    'Companion Component Details',
+                    'recommendation',
+                    this.fillColumnHeaders(cardType, 2),
+                    this.getCompanionComponentDetails()
+                ));
+                break;
+            case 'licenses':
+                genericReport.name = 'Conflicting License(s) details';
+                reportInformations.push(genericReport);
+                reportInformations.push(new MReportInformation(
+                    'Unknown license(s) details',
+                    'component',
+                    this.fillColumnHeaders(cardType, 2),
+                    this.getUnknownLicenseComponentDetails()
+                ));
+                break;
+            case 'compDetails':
+                genericReport.name = 'Analyzed component Details';
+                reportInformations.push(genericReport);
+                reportInformations.push(new MReportInformation(
+                    'Unknown Component details',
+                    'component',
+                    this.fillColumnHeaders(cardType, 2),
+                    this.getUnknownComponentDetails(cardType)
+                ));
+                break;
+            default:
+                break;
+        }
+        return reportInformations;
     }
 
     private hasUnknownLicense(component: ComponentInformationModel): boolean {
@@ -834,12 +833,14 @@ export class CardDetailsComponent implements OnInit, OnChanges {
             this.details.isMultiple = true;
             this.details.title = title;
             this.details.titleDescription = description;
-            reports.forEach((report: MReportInformation) => {
-                this.tabs.push(new MTab(
-                    report.name,
-                    report
-                ));
-            });
+            if (reports && reports.length > 0) {
+                reports.forEach((report: MReportInformation) => {
+                    this.tabs.push(new MTab(
+                        report.name,
+                        report
+                    ));
+                });
+            }
             if (this.tabs[0]) {
                 this.tabs[0].active = true;
             }
