@@ -1,12 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Http, ConnectionBackend, RequestOptions, BaseRequestOptions } from '@angular/http';
 
-
 import { ReportSummaryCardComponent } from './report-summary-card.component';
-
 import { ReportSummaryTitleComponent } from './report-summary-title/report-summary-title.component';
 import { ReportSummaryDescriptionComponent } from './report-summary-description/report-summary-description.component';
 import { ReportSummaryContentModule } from './report-summary-content/report-summary-content.module';
+import { SaveState } from '../../utils/SaveState';
 
 const dependencies = [
     ReportSummaryTitleComponent,
@@ -41,6 +40,7 @@ describe ('ReportSummaryCardComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(ReportSummaryCardComponent);
         component = fixture.componentInstance;
+        SaveState.ELEMENTS[0] = document.createElement('div');
         fixture.detectChanges();
     });
 

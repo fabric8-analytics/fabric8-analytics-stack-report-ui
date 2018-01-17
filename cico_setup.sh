@@ -50,17 +50,18 @@ build_project() {
 
 run_ui_integration_tests() {
     # Build ui test docker image
-    docker build --no-cache --rm -f Dockerfile.tests -t $(make get-test-image-name) .
+    # docker build --no-cache --rm -f Dockerfile.tests -t $(make get-test-image-name) .
 
-    if [ $? -eq 0 ]; then
-        echo 'CICO: test image build OK'
-    else
-        echo 'CICO: test image build FAIL'
-        exit 3
-    fi
+    # if [ $? -eq 0 ]; then
+    #     echo 'CICO: test image build OK'
+    # else
+    #     echo 'CICO: test image build FAIL'
+    #     exit 3
+    # fi
 
     # Run ui test docker image
-    docker run $(make get-test-image-name)
+    # docker run $(make get-test-image-name)
+    ./tests/run_functional_tests_docker.sh
 
     if [ $? -eq 0 ]; then
         echo 'CICO: UI integration tests OK'

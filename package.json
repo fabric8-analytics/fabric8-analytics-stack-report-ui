@@ -80,7 +80,7 @@
     "start:hmr": "npm run server:dev:hmr",
     "start": "npm run server:dev",
     "test": "npm-run-all --serial test:unit check-coverage test:func",
-    "test:func": "npm run build:prod && ./run_ui_integration_tests.sh local",
+    "test:func": "npm run build:prod && ./tests/run_functional_tests.sh",
     "test:unit": "karma start",
     "test:debug": "karma start --no-single-run --browsers Chrome",
     "test:browsers": "karma start --browsers Chrome,Firefox,Safari",

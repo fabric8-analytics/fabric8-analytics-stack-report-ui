@@ -22,6 +22,8 @@ main() {
   local protractor="$(npm bin)/protractor"
   local suite=${1:-fullTest}
 
+  npm install typescript -g
+  
   # convert ts to js
   tsc -p $SCRIPT_DIR/spec
   if [ $? -eq 0 ]; then
