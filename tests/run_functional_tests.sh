@@ -16,6 +16,15 @@ main() {
   local protractor="$(npm bin)/protractor"
   local suite=${1:-fullTest}
 
+  # convert ts to js
+  tsc -p $SCRIPT_DIR/spec
+  if [ $? -eq 0 ]; then
+    echo 'ts to js OK'
+  else
+    echo 'ts to js FAIL'
+    exit 1
+  fi
+
   # BASE_URL is set means planner is already running.
   # Start planner only if BASE_URL is not set
   if [[ -z ${BASE_URL+x} ]]; then
@@ -44,22 +53,22 @@ main() {
   # Checking env variable ANALYSES_REQUEST_ID is available
   if [ -z ${ANALYSES_REQUEST_ID} ]; then
     echo 'ANALYSES_REQUEST_ID is not set in the environment'
-    exit 1
+    exit 2
   fi
 
   # Checking env variable RECOMMENDER_API_TOKEN is available
   if [ -z ${RECOMMENDER_API_TOKEN} ]; then
     echo 'RECOMMENDER_API_TOKEN is not set in the environment'
-    exit 2
+    exit 3
   fi
 
   # Checking env variable RECOMMENDER_API_END_POINT is available
   if [ -z ${RECOMMENDER_API_END_POINT} ]; then
     echo 'RECOMMENDER_API_END_POINT is not set in the environment'
-    exit 3
+    exit 4
   fi
 
-  $protractor --baseUrl "${base_url}" "$SCRIPT_DIR/protractor.config.js" --params.ANALYSES_REQUEST_ID=${ANALYSES_REQUEST_ID} --params.RECOMMENDER_API_TOKEN=${RECOMMENDER_API_TOKEN} --params.RECOMMENDER_API_END_POINT=${RECOMMENDER_API_END_POINT}
+  $protractor --baseUrl "${base_url}" "$SCRIPT_DIR/protractor.config.js" --params.ANALYSES_REQUEST_ID=${ANALYSES_REQUEST_ID} --params.RECOMMENDER_API_TOKEN=${RECOMMENDER_API_TOKEN} --params.RECOMMENDER_API_END_POINT=${RECOMMENDER_API_END_POINT} --suite "${suite}"
 
   TEST_RESULT=$?
 
@@ -72,7 +81,7 @@ main() {
     exit 0
   else
     echo 'Functional tests FAIL'
-    exit 1
+    exit 5
   fi
 }
 

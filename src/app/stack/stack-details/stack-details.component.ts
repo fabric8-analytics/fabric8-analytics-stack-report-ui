@@ -301,15 +301,15 @@ export class StackDetailsComponent implements OnChanges {
             });
         } else if (data && data.hasOwnProperty('error')) {
             this.handleError({
-                message: 'Analysis for your stack is in progress ...',
+                message: 'Your report is getting generated. Please revisit.',
                 code: data.statusCode,
-                title: 'Updating ...'
+                title: ''
             });
         } else {
             this.handleError({
                 message: data.error,
                 code: data.statusCode,
-                title: 'Updating ...'
+                title: 'Report failed'
             });
         }
     }
@@ -355,7 +355,7 @@ export class StackDetailsComponent implements OnChanges {
                                 title =
                                     'You don\'t seem to have sufficient privileges to access this';
                             }
-                            title = 'Report failed ...'; // Check if just this message is enough.
+                            title = 'Report failed'; // Check if just this message is enough.
                             this.handleError({
                                 message: error.statusText,
                                 status: error.status,

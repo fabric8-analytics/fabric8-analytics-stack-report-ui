@@ -8,7 +8,8 @@ exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     specs: ['./spec/**/*.spec.js'],
     suites: {
-        fullTest:  './spec/**/*.spec.js'
+        fullTest:  './spec/**/*.spec.js',
+        smokeTest: './spec/smoke.spec.ts'
     },
     jasmineNodeOpts: {
         isVerbose: true,
