@@ -50,7 +50,7 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
 #  && yum install -y firefox \
 #  && npm install -g karma-firefox-launcher
 
-RUN npm install -g jasmine-node protractor tsc
+RUN npm install -g jasmine-node protractor
 
 RUN yum install -y google-chrome-stable
 

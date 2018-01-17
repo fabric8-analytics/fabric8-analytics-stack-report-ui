@@ -22,16 +22,15 @@ main() {
   local protractor="$(npm bin)/protractor"
   local suite=${1:-fullTest}
 
-  npm install typescript -g
-  
-  # convert ts to js
-  tsc -p $SCRIPT_DIR/spec
-  if [ $? -eq 0 ]; then
-    echo 'ts to js OK'
-  else
-    echo 'ts to js FAIL'
-    exit 1
-  fi
+  # npm install typescript -g
+  # # convert ts to js
+  # tsc -p $SCRIPT_DIR/spec
+  # if [ $? -eq 0 ]; then
+  #   echo 'ts to js OK'
+  # else
+  #   echo 'ts to js FAIL'
+  #   exit 1
+  # fi
 
   # BASE_URL is set means planner is already running.
   # Start planner only if BASE_URL is not set

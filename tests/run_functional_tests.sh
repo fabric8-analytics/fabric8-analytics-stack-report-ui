@@ -17,14 +17,14 @@ main() {
   local suite=${1:-fullTest}
 
   # convert ts to js
-  npm install typescript -g
-  tsc -p $SCRIPT_DIR/spec
-  if [ $? -eq 0 ]; then
-    echo 'ts to js OK'
-  else
-    echo 'ts to js FAIL'
-    exit 1
-  fi
+  # npm install typescript -g
+  # tsc -p $SCRIPT_DIR/spec
+  # if [ $? -eq 0 ]; then
+  #   echo 'ts to js OK'
+  # else
+  #   echo 'ts to js FAIL'
+  #   exit 1
+  # fi
 
   # BASE_URL is set means planner is already running.
   # Start planner only if BASE_URL is not set
