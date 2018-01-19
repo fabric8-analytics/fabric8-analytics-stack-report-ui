@@ -6,13 +6,13 @@ import { TooltipModule } from 'ngx-bootstrap';
 
 import { ProgressMeterModule } from '../../utils/progress-meter/progress-meter.module';
 import { ComponentFeedbackModule } from '../../utils/component-feedback/component-feedback.module';
+import { ToastNotificationModule } from '../../toast-notification/toast-notification.module';
 
 import { ComponentSnippetComponent } from '../component-information/component-snippet/component-snippet.component';
 import { ComponentInformationComponent } from '../component-information/component-information.component';
 import { ComponentDetailsComponent } from '../component-details/component-details.component';
 
 import { ReportInformationComponent } from './report-information.component';
-import { ToastNotificationComponent } from '../../toast-notification/toast-notification.component';
 import { AddWorkFlowService } from '../../stack-details/add-work-flow.service';
 
 import { NoDataComponent } from './no-data/no-data.component';
@@ -22,14 +22,14 @@ const components = [
     ComponentInformationComponent,
     ComponentDetailsComponent,
     ReportInformationComponent,
-    ToastNotificationComponent,
     NoDataComponent
 ];
 
 const imports = [
     TooltipModule.forRoot(),
     ProgressMeterModule,
-    ComponentFeedbackModule
+    ComponentFeedbackModule,
+    ToastNotificationModule
 ];
 
 @NgModule({
