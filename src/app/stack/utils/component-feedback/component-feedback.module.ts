@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 /** Vendor imports Go HERE */
 
 import { ComponentFeedbackComponent } from './component-feedback.component';
-import { ToastNotificationModule } from'app/stack/toast-notification/toast-notification.module';
+import { ToastNotificationModule } from 'app/stack/toast-notification/toast-notification.module';
 
 @NgModule({
     imports: [
