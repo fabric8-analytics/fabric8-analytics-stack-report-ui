@@ -14,7 +14,7 @@ source "$SCRIPT_DIR/lib/common.inc.sh"
 main() {
   local base_url=${BASE_URL:-"http://localhost:3333/"}
   local protractor="$(npm bin)/protractor"
-  local suite=${1:-fullTest}
+  local suite=${1:-smokeTest}
 
   # convert ts to js
   # npm install typescript -g

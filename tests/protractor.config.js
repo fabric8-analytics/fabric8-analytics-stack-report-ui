@@ -9,7 +9,7 @@ exports.config = {
     specs: ['./spec/**/*.spec.js'],
     suites: {
         fullTest:  './spec/**/*.spec.js',
-        smokeTest: './spec/smoke.spec.ts'
+        smokeTest: './spec/smoke.spec.js'
     },
     jasmineNodeOpts: {
         isVerbose: true,
