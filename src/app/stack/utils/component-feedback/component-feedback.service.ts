@@ -3,7 +3,7 @@ import { Http, Response, Headers, RequestOptions  } from '@angular/http';
 import { AuthenticationService } from 'ngx-login-client';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
-import 'rxjs/operator/map';
+import 'rxjs/operators/map';
 
 import { MComponentFeedback } from '../../models/ui.model';
 
@@ -22,11 +22,14 @@ export class ComponentFeedbackService {
       }
   }
 
-  postFeedback(feedback: MComponentFeedback): Observable<any> {
+  postFeedback(feedback: MComponentFeedback, token?: string): Observable<any> {
     let options = new RequestOptions({ headers: this.headers });
     let body = JSON.stringify(feedback.feedbackTemplate);
     this.FEEDBACK_URL = feedback.baseUrl + 'api/v1/submit-feedback';
-    console.log('Feedback Request: ', body);
+    if (token) {
+      this.headers.set('Authorization', 'Bearer ' + token);
+      options = new RequestOptions({ headers: this.headers });
+    }
     return this.http.post(this.FEEDBACK_URL, body, options)
       .map(this.extractData)
       .catch(this.handleError);

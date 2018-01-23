@@ -198,7 +198,8 @@ export class MCardDetails {
 export class MGenericStackInformation {
     constructor(
         public stackId: string,
-        public baseUrl: string
+        public baseUrl: string,
+        public access_token: string = null
     ) {}
 }
 

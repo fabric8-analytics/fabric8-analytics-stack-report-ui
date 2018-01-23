@@ -9,7 +9,8 @@ import { Observable } from 'rxjs/Observable';
 /** Vendor imports Go HERE */
 
 import {
-    MComponentFeedback
+    MComponentFeedback,
+    MGenericStackInformation
 } from '../../models/ui.model';
 
 import { ComponentFeedbackService } from './component-feedback.service';
@@ -22,6 +23,8 @@ import { ComponentFeedbackService } from './component-feedback.service';
 })
 export class ComponentFeedbackComponent implements OnChanges {
     @Input() feedback: MComponentFeedback;
+    @Input() genericInformation: MGenericStackInformation;
+
     feedbackMessages: Array<any> = [];
 
     constructor(private feedbackService: ComponentFeedbackService) {}
@@ -30,7 +33,8 @@ export class ComponentFeedbackComponent implements OnChanges {
         event.stopPropagation();
         if (this.feedback && this.feedback.feedbackTemplate) {
             this.feedback.feedbackTemplate.feedback_type = type;
-            let subscription = this.feedbackService.postFeedback(this.feedback);
+            let token: string = this.genericInformation && this.genericInformation['access_token'];
+            let subscription = this.feedbackService.postFeedback(this.feedback, token);
             if (subscription) {
                 subscription.subscribe((result) => {
                     this.feedbackMessages.push({

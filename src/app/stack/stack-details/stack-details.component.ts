@@ -106,7 +106,8 @@ export class StackDetailsComponent implements OnChanges {
     public handleCardClick(cardDetails: any): void {
         this.genericInformation = new MGenericStackInformation(
             this.stackId,
-            this.getBaseUrl(this.stack)
+            this.getBaseUrl(this.stack),
+            this.gatewayConfig && this.gatewayConfig['access_token']
         );
         this.cardDetails = cardDetails;
     }
