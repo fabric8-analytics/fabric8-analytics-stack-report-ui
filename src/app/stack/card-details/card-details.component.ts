@@ -77,20 +77,20 @@ export class CardDetailsComponent implements OnInit, OnChanges {
 
     public titleAndDescription: any = {
         [this.cardTypes.SECURITY]: {
-            title: 'Components with security issues in your stack',
-            description: 'A list of the components affected with common vulnerabilities and exposures (CVE), component with the highest common vulnerability score (CVSS), and its CVE ID. You can take corrective actions by reporting the issues'
+            title: 'Dependencies with security issues in your stack',
+            description: 'A list of the dependencies affected with common vulnerabilities and exposures (CVE), dependency with the highest common vulnerability score (CVSS), and its CVE ID. You can take corrective actions by reporting the issues'
         },
         [this.cardTypes.INSIGHTS]: {
-            title: 'Insights on alternate or additional components that can augment your stack',
-            description: 'A list of components that are not commonly used in similar stacks, suggestions for alternate components to replace them, and suggestions for additional components to complement your stack. Take corrective action by creating a work item in Planner or leave us feedback.'
+            title: 'Insights on alternate or additional dependencies that can augment your stack',
+            description: 'A list of dependencies that are not commonly used in similar stacks, suggestions for alternate dependencies to replace them, and suggestions for additional dependencies to complement your stack. Take corrective action by creating a work item in Planner or leave us feedback.'
         },
         [this.cardTypes.LICENSES]: {
-            title: 'License details of components in your stack',
-            description: 'A list of stack and component level license conflicts, licenses unknown to Openshift.io and suggestions for alternate components to resolve these issues. Create a work item in Planner to replace these components'
+            title: 'License details of dependencies in your stack',
+            description: 'A list of stack and dependency level license conflicts, licenses unknown to Openshift.io and suggestions for alternate dependencies to resolve these issues. Create a work item in Planner to replace these dependencies'
         },
         [this.cardTypes.COMP_DETAILS]: {
-            title: 'Component details of your manifest file',
-            description: 'A list of all the analyzed components that flags security, usage, and license issues in your stack and suggests alternate components to replace components with these issues. Take corrective action by creating a work item in Planner. It also lists components unknown to OSIO'
+            title: 'Dependency details of your manifest file',
+            description: 'A list of all the analyzed dependencies that flags security, usage, and license issues in your stack and suggests alternate dependencies to replace dependencies with these issues. Take corrective action by creating a work item in Planner. It also lists dependencies unknown to OSIO'
         }
     };
 
@@ -293,7 +293,7 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                 compDetails = this.getCompanionComponentDetails();
                 reportInformations.push(new MReportInformation(
                     'ins-companion',
-                    `Companion Component Details (${compDetails && compDetails.length || 0})`,
+                    `Companion Dependency Details (${compDetails && compDetails.length || 0})`,
                     'recommendation',
                     this.fillColumnHeaders(cardType, 2),
                     compDetails
@@ -301,13 +301,13 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                 break;
             case 'licenses':
                 genericReport.identifier = 'lic-conflicts';
-                genericReport.name = 'Conflicting License(s) details';
+                genericReport.name = 'Conflicting License(s) Details';
                 reportInformations.push(genericReport);
 
                 compDetails = this.getUnknownLicenseComponentDetails();
                 reportInformations.push(new MReportInformation(
                     'lic-unknown',
-                    `Unknown license(s) details (${compDetails && compDetails.length || 0})`,
+                    `Unknown License(s) Details (${compDetails && compDetails.length || 0})`,
                     'component',
                     this.fillColumnHeaders(cardType, 2),
                     compDetails
@@ -315,13 +315,13 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                 break;
             case 'compDetails':
                 genericReport.identifier = 'comp-analyzed';
-                genericReport.name = 'Analyzed component Details';
+                genericReport.name = 'Analyzed Dependency Details';
                 reportInformations.push(genericReport);
 
                 compDetails = this.getUnknownComponentDetails(cardType);
                 reportInformations.push(new MReportInformation(
                     'comp-unknown',
-                    `Unknown Component details (${compDetails && compDetails.length || 0})`,
+                    `Unknown Dependency Details (${compDetails && compDetails.length || 0})`,
                     'component',
                     this.fillColumnHeaders(cardType, 2),
                     compDetails
@@ -710,7 +710,7 @@ export class CardDetailsComponent implements OnInit, OnChanges {
             case 'security':
                 headers.push(new MComponentHeaderColumn(
                     'component',
-                    'Components',
+                    'Dependencies',
                     'float-left medium'
                 ));
                 headers.push(new MComponentHeaderColumn(
@@ -737,13 +737,13 @@ export class CardDetailsComponent implements OnInit, OnChanges {
             case 'insights':
                 headers.push(new MComponentHeaderColumn(
                     'component',
-                    'Components',
+                    'Dependencies',
                     'float-left medium'
                 ));
                 if (tabNo === 1) {
                     headers.push(new MComponentHeaderColumn(
                         'alternate',
-                        'Alternate Components',
+                        'Alternate Dependencies',
                         'float-left medium'
                     ));
                 } else if (tabNo === 2) {
@@ -768,7 +768,7 @@ export class CardDetailsComponent implements OnInit, OnChanges {
             case 'licenses':
                 headers.push(new MComponentHeaderColumn(
                     'component',
-                    'Components',
+                    'Dependencies',
                     'float-left medium'
                 ));
                 if (tabNo === 1) {
@@ -787,7 +787,7 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                 }
                 headers.push(new MComponentHeaderColumn(
                     'alternate',
-                    'Alternate Components',
+                    'Alternate Dependencies',
                     'float-left medium'
                 ));
                 // headers.push(new MComponentHeaderColumn(
@@ -799,18 +799,18 @@ export class CardDetailsComponent implements OnInit, OnChanges {
             case 'compDetails':
                 headers.push(new MComponentHeaderColumn(
                     'component',
-                    'Components',
+                    'Dependencies',
                     'float-left medium'
                 ));
                 if (tabNo === 1) {
                     headers.push(new MComponentHeaderColumn(
                         'componentCheck',
-                        'Component Check',
+                        'Dependency Check',
                         'float-left medium'
                     ));
                     headers.push(new MComponentHeaderColumn(
                         'alternate',
-                        'Alternate Components',
+                        'Alternate Dependencies',
                         'float-left medium'
                     ));
                     // headers.push(new MComponentHeaderColumn(

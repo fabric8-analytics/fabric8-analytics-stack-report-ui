@@ -43,20 +43,20 @@ export class ReportSummaryUtils {
 
     public titleAndDescription: any = {
         [this.cardTypes.SECURITY]: {
-            title: 'Components with security issues in your stack',
+            title: 'Dependencies with security issues in your stack',
             description: 'OSIO Analytics has identified security issues in your stack. Click this card to see further details of the security tasks affecting your stack.'
         },
         [this.cardTypes.INSIGHTS]: {
-            title: 'Insights on alternate or additional components that can augment your stack',
-            description: 'OSIO Analytics has identified components that are rarely used in similar stacks, and suggest (suggests) alternate and additional components that can enhance your stack. Click this card to see detailed suggestions on alternate and additional components for your stack.'
+            title: 'Insights on alternate or additional dependencies that can augment your stack',
+            description: 'OSIO Analytics has identified dependencies that are rarely used in similar stacks, and suggest (suggests) alternate and additional dependencies that can enhance your stack. Click this card to see detailed suggestions on alternate and additional dependencies for your stack.'
         },
         [this.cardTypes.LICENSES]: {
-            title: 'License details of components in your stack',
+            title: 'License details of dependencies in your stack',
             description: 'OSIO Analytics identifies the stack level license, the conflicting licenses, and the unknown licenses for your stack. Click this card to see detailed information on the conflicting and unknown licenses in your stack.'
         },
         [this.cardTypes.COMP_DETAILS]: {
-            title: 'Component details of your manifest file',
-            description: 'OSIO Analytics identifies the total number of components, analyzes them, and provides details on security, usage, and license issues in your components. It also lists components unknown to OSIO.'
+            title: 'Dependency details of your manifest file',
+            description: 'OSIO Analytics identifies the total number of Dependencies, analyzes them, and provides details on security, usage, and license issues in your dependencies. It also lists dependencies unknown to OSIO.'
         }
     };
 
@@ -129,7 +129,7 @@ export class ReportSummaryUtils {
                     headerText: maxIssue.CVSS + ' / ' + 10,
                     value: Number(maxIssue.CVSS),
                     bgColor: securityColor,
-                    footerText: 'No. of components with this CVSS Score: ' + totalComponentsWithMaxScore,
+                    footerText: 'No. of dependencies with this CVSS Score: ' + totalComponentsWithMaxScore,
                     width: Number(maxIssue.CVSS) * 10
                 };
                 securityCard.reportSummaryContent.infoEntries.push(maxIssueEntry);
@@ -174,7 +174,7 @@ export class ReportSummaryUtils {
             insightsCard.reportSummaryContent.infoEntries.push(outliersInsights);
 
             let companionInsights: MReportSummaryInfoEntry = new MReportSummaryInfoEntry();
-            companionInsights.infoText = 'Companion Components';
+            companionInsights.infoText = 'Companion Dependencies';
             companionInsights.infoValue = companionCount;
             insightsCard.reportSummaryContent.infoEntries.push(companionInsights);
 
@@ -208,7 +208,7 @@ export class ReportSummaryUtils {
             licenseAnalysis = userStackInfo.license_analysis;
 
             let stackLicense: MReportSummaryInfoEntry = new MReportSummaryInfoEntry();
-            stackLicense.infoText = 'Stack License';
+            stackLicense.infoText = 'Recommended Stack License';
             let stackLicenses = licenseAnalysis.f8a_stack_licenses;
             if (stackLicenses) {
                 if (stackLicenses.length > 0) {
@@ -244,7 +244,7 @@ export class ReportSummaryUtils {
 
             if (stackLicense.infoValue !== 'NONE' && stackLicense.infoValue !== 'Unknown') {
                 let restrictiveLicenses: MReportSummaryInfoEntry = new MReportSummaryInfoEntry();
-            restrictiveLicenses.infoText = 'Restrictive License(s)';
+            restrictiveLicenses.infoText = 'Restrictive Licenses';
                 let restrictive = licenseAnalysis.outlier_packages;
                 restrictiveLicenses.infoValue = restrictive ? restrictive.length : 0;
                 licensesCard.reportSummaryContent.infoEntries.push(restrictiveLicenses);
