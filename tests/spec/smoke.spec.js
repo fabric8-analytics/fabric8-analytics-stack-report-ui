@@ -12,8 +12,8 @@ describe('fabric8-analytics-stack-report-ui', () => {
         let firstTabItem = tabContainer.$$('.nav-item').get(0);
         let reportSummaryContainer = $('analytics-report-summary .analytics-summary-report');
         let securityCard = reportSummaryContainer.$$('analytics-summary-card').get(0);
-        let insightsCard = reportSummaryContainer.$$('analytics-summary-card').get(1);
-        let licensesCard = reportSummaryContainer.$$('analytics-summary-card').get(2);
+        let licensesCard = reportSummaryContainer.$$('analytics-summary-card').get(1);
+        let insightsCard = reportSummaryContainer.$$('analytics-summary-card').get(2);
         let componentDetailsCard = reportSummaryContainer.$$('analytics-summary-card').get(3);
         let cardDetailsContainer = $('card-details .analytics-card-details');
 
@@ -44,6 +44,13 @@ describe('fabric8-analytics-stack-report-ui', () => {
                     expect(securityCard.$$('.analytics-summary-card.highlight').get(0).isPresent()).toBe(true);
                 });
             });
+
+            describe('Licenses Card', () => {
+                it('Is card header `Licenses`', () => {
+                    let cardTitle = licensesCard.$$(titleClassString).get(0);
+                    expect(cardTitle.getText()).toContain('Licenses');
+                });
+            });
     
             describe('Insights Card', () => {
                 it('Is card header `Insights`', () => {
@@ -52,17 +59,10 @@ describe('fabric8-analytics-stack-report-ui', () => {
                 });
             });
     
-            describe('Licenses Card', () => {
-                it('Is card header `Licenses`', () => {
-                    let cardTitle = licensesCard.$$(titleClassString).get(0);
-                    expect(cardTitle.getText()).toContain('Licenses');
-                });
-            });
-    
             describe('Component Details Card', () => {
                 it('Is card header `Component Details`', () => {
                     let cardTitle = componentDetailsCard.$$(titleClassString).get(0);
-                    expect(cardTitle.getText()).toContain('Component Details');
+                    expect(cardTitle.getText()).toContain('Dependency Details');
                 });
             });
         });
@@ -70,18 +70,7 @@ describe('fabric8-analytics-stack-report-ui', () => {
         describe('Details Section', () => {
             it('Is title in details for Security card correct ?', () => {
                 let titleElement = cardDetailsContainer.$$('h2').get(0);
-                expect(titleElement.getText()).toEqual('Components with security issues in your stack');
-            });
-
-            it('Is Insights card highlighted on click ?', () => {
-                insightsCard.click().then(() => {
-                    expect(insightsCard.$$('.analytics-summary-card.highlight').get(0).isPresent()).toBe(true);
-                });
-            });
-    
-            it('Is title in details for Insights card correct ?', () => {
-                let titleElement = cardDetailsContainer.$$('h2').get(0);
-                expect(titleElement.getText()).toEqual('Insights on alternate or additional components that can augment your stack');
+                expect(titleElement.getText()).toEqual('Dependencies with security issues in your stack');
             });
 
             it('Is Licenses card highlighted on click ?', () => {
@@ -92,7 +81,18 @@ describe('fabric8-analytics-stack-report-ui', () => {
     
             it('Is title in details for Licenses card correct ?', () => {
                 let titleElement = cardDetailsContainer.$$('h2').get(0);
-                expect(titleElement.getText()).toEqual('License details of components in your stack');
+                expect(titleElement.getText()).toEqual('License details of dependencies in your stack');
+            });
+
+            it('Is Insights card highlighted on click ?', () => {
+                insightsCard.click().then(() => {
+                    expect(insightsCard.$$('.analytics-summary-card.highlight').get(0).isPresent()).toBe(true);
+                });
+            });
+    
+            it('Is title in details for Insights card correct ?', () => {
+                let titleElement = cardDetailsContainer.$$('h2').get(0);
+                expect(titleElement.getText()).toEqual('Insights on alternate or additional dependencies that can augment your stack');
             });
 
             it('Is Component details card highlighted on click ?', () => {
@@ -103,7 +103,7 @@ describe('fabric8-analytics-stack-report-ui', () => {
     
             it('Is title in details for Component details card correct ?', () => {
                 let titleElement = cardDetailsContainer.$$('h2').get(0);
-                expect(titleElement.getText()).toEqual('Component details of your manifest file');
+                expect(titleElement.getText()).toEqual('Dependency details of your manifest file');
             });
         });
     });

@@ -208,7 +208,7 @@ export class ReportSummaryUtils {
             licenseAnalysis = userStackInfo.license_analysis;
 
             let stackLicense: MReportSummaryInfoEntry = new MReportSummaryInfoEntry();
-            stackLicense.infoText = 'Recommended Stack License';
+            stackLicense.infoText = 'Recommended License';
             let stackLicenses = licenseAnalysis.f8a_stack_licenses;
             if (stackLicenses) {
                 if (stackLicenses.length > 0) {
