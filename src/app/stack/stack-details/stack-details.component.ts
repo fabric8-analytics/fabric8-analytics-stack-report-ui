@@ -36,6 +36,7 @@ import {
 import {
     SaveState
 } from '../utils/SaveState';
+import { TimerObservable } from 'rxjs/observable/TimerObservable';
 /**
  * New Stack Report Revamp - End
  */
@@ -97,6 +98,8 @@ export class StackDetailsComponent implements OnChanges {
 
     private stackId: string;
     private subPolling: any;
+
+    private alive = true;
 
     private reportSummaryUtils = new ReportSummaryUtils();
 
@@ -284,7 +287,8 @@ export class StackDetailsComponent implements OnChanges {
                 data.result.length > 0 &&
                 data.result[0].hasOwnProperty('recommendation') && data.result[0].recommendation &&
                 data.result[0].recommendation.hasOwnProperty('alternate')) {
-                this.subPolling.unsubscribe();
+                    this.alive = false;
+                    this.subPolling.unsubscribe();
             }
             let resultInformation: Observable < StackReportModel > = getStackReportModel(data);
             resultInformation.subscribe((response) => {
@@ -336,6 +340,7 @@ export class StackDetailsComponent implements OnChanges {
     }
 
     private init(): void {
+        let counter = 2;
         if (this.gatewayConfig["modal"]) {
             this.showCrowdModal();
         }
@@ -351,26 +356,36 @@ export class StackDetailsComponent implements OnChanges {
                     .getStackAnalyses(this.stack, this.gatewayConfig);
 
                 if (analysis) {
-                    this.subPolling = analysis.subscribe((data) => {
-                            this.handleResponse(data);
-                        },
-                        error => {
-                            let title: string = '';
-                            if (error.status >= 500) {
-                                title = 'Something unexpected happened';
-                            } else if (error.status === 404) {
-                                title = 'You are looking for something which isn\'t there';
-                            } else if (error.status === 401) {
-                                title =
-                                    'You don\'t seem to have sufficient privileges to access this';
-                            }
-                            title = 'Report failed'; // Check if just this message is enough.
-                            this.handleError({
-                                message: error.statusText,
-                                status: error.status,
-                                title: title
+                    TimerObservable .create(0, 10000)
+                                    .takeWhile(() => this.alive)
+                                    .subscribe(() => {
+                                        
+                                        if (counter -- === 0) {
+                                            this.alive = false;
+                                            this.subPolling.unsubscribe();
+                                        }
+                                
+                                this.subPolling = analysis.subscribe((data) => {
+                                    this.handleResponse(data);
+                                },
+                                error => {
+                                    let title: string = '';
+                                    if (error.status >= 500) {
+                                        title = 'Something unexpected happened';
+                                    } else if (error.status === 404) {
+                                        title = 'You are looking for something which isn\'t there';
+                                    } else if (error.status === 401) {
+                                        title =
+                                            'You don\'t seem to have sufficient privileges to access this';
+                                    }
+                                    title = 'Report failed'; // Check if just this message is enough.
+                                    this.handleError({
+                                        message: error.statusText,
+                                        status: error.status,
+                                        title: title
+                                    });
+                                });
                             });
-                        });
                 }
             }
         }

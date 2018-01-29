@@ -44,7 +44,7 @@ export class StackAnalysesService {
       if (params['access_token']) {
         let headers: Headers = new Headers();
         headers.append('Authorization', 'Bearer ' + params['access_token']);
-        return Observable.interval(10000).switchMap(() => this.http.get(url, {
+        return this.http.get(url, {
           headers: headers
         })
         .map(this.extractData)
@@ -52,7 +52,7 @@ export class StackAnalysesService {
           stackReport = data;
           return stackReport;
         })
-        .catch(this.handleError));
+        .catch(this.handleError);
       }
     }
     return null;
