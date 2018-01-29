@@ -9,7 +9,7 @@ image:https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic%20rel
 === Set NODE_ENV
 If you're just trying to test the application, please use inmemory mode which
 will load the app with mock data for you. If you, however, want to contribute
-to the codebase, unset it back or to "development" (default) mode and rebuild.
+to the codebase, unset it back or to "development" (default) mode and rebuild. 
 
 
 [source,shell]
