@@ -28,18 +28,14 @@ objects:
           - containerPort: 8080
             protocol: TCP
           readinessProbe:
-            httpGet:
-              path: /
+            tcpSocket:
               port: 8080
-              scheme: HTTP
             initialDelaySeconds: 10
             periodSeconds: 30
             timeoutSeconds: 5
           livenessProbe:
-            httpGet:
-              path: /
+            tcpSocket:
               port: 8080
-              scheme: HTTP
             initialDelaySeconds: 10
             periodSeconds: 30
             timeoutSeconds: 5
