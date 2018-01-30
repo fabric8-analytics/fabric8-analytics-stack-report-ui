@@ -292,7 +292,7 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                 compDetails = this.getCompanionComponentDetails();
                 reportInformations.push(new MReportInformation(
                     'ins-companion',
-                    'Companion Component Details',
+                    'Companion Dependency Details',
                     'recommendation',
                     this.fillColumnHeaders(cardType, 2),
                     compDetails
@@ -320,7 +320,7 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                 compDetails = this.getUnknownComponentDetails(cardType);
                 reportInformations.push(new MReportInformation(
                     'comp-unknown',
-                    'Unknown Component details',
+                    'Unknown Dependency details',
                     'component',
                     this.fillColumnHeaders(cardType, 2),
                     compDetails
