@@ -185,7 +185,6 @@ export class StackDetailsComponent implements OnChanges {
                 manifestinfo: tab.content.manifest_name,
                 licenseAnalysis: tab.content.user_stack_info.license_analysis
             };
-
             // Select the first card by default
             if (SaveState && SaveState.ELEMENTS && SaveState.ELEMENTS.length > 0) {
                 if (SaveState.ELEMENTS[currentIndex * 4]) {
@@ -282,6 +281,7 @@ export class StackDetailsComponent implements OnChanges {
     private handleResponse(data: any): void {
         this.errorMessage = null;
         this.tabs = [];
+        SaveState.ELEMENTS = [];
         if (data && (!data.hasOwnProperty('error') && Object.keys(data).length !== 0)) {
             if (data.hasOwnProperty('result') && data.result instanceof Array &&
                 data.result.length > 0 &&
