@@ -2,6 +2,8 @@
 
 // import './polyfills';
 import 'core-js/es7/reflect';
+import 'core-js/es6/reflect';
+import 'mdn-polyfills/Object.assign';
 import 'zone.js';
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
