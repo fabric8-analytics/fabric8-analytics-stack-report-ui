@@ -285,8 +285,7 @@ export class StackDetailsComponent implements OnChanges {
         if (data && (!data.hasOwnProperty('error') && Object.keys(data).length !== 0)) {
             if (data.hasOwnProperty('result') && data.result instanceof Array &&
                 data.result.length > 0 &&
-                data.result[0].hasOwnProperty('recommendation') && data.result[0].recommendation &&
-                data.result[0].recommendation.hasOwnProperty('alternate')) {
+                data.result[0].hasOwnProperty('recommendation')) {
                     this.alive = false;
                     this.subPolling.unsubscribe();
             }
