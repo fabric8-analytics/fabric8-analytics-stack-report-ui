@@ -10,7 +10,7 @@ run_unit_tests
 
 build_project
 
-run_ui_integration_tests
+# run_ui_integration_tests
 
 build_image
 
