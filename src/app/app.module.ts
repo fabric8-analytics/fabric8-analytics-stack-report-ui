@@ -25,7 +25,7 @@ import { UserIntentModule } from './user-intent/user-intent.module'
   imports: [
     BrowserModule,
     StackDetailsModule,
-    UserIntentModule,
+    // UserIntentModule,
     FormsModule,
     AppRoutingModule
   ],
