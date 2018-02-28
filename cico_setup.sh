@@ -50,8 +50,9 @@ build_project() {
 
 run_ui_integration_tests() {
     # Build ui test docker image
-    echo 'recommender-token ${RECOMMENDER_API_TOKEN}'
-    docker build --no-cache --rm -f Dockerfile.tests -t $(make get-test-image-name) -e RECOMMENDER_API_TOKEN=${RECOMMENDER_API_TOKEN} .
+    echo 'recommender-token'
+    echo ${RECOMMENDER_API_TOKEN}
+    docker build --no-cache --rm -f Dockerfile.tests -t $(make get-test-image-name) .
 
     if [ $? -eq 0 ]; then
         echo 'CICO: test image build OK'
@@ -61,7 +62,7 @@ run_ui_integration_tests() {
     fi
 
     # Run ui test docker image
-    docker run $(make get-test-image-name)
+    docker run -e RECOMMENDER_API_TOKEN=${RECOMMENDER_API_TOKEN} $(make get-test-image-name)
     # ./tests/run_functional_tests_docker.sh
 
     if [ $? -eq 0 ]; then
