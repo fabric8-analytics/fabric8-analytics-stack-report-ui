@@ -1,0 +1,2 @@
+export ANALYSES_REQUEST_ID=ba6fc53625fb47c1901e04fce58d0a05
+export RECOMMENDER_API_END_POINT=https://recommender.api.openshift.io

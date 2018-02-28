@@ -3,7 +3,7 @@
 load_jenkins_vars() {
     if [ -e "jenkins-env" ]; then
         cat jenkins-env \
-          | grep -E "(DEVSHIFT_TAG_LEN|DEVSHIFT_USERNAME|DEVSHIFT_PASSWORD|JENKINS_URL|GIT_BRANCH|GIT_COMMIT|BUILD_NUMBER|ghprbSourceBranch|ghprbActualCommit|BUILD_URL|ghprbPullId)=" \
+          | grep -E "(DEVSHIFT_TAG_LEN|DEVSHIFT_USERNAME|DEVSHIFT_PASSWORD|JENKINS_URL|GIT_BRANCH|GIT_COMMIT|BUILD_NUMBER|ghprbSourceBranch|ghprbActualCommit|BUILD_URL|ghprbPullId|RECOMMENDER_API_TOKEN)=" \
           | sed 's/^/export /g' \
           > ~/.jenkins-env
         source ~/.jenkins-env
@@ -50,7 +50,8 @@ build_project() {
 
 run_ui_integration_tests() {
     # Build ui test docker image
-    docker build --no-cache --rm -f Dockerfile.tests -t $(make get-test-image-name) .
+    echo 'recommender-token ${RECOMMENDER_API_TOKEN}'
+    docker build --no-cache --rm -f Dockerfile.tests -t $(make get-test-image-name) -e RECOMMENDER_API_TOKEN=${RECOMMENDER_API_TOKEN} .
 
     if [ $? -eq 0 ]; then
         echo 'CICO: test image build OK'
