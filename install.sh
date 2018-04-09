@@ -8,7 +8,7 @@ HTTPD_WELCOME="/etc/httpd/conf.d/welcome.conf"
 INSTALL_PKGS="highlight httpd nss_wrapper gettext";
 
 # Setup necessary packages
-yum -y install epel-release && yum -y install ${INSTALL_PKGS};
+yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && yum -y install ${INSTALL_PKGS};
 
 # Fixup Configurations
 rm -rf ${HTTPD_WELCOME};
