@@ -36,7 +36,7 @@ main() {
 
   if [[ ${DIRECT_CONNECT:-false} == false ]]; then
     echo "DIRECT_CONNECT not set; Using webdriver. Tests may run slow .. checking webdriver status"
-    echo
+
     webdriver_running || {
       start_webdriver
       wait_for_webdriver

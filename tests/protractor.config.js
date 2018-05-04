@@ -6,6 +6,7 @@ exports.config = {
     getPageTimeout: 30000,
     directConnect: process.env.DIRECT_CONNECT === 'true',
     seleniumAddress: 'http://localhost:4444/wd/hub',
+    chromeDriver: '../node_modules/chromedriver/bin/chromedriver',
     specs: ['./spec/**/*.spec.js'],
     suites: {
         fullTest:  './spec/**/*.spec.js',
