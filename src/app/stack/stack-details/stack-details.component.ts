@@ -204,7 +204,7 @@ export class StackDetailsComponent implements OnChanges {
         if (this.stack && this.stack !== this.cache) {
             this.cache = this.stack;
             this.resetFields();
-            this.stackId = this.stack && this.stack.split('/')[this.stack.split('/').length - 1];
+            this.stackId = this.stack && this.stack.split('?')[0].split('/')[this.stack.split('/').length - 1];
             // this.init(this.stack);
             this.initFeedback();
             this.componentLevel = {

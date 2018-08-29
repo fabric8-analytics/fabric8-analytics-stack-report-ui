@@ -25,7 +25,8 @@ export class ComponentFeedbackService {
   postFeedback(feedback: MComponentFeedback, token?: string): Observable<any> {
     let options = new RequestOptions({ headers: this.headers });
     let body = JSON.stringify(feedback.feedbackTemplate);
-    this.FEEDBACK_URL = feedback.baseUrl + 'api/v1/submit-feedback';
+    console.log('body ' + body);
+    this.FEEDBACK_URL = feedback.baseUrl + 'api/v1/submit-feedback?user_key=9e7da76708fe374d8c10fa752e72989f';
     if (token) {
       this.headers.set('Authorization', 'Bearer ' + token);
       options = new RequestOptions({ headers: this.headers });
