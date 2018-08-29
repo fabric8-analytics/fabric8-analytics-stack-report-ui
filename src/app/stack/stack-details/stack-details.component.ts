@@ -113,6 +113,9 @@ export class StackDetailsComponent implements OnChanges {
             this.gatewayConfig && this.gatewayConfig['access_token']
         );
         this.cardDetails = cardDetails;
+        if (this.gatewayConfig && this.gatewayConfig.user_key) {
+            this.stackAnalysisService.userKey = this.gatewayConfig.user_key;
+        }
     }
     /**
      * New Stack Report Revamp - End

@@ -11,6 +11,7 @@ import {StackReportModel} from './models/stack-report.model';
 @Injectable()
 export class StackAnalysesService {
 
+  public userKey: string = '';
   // private headers: Headers = new Headers();
   private stackAnalysesUrl: string = '';
   private cvssScale: any = {

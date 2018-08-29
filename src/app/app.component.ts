@@ -47,10 +47,10 @@ export class AppComponent implements OnInit {
         console.log(this.label);
         if (this.label && this.label.trim() !== '') {
             this.routerLink = '/analyze/' + this.label;
-            this.gateway['user_key'] = this.apiData['user_key']; 
+            this.gateway['user_key'] = this.apiData['user_key'];
             this.gateway['access_token'] = this.apiData['access_token'];
             this.gateway['config'] = this.apiData['route_config'];
-            if(this.apiData['show_modal']){
+            if (this.apiData['show_modal']) {
                 this.gateway['modal'] = this.apiData['show_modal'];
             }
 
@@ -61,9 +61,9 @@ export class AppComponent implements OnInit {
                     this.gateway['config']['api_url'] = apiHost;
                 }
 
-                if(this.gateway['user_key']){
-                    this.stackUrl = apiHost + 'api/v1/stack-analyses/' + this.label +'?user_key='+ this.gateway['user_key'];
-                } else{
+                if (this.gateway['user_key']) {
+                    this.stackUrl = apiHost + 'api/v1/stack-analyses/' + this.label + '?user_key=' + this.gateway['user_key'];
+                } else {
                     this.stackUrl = apiHost + 'api/v1/stack-analyses/' + this.label;
                 }
 
@@ -91,7 +91,7 @@ export class AppComponent implements OnInit {
 // }
 
 // dev cluster hosted end point
-//http://fabric8-analytics-stack-report-ui-jgotta-greenfield-test.dev.rdu2c.fabric8.io/#/analyze/4460cedfec3e49b5b6cf5712ccf7750b?api_data={
+// http://fabric8-analytics-stack-report-ui.dev.rdu2c.fabric8.io/#/analyze/4460cedfec3e49b5b6cf5712ccf7750b?api_data={
 //     "access_token": "<ACCESS_TOKEN>",
 //     "route_config": {
 //         "api_url": "https://recommender.api.openshift.io/"

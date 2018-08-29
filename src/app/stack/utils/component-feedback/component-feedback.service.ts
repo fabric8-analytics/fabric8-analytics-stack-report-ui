@@ -7,6 +7,8 @@ import 'rxjs/operator/map';
 
 import { MComponentFeedback } from '../../models/ui.model';
 
+import { StackAnalysesService } from '../../stack-analyses.service';
+
 @Injectable()
 export class ComponentFeedbackService {
 
@@ -16,6 +18,7 @@ export class ComponentFeedbackService {
   constructor(
     private http: Http,
     private auth: AuthenticationService,
+    private stackAnalysesService: StackAnalysesService
   ) {
       if (this.auth.getToken() !== null) {
         this.headers.set('Authorization', 'Bearer ' + this.auth.getToken());
@@ -25,8 +28,7 @@ export class ComponentFeedbackService {
   postFeedback(feedback: MComponentFeedback, token?: string): Observable<any> {
     let options = new RequestOptions({ headers: this.headers });
     let body = JSON.stringify(feedback.feedbackTemplate);
-    console.log('body ' + body);
-    this.FEEDBACK_URL = feedback.baseUrl + 'api/v1/submit-feedback?user_key=9e7da76708fe374d8c10fa752e72989f';
+    this.FEEDBACK_URL = feedback.baseUrl + 'api/v1/submit-feedback?user_key=' + this.stackAnalysesService.userKey;
     if (token) {
       this.headers.set('Authorization', 'Bearer ' + token);
       options = new RequestOptions({ headers: this.headers });
