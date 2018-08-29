@@ -14,12 +14,11 @@ import {
 } from '../../models/ui.model';
 
 import { ComponentFeedbackService } from './component-feedback.service';
-import {StackAnalysesService} from '../../stack-analyses.service';
 
 @Component({
     selector: 'component-feedback',
     styleUrls: ['./component-feedback.component.less'],
-    providers: [ComponentFeedbackService, StackAnalysesService],
+    providers: [ComponentFeedbackService],
     templateUrl: './component-feedback.component.html'
 })
 export class ComponentFeedbackComponent implements OnChanges {

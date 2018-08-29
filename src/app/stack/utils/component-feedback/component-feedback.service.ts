@@ -18,7 +18,7 @@ export class ComponentFeedbackService {
   constructor(
     private http: Http,
     private auth: AuthenticationService,
-    private stackAnalysesService: StackAnalysesService
+    private stackAnalysisService: StackAnalysesService
   ) {
       if (this.auth.getToken() !== null) {
         this.headers.set('Authorization', 'Bearer ' + this.auth.getToken());
@@ -28,7 +28,7 @@ export class ComponentFeedbackService {
   postFeedback(feedback: MComponentFeedback, token?: string): Observable<any> {
     let options = new RequestOptions({ headers: this.headers });
     let body = JSON.stringify(feedback.feedbackTemplate);
-    this.FEEDBACK_URL = feedback.baseUrl + 'api/v1/submit-feedback?user_key=' + this.stackAnalysesService.userKey;
+    this.FEEDBACK_URL = feedback.baseUrl + 'api/v1/submit-feedback?user_key=' + this.stackAnalysisService.userKey;
     if (token) {
       this.headers.set('Authorization', 'Bearer ' + token);
       options = new RequestOptions({ headers: this.headers });

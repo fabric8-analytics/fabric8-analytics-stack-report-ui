@@ -6,6 +6,7 @@ import { MockAuthenticationService } from '../../../shared/mock-auth.service';
 
 import { ComponentFeedbackComponent } from './component-feedback.component';
 import { ToastNotificationModule } from '../../toast-notification/toast-notification.module';
+import { StackAnalysesService } from '../../stack-analyses.service';
 
 describe ('ComponentFeedbackComponent', () => {
     let component: ComponentFeedbackComponent;
@@ -25,7 +26,8 @@ describe ('ComponentFeedbackComponent', () => {
                 { provide: RequestOptions, useClass: BaseRequestOptions },
                 {
                     provide: AuthenticationService, useClass: MockAuthenticationService
-                }
+                },
+                StackAnalysesService
             ]
         }).compileComponents();
     }));
