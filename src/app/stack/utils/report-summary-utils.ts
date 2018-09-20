@@ -230,8 +230,14 @@ export class ReportSummaryUtils {
                     stackLicense.infoValue = stackLicenses[0];
                 } else {
                     stackLicense.infoValue = 'None';
+                    stackLicense.config = {
+                        tooltip: licenseAnalysis.reason
+                    };
                     if (licenseAnalysis.status && licenseAnalysis.status.toLowerCase() === 'failure') {
                         stackLicense.infoValue = 'Unknown';
+                        stackLicense.config = {
+                            tooltip: licenseAnalysis.reason
+                        };
                     }
                 }
             } else {
