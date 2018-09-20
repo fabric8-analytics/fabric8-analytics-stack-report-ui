@@ -1,8 +1,12 @@
 <div class="ana-summary-info">
     <div *ngIf="entry?.infoType === 'text'" class="ana-normal">
-        <div class="row">
+        <div class="row" *ngIf="entry?.infoText !== 'Recommended License'">
             <div class="col-sm-8 info-key" [innerText]="entry?.infoText"></div>
             <div class="col-sm-4 info-value" [innerText]="entry?.infoValue"></div>
+        </div>
+        <div class="row" *ngIf="entry?.infoText === 'Recommended License'">
+            <div class="col-sm-8 info-key" [innerText]="entry?.infoText"></div>
+            <div class="col-sm-4 info-value" [innerText]="entry?.infoValue" [title]="entry?.config?.tooltip"></div>
         </div>
     </div>
     <div class="ana-custom" [ngSwitch]="entry?.infoType">

@@ -132,6 +132,7 @@ export class UnknownLicensesModel {
 
 export class StackLicenseAnalysisModel {
     f8a_stack_licenses: Array<string> = [];
+    reason: string;
     status: string;
     conflict_packages: Array<ConflictPackageModel> = [];
     unknown_licenses: UnknownLicensesModel;
