@@ -1,15 +1,30 @@
 <div class="analytics-snippet-information">
     <h4>Details of the dependency: <span class="component-name" [innerText]="component?.name"></span></h4>
-    <div [ngClass]="{'component-version left': true, 'normal-version-box': view === 'split', 'small-version-box': view === 'normal'}">
-        <div class="col-xs-6">
-            <p class="info-head">Current Version</p>
-            <p [innerText]="component?.currentVersion"></p>
-        </div>
-        <div class="col-xs-6">
-            <p class="info-head">Latest Version</p>
-            <p [innerText]="component?.latestVersion"></p>
+    <div *ngIf="!component.action;else companion_component">
+        <div [ngClass]="{'component-version left': true, 'normal-version-box': view === 'split', 'small-version-box': view === 'normal'}">
+            <div class="col-xs-6">
+                <p class="info-head">Current Version</p>
+                <p [innerText]="component?.currentVersion"></p>
+            </div>
+            <div class="col-xs-6">
+                <p class="info-head">Latest Version</p>
+                <p [innerText]="component?.latestVersion"></p>
+            </div>
         </div>
     </div>
+    <ng-template #companion_component>
+        <div [ngClass]="{'component-version left': true, 'normal-version-box': view === 'split', 'small-version-box': view === 'normal'}">
+            <div [ngClass]="{'col-xs-6': component?.currentVersion !== '-----'}" *ngIf="component?.currentVersion !== '-----'">
+                <p class="info-head">Current Version</p>
+                <p [innerText]="component?.currentVersion"></p>
+            </div>
+            <div [ngClass]="{'col-xs-12': component?.currentVersion === '-----'}">
+                <p class="info-head">Recommended Version</p>
+                <p [innerText]="component?.latestVersion"></p>
+            </div>
+        </div>
+    </ng-template>
+    
     <div *ngIf="view === 'normal'" class="github-osio-box">
         <div class="github left">
             <div class="box-header">
