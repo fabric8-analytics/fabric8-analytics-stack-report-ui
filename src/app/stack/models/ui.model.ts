@@ -92,7 +92,8 @@ export class MLicenseInformation {
         public licenses: Array<string>,
         public unknownLicenses: Array<string>,
         public hasLicenseIssue: boolean,
-        public licensesAffected: Array<MLicensesAffected> = null
+        public licensesAffected: Array<MLicensesAffected> = null,
+        public conflictingLicense: Array<any> = null
     ) {}
 }
 
@@ -185,7 +186,7 @@ export class MReportInformation {
         public name: string,
         public type: string,
         public headers: Array<MComponentHeaderColumn>,
-        public componentDetails: Array<MComponentDetails>
+        public componentDetails: Array<any>
     ) {}
 }
 

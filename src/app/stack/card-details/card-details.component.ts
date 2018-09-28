@@ -100,7 +100,6 @@ export class CardDetailsComponent implements OnInit, OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         let summary: any = changes['cardDetails'];
-
         if (summary) {
             this.cardDetails = <any> summary.currentValue;
             if (this.cardDetails && this.cardDetails.report) {
@@ -288,7 +287,6 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                 genericReport.identifier = 'ins-usage';
                 genericReport.name = 'Usage Outlier Details';
                 reportInformations.push(genericReport);
-
                 compDetails = this.getCompanionComponentDetails();
                 reportInformations.push(new MReportInformation(
                     'ins-companion',
@@ -434,17 +432,38 @@ export class CardDetailsComponent implements OnInit, OnChanges {
         return null;
     }
 
+    private checkConflictingCompExist(analysis: StackLicenseAnalysisModel, component: ComponentInformationModel): boolean {
+        let conflictingCompExist = false;
+        if (analysis.conflict_packages && analysis.conflict_packages.length > 0) {
+            analysis.conflict_packages.forEach((conflictPackage) => {
+                if (conflictPackage.package1 === component.name || conflictPackage.package2 === component.name) {
+                    conflictingCompExist = true;
+                }
+            });
+        } else {
+            return conflictingCompExist;
+        }
+        return conflictingCompExist;
+    }
+
     private hasLicenseIssue(component: ComponentInformationModel): boolean {
         if (component) {
             let analysis: StackLicenseAnalysisModel = this.getLicensesAnalysis();
             if (analysis) {
-                return (analysis.conflict_packages
-                    && analysis.conflict_packages.length > 0)
+                return (this.checkConflictingCompExist(analysis, component))
                     || (analysis.unknown_licenses && analysis.unknown_licenses.component_conflict &&
                     analysis.unknown_licenses.component_conflict.length > 0);
             }
         }
         return false;
+    }
+
+    private getConflictingLicense(): any {
+            let analysis: StackLicenseAnalysisModel = this.getLicensesAnalysis();
+            if (analysis && analysis.conflict_packages && analysis.conflict_packages.length > 0) {
+                return analysis.conflict_packages;
+            }
+        return null;
     }
 
     private getComponentInformation(component: ComponentInformationModel): MComponentInformation {
@@ -540,7 +559,8 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                     component.licenses,
                     this.getUnknownLicenses(component),
                     hasLicenseIssue,
-                    this.getMLicenseAffected(component)
+                    this.getMLicenseAffected(component),
+                    this.getConflictingLicense()
                 ),
                 component.ecosystem,
                 this.report.manifest_file_path

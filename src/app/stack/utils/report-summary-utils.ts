@@ -194,6 +194,21 @@ export class ReportSummaryUtils {
         return insightsCard;
     }
 
+    public getConflictLicenseCount(conflictLicenses: Array<any>): any {
+        let conflictLicenseArr = [];
+        if (conflictLicenses && conflictLicenses.length > 0) {
+            conflictLicenses.forEach((item) => {
+                if (conflictLicenseArr.indexOf(item['package1']) === -1) {
+                    conflictLicenseArr.push(item['package1']);
+                }
+                if (conflictLicenseArr.indexOf(item['package2']) === -1) {
+                    conflictLicenseArr.push(item['package2']);
+                }
+            });
+        }
+        return conflictLicenseArr;
+    }
+
     public getLicensesReportCard(userStackInfo: UserStackInfoModel): MReportSummaryCard {
         let licensesCard: MReportSummaryCard = this.newCardInstance();
         licensesCard.identifier = this.cardTypes.LICENSES;
@@ -226,7 +241,7 @@ export class ReportSummaryUtils {
 
             let conflictLicense: MReportSummaryInfoEntry = new MReportSummaryInfoEntry();
             conflictLicense.infoText = 'License Conflicts';
-            let conflictLicenses = licenseAnalysis.conflict_packages;
+            let conflictLicenses = this.getConflictLicenseCount(licenseAnalysis.conflict_packages);
             conflictLicense.infoValue = conflictLicenses ? conflictLicenses.length : 0;
             if (stackLicense.infoValue === 'Unknown') {
                 conflictLicense.infoValue = 'NA';
