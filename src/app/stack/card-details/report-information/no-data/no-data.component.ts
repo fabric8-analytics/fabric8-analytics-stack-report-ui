@@ -21,32 +21,48 @@ export class NoDataComponent implements OnChanges {
     private TITLE_AND_DESCRIPTION: any = {
         'security': {
             title: 'No security issues',
-            description: 'Openshift.io Analytics has not identified any security issues affecting the dependencies of this stack.'
+            description: 'Dependency Analytics has not identified any security issues affecting the dependencies of this stack.'
+        },
+        'comp-direct-security': {
+            title: 'No security issues',
+            description: 'Dependency Analytics has not identified any security issues affecting the direct dependencies of this stack.'
+        },
+        'comp-trans-security': {
+            title: 'No security issues',
+            description: 'Dependency Analytics has not identified any security issues affecting the transitive dependencies of this stack.'
         },
         'ins-usage': {
             title: 'No usage outliers',
-            description: 'Openshift.io Analytics has not identified any usage outliers and has no suggestions for alternate dependencies for this stack.'
+            description: 'Dependency Analytics has not identified any usage outliers and has no suggestions for alternate dependencies for this stack.'
         },
         'lic-conflicts': {
             title: 'No license conflicts',
-            description: 'Openshift.io Analytics could not find any conflicting licences in this stack.'
+            description: 'Dependency Analytics could not find any conflicting licences in this stack.'
         },
         'comp-analyzed': {
             title: 'No analyzed dependencies',
-            description: 'Openshift.io Analytics was unable to analyze any dependencies for this stack.'
+            description: 'Dependency Analytics was unable to analyze any dependencies for this stack.'
         },
         'ins-companion': {
             title: 'No companion dependencies',
-            description: 'Openshift.io Analytics has no suggestions for companion dependencies for this stack.'
+            description: 'Dependency Analytics has no suggestions for companion dependencies for this stack.'
         },
         'lic-unknown': {
             title: 'No unknown licenses',
-            description: 'Openshift.io Analytics could not find any unknown licences in this stack.'
+            description: 'Dependency Analytics could not find any unknown licences in this stack.'
         },
         'comp-unknown': {
             title: 'No unknown dependencies',
-            description: 'Openshift.io Analytics has analyzed all the dependencies in this stack.'
+            description: 'Dependency Analytics has analyzed all the dependencies in this stack.'
         },
+        'comp-trans-analyzed': {
+            title: 'No transitive dependencies analyzed',
+            description: 'Dependency Analytics was unable to analyze any transitive dependencies for this stack.'
+        },
+        'comp-direct-analyzed': {
+            title: 'No direct dependencies analyzed',
+            description: 'Dependency Analytics was unable to analyze any direct dependencies for this stack.'
+        }
     };
 
     ngOnChanges(changes: SimpleChanges) {

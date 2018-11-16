@@ -87,6 +87,13 @@ export class MSecurityDetails {
     ) {}
 }
 
+export class MTransitiveDetails {
+    constructor(
+        public affected_direct_dep = [],
+        public isTransitive?: boolean
+    ) {}
+}
+
 export class MLicenseInformation {
     constructor(
         public licenses: Array<string>,
@@ -124,7 +131,8 @@ export class MComponentInformation {
         public licenseInformation: MLicenseInformation,
         public ecosystem: string,
         public manifestFilePath?: string,
-        public workItem = new MWorkItem()
+        public workItem = new MWorkItem(),
+        public transitive?: any
     ) {}
 }
 

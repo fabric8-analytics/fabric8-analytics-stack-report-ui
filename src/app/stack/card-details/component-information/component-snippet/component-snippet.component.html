@@ -1,28 +1,46 @@
 <div class="analytics-snippet-information">
     <h4>Details of the dependency: <span class="component-name" [innerText]="component?.name"></span></h4>
-    <div *ngIf="!component.action;else companion_component">
+    <div *ngIf="component?.transitive;else component_version">
         <div [ngClass]="{'component-version left': true, 'normal-version-box': view === 'split', 'small-version-box': view === 'normal'}">
             <div class="col-xs-6">
-                <p class="info-head">Current Version</p>
-                <p [innerText]="component?.currentVersion"></p>
+                <p class="info-head">Affected Direct Dependency</p>
+                <div *ngFor="let affectedDep of component.transitive.affected_direct_deps" class="side">
+                    <p [innerText]="affectedDep.package"></p>
+                </div>
             </div>
             <div class="col-xs-6">
-                <p class="info-head">Latest Version</p>
-                <p [innerText]="component?.latestVersion"></p>
+                <p class="info-head">Affected Version</p>
+                <div *ngFor="let affectedDep of component.transitive.affected_direct_deps" class="side">
+                    <p [innerText]="affectedDep.version"></p>
+                </div>
             </div>
         </div>
     </div>
-    <ng-template #companion_component>
-        <div [ngClass]="{'component-version left': true, 'normal-version-box': view === 'split', 'small-version-box': view === 'normal'}">
-            <div [ngClass]="{'col-xs-6': component?.currentVersion !== '-----'}" *ngIf="component?.currentVersion !== '-----'">
-                <p class="info-head">Current Version</p>
-                <p [innerText]="component?.currentVersion"></p>
+    <ng-template #component_version>
+        <div *ngIf="!component.action;else companion_component">
+                <div [ngClass]="{'component-version left': true, 'normal-version-box': view === 'split', 'small-version-box': view === 'normal'}">
+                    <div class="col-xs-6">
+                        <p class="info-head">Current Version</p>
+                        <p [innerText]="component?.currentVersion"></p>
+                    </div>
+                    <div class="col-xs-6">
+                        <p class="info-head">Latest Version</p>
+                        <p [innerText]="component?.latestVersion"></p>
+                    </div>
+                </div>
             </div>
-            <div [ngClass]="{'col-xs-12': component?.currentVersion === '-----'}">
-                <p class="info-head">Recommended Version</p>
-                <p [innerText]="component?.latestVersion"></p>
-            </div>
-        </div>
+            <ng-template #companion_component>
+                <div [ngClass]="{'component-version left': true, 'normal-version-box': view === 'split', 'small-version-box': view === 'normal'}">
+                    <div [ngClass]="{'col-xs-6': component?.currentVersion !== '-----'}" *ngIf="component?.currentVersion !== '-----'">
+                        <p class="info-head">Current Version</p>
+                        <p [innerText]="component?.currentVersion"></p>
+                    </div>
+                    <div [ngClass]="{'col-xs-12': component?.currentVersion === '-----'}">
+                        <p class="info-head">Recommended Version</p>
+                        <p [innerText]="component?.latestVersion"></p>
+                    </div>
+                </div>
+            </ng-template>
     </ng-template>
     
     <div *ngIf="view === 'normal'" class="github-osio-box">

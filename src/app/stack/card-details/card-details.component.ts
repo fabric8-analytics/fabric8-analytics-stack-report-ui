@@ -280,13 +280,29 @@ export class CardDetailsComponent implements OnInit, OnChanges {
         switch (cardType) {
             case 'security':
                 genericReport.identifier = 'security';
-                genericReport.name = 'securityTab';
-                reportInformations.push(genericReport);
+                genericReport.name = 'Security Issues';
+                // reportInformations.push(genericReport);
+
+                compDetails = this.getDirectDependencySecurityDetails(genericReport.componentDetails);
+                reportInformations.push(new MReportInformation(
+                    'comp-direct-security',
+                    'Security Issues In Direct Dependency',
+                    'component',
+                    this.fillColumnHeaders(cardType, 2),
+                    compDetails
+                ));
+                compDetails = this.getTransitiveDependencySecurityDetails(genericReport.componentDetails);
+                if(compDetails && compDetails.length > 0){
+                    reportInformations.push(new MReportInformation(
+                        'comp-trans-security',
+                        'Security Issues In Transitive Dependency',
+                        'component',
+                        this.fillColumnHeaders(cardType, 3),
+                        compDetails
+                    ));
+                }
                 break;
             case 'insights':
-                genericReport.identifier = 'ins-usage';
-                genericReport.name = 'Usage Outlier Details';
-                reportInformations.push(genericReport);
                 compDetails = this.getCompanionComponentDetails();
                 reportInformations.push(new MReportInformation(
                     'ins-companion',
@@ -295,6 +311,9 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                     this.fillColumnHeaders(cardType, 2),
                     compDetails
                 ));
+                genericReport.identifier = 'ins-usage';
+                genericReport.name = 'Usage Outlier Details';
+                reportInformations.push(genericReport);
                 break;
             case 'licenses':
                 genericReport.identifier = 'lic-conflicts';
@@ -313,8 +332,26 @@ export class CardDetailsComponent implements OnInit, OnChanges {
             case 'compDetails':
                 genericReport.identifier = 'comp-analyzed';
                 genericReport.name = 'Analyzed Dependency Details';
-                reportInformations.push(genericReport);
+                // reportInformations.push(genericReport);
 
+                compDetails = this.getDirectDependencyDetails(cardType);
+                reportInformations.push(new MReportInformation(
+                    'comp-direct-analyzed',
+                    'Analyzed Direct Dependency Details',
+                    'component',
+                    this.fillColumnHeaders(cardType, 3),
+                    compDetails
+                ));
+                compDetails = this.getTransitiveDependencyDetails(cardType);
+                if(compDetails && compDetails.length > 0){
+                    reportInformations.push(new MReportInformation(
+                        'comp-trans-analyzed',
+                        'Analyzed Transitive Dependency Details',
+                        'component',
+                        this.fillColumnHeaders(cardType, 4),
+                        compDetails
+                    ));
+                }
                 compDetails = this.getUnknownComponentDetails(cardType);
                 reportInformations.push(new MReportInformation(
                     'comp-unknown',
@@ -370,6 +407,53 @@ export class CardDetailsComponent implements OnInit, OnChanges {
             });
         }
         return unknownLicenseComps;
+    }
+
+    private getDirectDependencySecurityDetails(componentDetails: any): Array<MComponentDetails> {
+        let directDependencies: Array<MComponentDetails> = [];
+        componentDetails.forEach(element => {
+            if(!element.componentInformation.hasOwnProperty('transitive') || !element.componentInformation.transitive){
+                directDependencies.push(element)
+            }
+        });
+        return directDependencies;
+    }
+
+    private getTransitiveDependencySecurityDetails(componentDetails: any): Array<MComponentDetails> {
+        let transitiveDependencies: Array<MComponentDetails> = [];
+        componentDetails.forEach(element => {
+            if(element.componentInformation.hasOwnProperty('transitive') && element.componentInformation.transitive &&
+            element.componentInformation.transitive.hasOwnProperty('affected_direct_deps') &&
+            element.componentInformation.transitive.affected_direct_deps instanceof Array && 
+            element.componentInformation.transitive.affected_direct_deps.length>0){
+                transitiveDependencies.push(element)
+            }
+        });
+        return transitiveDependencies;
+    }
+    
+    private getDirectDependencyDetails(cardType: string): Array<MComponentDetails> {
+        let directDependencies: Array<MComponentDetails> = [];
+        let transitiveDependenciesComponents = (this.report && this.report.user_stack_info && this.report.user_stack_info.analyzed_dependencies) || [];
+        transitiveDependenciesComponents.forEach((transDep) => {
+            if(!transDep.hasOwnProperty('transitive') || !transDep['transitive']){
+                directDependencies.push(new MComponentDetails(
+                         this.getComponentInformation(transDep)));
+            }
+        });
+        return directDependencies;
+    }
+
+    private getTransitiveDependencyDetails(cardType: string): Array<MComponentDetails> {
+        let transitiveDependencies: Array<MComponentDetails> = [];
+        let transitiveDependenciesComponents = (this.report && this.report.user_stack_info && this.report.user_stack_info.analyzed_dependencies) || [];
+        transitiveDependenciesComponents.forEach((transDep) => {
+            if(transDep.hasOwnProperty('transitive') && transDep['transitive'].hasOwnProperty('affected_direct_deps') && transDep['transitive']['affected_direct_deps'] instanceof Array && transDep['transitive']['affected_direct_deps'].length>0){
+                transitiveDependencies.push(new MComponentDetails(
+                    this.getComponentInformation(transDep)));
+            }
+        });
+        return transitiveDependencies;
     }
 
     private getUnknownComponentDetails(cardType: string): Array<MComponentDetails> {
@@ -470,6 +554,7 @@ export class CardDetailsComponent implements OnInit, OnChanges {
         if (component) {
             let currentVersion: string = component.version;
             let latestVersion: string = component.latest_version;
+            let transitive: any = component.hasOwnProperty('transitive')?  component['transitive'] : null;
             let github: GithubModel = component.github;
             let hasLicenseIssue: boolean = this.hasLicenseIssue(component);
             let isUsageOutlier: boolean = false;
@@ -563,7 +648,9 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                     this.getConflictingLicense()
                 ),
                 component.ecosystem,
-                this.report.manifest_file_path
+                this.report.manifest_file_path,
+                null,
+                transitive
             );
         }
         return null;
@@ -841,6 +928,28 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                     //     'float-left large'
                     // ));
                     // Ignored for now
+                } else if (tabNo === 3) {
+                    headers.push(new MComponentHeaderColumn(
+                        'componentCheck',
+                        'Dependency Check',
+                        'float-left medium'
+                    ));
+                    headers.push(new MComponentHeaderColumn(
+                        'alternate',
+                        'Alternate Dependencies',
+                        'float-left medium'
+                    ));
+                } else if (tabNo === 4) {
+                    headers.push(new MComponentHeaderColumn(
+                        'componentCheck',
+                        'Dependency Check',
+                        'float-left medium'
+                    ));
+                    headers.push(new MComponentHeaderColumn(
+                        'alternate',
+                        'Alternate Dependencies',
+                        'float-left medium'
+                    ));
                 }
                 break;
             default:
