@@ -756,12 +756,18 @@ export class CardDetailsComponent implements OnInit, OnChanges {
             let securityDetails: MSecurityDetails = null;
             let securityIssues: number = 0;
             let maxIssue: SecurityInformationModel = null,
+            cveList = [],
             temp: SecurityInformationModel = null;
             if (component.security && component.security.length > 0) {
                 securityDetails = new MSecurityDetails();
                 let currSecurity: Array<SecurityInformationModel> = component.security;
                 temp = currSecurity.reduce((a, b) => {
                     return parseFloat(a.CVSS) < parseFloat(b.CVSS) ? b : a;
+                });
+                currSecurity.forEach((cve) => {
+                    if(cveList.indexOf(cve.CVE) === -1){
+                        cveList.push(cve.CVE)
+                    }
                 });
                 if (temp) {
                     if (maxIssue === null || maxIssue.CVSS < temp.CVSS) {
@@ -783,6 +789,7 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                     '',
                     Number(maxIssue.CVSS) * 10
                 );
+                securityDetails.cveList = cveList;
             }
             return securityDetails;
         }

@@ -67,6 +67,14 @@
             </div>
         </div>
     </div>
+    <div class="common-table component-tags">
+        <div class="common-wrapper" *ngIf="component?.securityDetails?.cveList && component?.securityDetails?.cveList?.length > 0">
+            <span class="info-head">CVE ID(s):</span> 
+            <span class="common-container tags-container">
+                <span [innerText]="cve" *ngFor="let cve of component?.securityDetails?.cveList"></span>
+            </span>
+        </div>
+    </div>
     <div class="common-table component-licenses">
         <div class="common-wrapper">
             <span class="info-head">License(s) used: </span>

@@ -83,7 +83,8 @@ export class MSecurityDetails {
     constructor(
         public highestIssue: MSecurityIssue = null,
         public progressReport: MProgressMeter = null,
-        public totalIssues: number = null
+        public totalIssues: number = null,
+        public cveList = []
     ) {}
 }
 

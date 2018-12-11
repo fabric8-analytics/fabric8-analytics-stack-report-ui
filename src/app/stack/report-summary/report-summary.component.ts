@@ -113,11 +113,17 @@ export class ReportSummaryComponent implements OnInit, OnChanges {
             let securityDetails: MSecurityDetails = new MSecurityDetails();
             let securityIssues: number = 0;
             let maxIssue: SecurityInformationModel = null,
+            cveList = [],
             temp: SecurityInformationModel = null;
             if (component.security && component.security.length > 0) {
                 let currSecurity: Array<SecurityInformationModel> = component.security;
                 temp = currSecurity.reduce((a, b) => {
                     return parseFloat(a.CVSS) < parseFloat(b.CVSS) ? b : a;
+                });
+                currSecurity.forEach((cve) => {
+                    if(cveList.indexOf(cve.CVE) === -1){
+                        cveList.push(cve.CVE)
+                    }
                 });
                 if (temp) {
                     if (maxIssue === null || maxIssue.CVSS < temp.CVSS) {
@@ -138,6 +144,7 @@ export class ReportSummaryComponent implements OnInit, OnChanges {
                     '',
                     Number(maxIssue.CVSS) * 10
                 );
+                securityDetails.cveList = cveList;
             }
             securityDetails.totalIssues = securityIssues;
             return securityDetails;
@@ -170,26 +177,46 @@ export class ReportSummaryComponent implements OnInit, OnChanges {
             && this.report.user_stack_info) {
             let userStackInfo: UserStackInfoModel = this.report.user_stack_info;
 
-            let analyzedCount: number, totalCount: number, unknownCount: number;
+            let analyzedCount: number, totalCount: number, unknownCount: number, analyzedTransCount = 0, analyzedDirectCount = 0;
             analyzedCount = userStackInfo.analyzed_dependencies ? userStackInfo.analyzed_dependencies.length : 0;
             totalCount = userStackInfo.dependencies ? userStackInfo.dependencies.length : 0;
             unknownCount = userStackInfo.unknown_dependencies ? userStackInfo.unknown_dependencies.length : totalCount - analyzedCount;
+
+            userStackInfo.analyzed_dependencies.forEach((analyzed) => {
+                if (analyzed.hasOwnProperty('transitive') && analyzed['transitive']) {
+                    analyzedTransCount = analyzedTransCount + 1;
+                } else {
+                    analyzedDirectCount = analyzedDirectCount + 1;
+                }
+            });
 
             let totalEntry: MReportSummaryInfoEntry = new MReportSummaryInfoEntry();
             totalEntry.infoText = 'Total Dependencies';
             totalEntry.infoValue = totalCount;
 
             let analyzedEntry: MReportSummaryInfoEntry = new MReportSummaryInfoEntry();
-            analyzedEntry.infoText = 'Analyzed Dependencies';
-            analyzedEntry.infoValue = analyzedCount;
+            analyzedEntry.infoText = 'Analyzed Direct Dependencies';
+
+
+            let analyzedTransEntry: MReportSummaryInfoEntry = new MReportSummaryInfoEntry();
+            analyzedTransEntry.infoText = 'Analyzed Transitive Dependencies';
+            analyzedTransEntry.infoValue = analyzedTransCount;
 
             let unknownEntry: MReportSummaryInfoEntry = new MReportSummaryInfoEntry();
             unknownEntry.infoText = 'Unknown Dependencies';
             unknownEntry.infoValue = unknownCount;
 
-            componentDetailsCard.reportSummaryContent.infoEntries.push(totalEntry);
-            componentDetailsCard.reportSummaryContent.infoEntries.push(analyzedEntry);
-            componentDetailsCard.reportSummaryContent.infoEntries.push(unknownEntry);
+            if(analyzedTransCount && analyzedTransCount > 0){
+                analyzedEntry.infoValue = analyzedDirectCount;
+                componentDetailsCard.reportSummaryContent.infoEntries.push(analyzedEntry);
+                componentDetailsCard.reportSummaryContent.infoEntries.push(analyzedTransEntry);
+                componentDetailsCard.reportSummaryContent.infoEntries.push(unknownEntry);
+            } else {
+                analyzedEntry.infoValue = analyzedCount;
+                componentDetailsCard.reportSummaryContent.infoEntries.push(totalEntry);
+                componentDetailsCard.reportSummaryContent.infoEntries.push(analyzedEntry);
+                componentDetailsCard.reportSummaryContent.infoEntries.push(unknownEntry);
+            }
         } else {
             // Handle no user dependencies scenario
         }
