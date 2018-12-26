@@ -155,4 +155,5 @@ export class UserStackInfoModel {
     total_licenses: number;
     unknown_dependencies: Array<any>;
     unknown_dependencies_count: number;
+    transitive_count?: number;
 }

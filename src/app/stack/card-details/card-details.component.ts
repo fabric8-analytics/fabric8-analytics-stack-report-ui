@@ -292,7 +292,7 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                     compDetails
                 ));
                 compDetails = this.getTransitiveDependencySecurityDetails(genericReport.componentDetails);
-                if(compDetails && compDetails.length > 0){
+                if (compDetails && compDetails.length > 0) {
                     reportInformations.push(new MReportInformation(
                         'comp-trans-security',
                         'Security Issues In Transitive Dependency',
@@ -342,8 +342,9 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                     this.fillColumnHeaders(cardType, 3),
                     compDetails
                 ));
+                /*
                 compDetails = this.getTransitiveDependencyDetails(cardType);
-                if(compDetails && compDetails.length > 0){
+                if (compDetails && compDetails.length > 0) {
                     reportInformations.push(new MReportInformation(
                         'comp-trans-analyzed',
                         'Analyzed Transitive Dependency Details',
@@ -352,6 +353,7 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                         compDetails
                     ));
                 }
+                */
                 compDetails = this.getUnknownComponentDetails(cardType);
                 reportInformations.push(new MReportInformation(
                     'comp-unknown',
@@ -412,8 +414,8 @@ export class CardDetailsComponent implements OnInit, OnChanges {
     private getDirectDependencySecurityDetails(componentDetails: any): Array<MComponentDetails> {
         let directDependencies: Array<MComponentDetails> = [];
         componentDetails.forEach(element => {
-            if(!element.componentInformation.hasOwnProperty('transitive') || !element.componentInformation.transitive){
-                directDependencies.push(element)
+            if (!element.componentInformation.hasOwnProperty('transitive') || !element.componentInformation.transitive) {
+                directDependencies.push(element);
             }
         });
         return directDependencies;
@@ -422,21 +424,21 @@ export class CardDetailsComponent implements OnInit, OnChanges {
     private getTransitiveDependencySecurityDetails(componentDetails: any): Array<MComponentDetails> {
         let transitiveDependencies: Array<MComponentDetails> = [];
         componentDetails.forEach(element => {
-            if(element.componentInformation.hasOwnProperty('transitive') && element.componentInformation.transitive &&
+            if (element.componentInformation.hasOwnProperty('transitive') && element.componentInformation.transitive &&
             element.componentInformation.transitive.hasOwnProperty('affected_direct_deps') &&
-            element.componentInformation.transitive.affected_direct_deps instanceof Array && 
-            element.componentInformation.transitive.affected_direct_deps.length>0){
-                transitiveDependencies.push(element)
+            element.componentInformation.transitive.affected_direct_deps instanceof Array &&
+            element.componentInformation.transitive.affected_direct_deps.length > 0) {
+                transitiveDependencies.push(element);
             }
         });
         return transitiveDependencies;
     }
-    
+
     private getDirectDependencyDetails(cardType: string): Array<MComponentDetails> {
         let directDependencies: Array<MComponentDetails> = [];
         let transitiveDependenciesComponents = (this.report && this.report.user_stack_info && this.report.user_stack_info.analyzed_dependencies) || [];
         transitiveDependenciesComponents.forEach((transDep) => {
-            if(!transDep.hasOwnProperty('transitive') || !transDep['transitive']){
+            if (!transDep.hasOwnProperty('transitive') || !transDep['transitive']) {
                 directDependencies.push(new MComponentDetails(
                          this.getComponentInformation(transDep)));
             }
@@ -448,7 +450,8 @@ export class CardDetailsComponent implements OnInit, OnChanges {
         let transitiveDependencies: Array<MComponentDetails> = [];
         let transitiveDependenciesComponents = (this.report && this.report.user_stack_info && this.report.user_stack_info.analyzed_dependencies) || [];
         transitiveDependenciesComponents.forEach((transDep) => {
-            if(transDep.hasOwnProperty('transitive') && transDep['transitive'].hasOwnProperty('affected_direct_deps') && transDep['transitive']['affected_direct_deps'] instanceof Array && transDep['transitive']['affected_direct_deps'].length>0){
+            if (transDep.hasOwnProperty('transitive') && transDep['transitive'].hasOwnProperty('affected_direct_deps') &&
+             transDep['transitive']['affected_direct_deps'] instanceof Array && transDep['transitive']['affected_direct_deps'].length > 0) {
                 transitiveDependencies.push(new MComponentDetails(
                     this.getComponentInformation(transDep)));
             }
@@ -554,7 +557,7 @@ export class CardDetailsComponent implements OnInit, OnChanges {
         if (component) {
             let currentVersion: string = component.version;
             let latestVersion: string = component.latest_version;
-            let transitive: any = component.hasOwnProperty('transitive')?  component['transitive'] : null;
+            let transitive: any = component.hasOwnProperty('transitive') ? component['transitive'] : null;
             let github: GithubModel = component.github;
             let hasLicenseIssue: boolean = this.hasLicenseIssue(component);
             let isUsageOutlier: boolean = false;
@@ -765,8 +768,8 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                     return parseFloat(a.CVSS) < parseFloat(b.CVSS) ? b : a;
                 });
                 currSecurity.forEach((cve) => {
-                    if(cveList.indexOf(cve.CVE) === -1){
-                        cveList.push(cve.CVE)
+                    if (cveList.indexOf(cve.CVE) === -1) {
+                        cveList.push(cve.CVE);
                     }
                 });
                 if (temp) {
