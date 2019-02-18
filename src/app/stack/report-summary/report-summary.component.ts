@@ -143,7 +143,7 @@ export class ReportSummaryComponent implements OnInit, OnChanges {
             totalEntry.infoValue = totalCount;
 
             let analyzedEntry: MReportSummaryInfoEntry = new MReportSummaryInfoEntry();
-            analyzedEntry.infoText = 'Analyzed Direct Dependencies';
+            analyzedEntry.infoText = 'Analyzed Dependencies';
 
 
             let analyzedTransEntry: MReportSummaryInfoEntry = new MReportSummaryInfoEntry();
