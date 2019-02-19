@@ -86,11 +86,11 @@ export class CardDetailsComponent implements OnInit, OnChanges {
         },
         [this.cardTypes.LICENSES]: {
             title: 'License details of dependencies in your stack',
-            description: 'A list of stack and dependency level license conflicts, licenses unknown to Openshift.io and suggestions for alternate dependencies to resolve these issues.'
+            description: 'A list of stack and dependency level license conflicts, licenses unknown to Dependency Analytics and suggestions for alternate dependencies to resolve these issues.'
         },
         [this.cardTypes.COMP_DETAILS]: {
             title: 'Dependency details of your manifest file',
-            description: 'A list of all the analyzed dependencies that flags security, usage, and license issues in your stack and suggests alternate dependencies to replace dependencies with these issues. It also lists dependencies unknown to Openshift.io.'
+            description: 'A list of all the analyzed dependencies that flags security, usage, and license issues in your stack and suggests alternate dependencies to replace dependencies with these issues. It also lists dependencies unknown to Dependency Analytics.'
         }
     };
 
