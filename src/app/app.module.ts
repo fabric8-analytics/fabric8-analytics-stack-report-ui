@@ -19,13 +19,11 @@ import { MockAuthenticationService } from './shared/mock-auth.service';
 
 // Imports stackdetailsmodule
 import { StackDetailsModule } from './stack/stack-details/stack-details.module';
-import { UserIntentModule } from './user-intent/user-intent.module';
 
 @NgModule({
   imports: [
     BrowserModule,
     StackDetailsModule,
-    // UserIntentModule,
     FormsModule,
     AppRoutingModule
   ],
