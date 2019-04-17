@@ -13,7 +13,6 @@ import { ComponentInformationComponent } from '../component-information/componen
 import { ComponentDetailsComponent } from '../component-details/component-details.component';
 
 import { ReportInformationComponent } from './report-information.component';
-import { AddWorkFlowService } from '../../stack-details/add-work-flow.service';
 
 import { NoDataComponent } from './no-data/no-data.component';
 
@@ -40,7 +39,7 @@ const imports = [
     declarations: [
         ...components
     ],
-    providers: [ AddWorkFlowService ],
+    providers: [ ],
     exports: [
         ...components
     ]

@@ -1,6 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, Response, Headers, RequestOptions  } from '@angular/http';
-import { AuthenticationService } from 'ngx-login-client';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/operator/map';
@@ -17,13 +16,8 @@ export class ComponentFeedbackService {
 
   constructor(
     private http: Http,
-    private auth: AuthenticationService,
     private stackAnalysisService: StackAnalysesService
-  ) {
-      if (this.auth.getToken() !== null) {
-        this.headers.set('Authorization', 'Bearer ' + this.auth.getToken());
-      }
-  }
+  ) {}
 
   postFeedback(feedback: MComponentFeedback, token?: string): Observable<any> {
     let options = new RequestOptions({ headers: this.headers });

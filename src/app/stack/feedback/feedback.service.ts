@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions  } from '@angular/http';
-import { AuthenticationService } from 'ngx-login-client';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/operator/map';
@@ -9,12 +8,7 @@ import 'rxjs/operator/map';
 export class FeedbackService {
     private headers: Headers = new Headers({'Content-Type': 'application/json'});
     constructor(
-        private http: Http,
-        private auth: AuthenticationService) {
-            if (this.auth.getToken() !== null) {
-                this.headers.set('Authorization', 'Bearer ' + this.auth.getToken());
-            }
-        }
+        private http: Http) {}
 
     public submit(feedback: any): Observable<any> {
         let url: string = 'https://recommender.api.openshift.io/api/v1/user-feedback';
