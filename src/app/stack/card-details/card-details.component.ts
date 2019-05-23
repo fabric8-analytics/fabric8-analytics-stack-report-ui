@@ -501,7 +501,8 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                 g.dependent_repos,
                 g.stargazers_count,
                 g.used_by && g.used_by.length || -1,
-                g.used_by
+                g.used_by,
+                g.refreshed_on
             );
         }
         return github;

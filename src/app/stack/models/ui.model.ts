@@ -57,7 +57,8 @@ export class MGithub {
         public depRepos: number = -1,
         public stars: number = -1,
         public usage: number = -1,
-        public users: Array<any>
+        public users: Array<any>,
+        public lastUpdated: string = 'N/A'
     ) {}
 }
 

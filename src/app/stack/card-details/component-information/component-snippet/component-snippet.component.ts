@@ -31,6 +31,10 @@ export class ComponentSnippetComponent implements OnInit, OnChanges {
         usage: 'Usage'
     };
 
+    public lastUpdatedGH: any = {
+        lastUpdated : 'N/A'
+    };
+
     public osioKeys: any = {
         usage: 'Usage'
     };
@@ -57,10 +61,12 @@ export class ComponentSnippetComponent implements OnInit, OnChanges {
                 let value = '';
                 for (let key in github) {
                     if (key === 'users') continue;
-                    if (github.hasOwnProperty(key)) {
+                    if (github.hasOwnProperty(key) && key !== 'lastUpdated') {
                         value = github[key];
                         value = value && value.toString() === '-1' ? 'NA' : value;
                         this.githubEntries.push({ key: this.githubKeys[key], value: value });
+                    } else if (github.hasOwnProperty(key) && key === 'lastUpdated') {
+                        this.lastUpdatedGH.lastUpdated = github[key];
                     }
                 }
             }

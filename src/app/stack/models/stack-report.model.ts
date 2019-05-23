@@ -91,6 +91,7 @@ export class GithubModel {
     total_releases: number;
     used_by: Array<any>;
     watchers: number;
+    refreshed_on: string;
 }
 
 export class SentimentModel {

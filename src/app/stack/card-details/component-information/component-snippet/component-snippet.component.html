@@ -55,6 +55,16 @@
                 </div>
             </div>
         </div>
+        <div *ngIf="lastUpdatedGH.lastUpdated !== 'N/A'" class= "date-class">
+            <div class="box-header">
+                Last Updated:
+            </div>
+            <div class="info-container left">
+                <div class="side">
+                    <p [innerText]="lastUpdatedGH?.lastUpdated || '-----'"></p>
+                </div>
+            </div>
+        </div>
         <div *ngIf="showOSIOUsage" class="osio put-bar left">
             <div class="box-header">
                 OSIO Statistics:
