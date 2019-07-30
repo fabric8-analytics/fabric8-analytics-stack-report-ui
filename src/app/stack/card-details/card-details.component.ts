@@ -81,7 +81,7 @@ export class CardDetailsComponent implements OnInit, OnChanges {
             description: 'A list of the dependencies affected with common vulnerabilities and exposures (CVE), dependency with the highest common vulnerability score (CVSS), and its CVE ID. You can take corrective actions by reporting the issues.'
         },
         [this.cardTypes.INSIGHTS]: {
-            title: 'Insights on alternate or additional dependencies that can augment your stack',
+            title: 'Complementary dependencies that can augment your stack',
             description: 'A list of dependencies that are not commonly used in similar stacks, suggestions for alternate dependencies to replace them, and suggestions for additional dependencies to complement your stack.'
         },
         [this.cardTypes.LICENSES]: {

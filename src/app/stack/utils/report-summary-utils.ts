@@ -47,8 +47,8 @@ export class ReportSummaryUtils {
             description: 'Dependencies with high common vulnerabilities and exposures (CVE) score.  Click this card to see the details of all CVE(s).'
         },
         [this.cardTypes.INSIGHTS]: {
-            title: 'Insights on alternate or additional dependencies that can augment your stack',
-            description: 'Suggested dependencies that can be added to your application stack or replace current dependencies with alternate one. Click to see details.'
+            title: 'Complementary dependencies that can augment your stack',
+            description: 'Complementary dependencies that can be added to your application stack or replace current dependencies with alternate one. Click to see details.'
         },
         [this.cardTypes.LICENSES]: {
             title: 'License details of dependencies in your stack',
@@ -152,7 +152,7 @@ export class ReportSummaryUtils {
     public getInsightsReportCard(recommendation: RecommendationsModel): MReportSummaryCard {
         let insightsCard: MReportSummaryCard = this.newCardInstance();
         insightsCard.identifier = this.cardTypes.INSIGHTS;
-        insightsCard.reportSummaryTitle.titleText = 'Insights';
+        insightsCard.reportSummaryTitle.titleText = 'Add-ons';
         insightsCard.reportSummaryTitle.titleIcon = 'pficon-zone';
         insightsCard.reportSummaryDescription = this.titleAndDescription[this.cardTypes.INSIGHTS].description;
         insightsCard.reportSummaryContent.infoEntries = [];
@@ -164,7 +164,7 @@ export class ReportSummaryUtils {
             companionCount = recommendation.companion ? recommendation.companion.length : 0;
 
             let totalInsights: MReportSummaryInfoEntry = new MReportSummaryInfoEntry();
-            totalInsights.infoText = 'Total Insights';
+            totalInsights.infoText = 'Total Dependencies';
             totalInsights.infoValue = usageOutliersCount + companionCount;
             insightsCard.reportSummaryContent.infoEntries.push(totalInsights);
 

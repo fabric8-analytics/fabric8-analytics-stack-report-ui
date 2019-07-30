@@ -65,7 +65,7 @@ export class ReportSummaryComponent implements OnInit, OnChanges {
             description: 'OSIO Analytics identifies security issues in your stack. Click this card to see further details of the security tasks affecting your stack.'
         },
         [this.cardTypes.INSIGHTS]: {
-            title: 'Insights on alternate or additional dependencies that can augment your stack',
+            title: 'Complementary dependencies that can augment your stack',
             description: 'OSIO Analytics identifies dependencies that are rarely used in similar stacks, and suggests alternate and additional dependencies that can enhance your stack. Click this card to see detailed suggestions on alternate and additional dependencies.'
         },
         [this.cardTypes.LICENSES]: {

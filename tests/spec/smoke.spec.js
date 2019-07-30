@@ -92,7 +92,7 @@ describe('fabric8-analytics-stack-report-ui', () => {
     
             it('Is title in details for Insights card correct ?', () => {
                 let titleElement = cardDetailsContainer.$$('h2').get(0);
-                expect(titleElement.getText()).toEqual('Insights on alternate or additional dependencies that can augment your stack');
+                expect(titleElement.getText()).toEqual('Complementary dependencies that can augment your stack');
             });
 
             it('Is Component details card highlighted on click ?', () => {
