@@ -286,7 +286,7 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                 compDetails = this.getDirectDependencySecurityDetails(genericReport.componentDetails);
                 reportInformations.push(new MReportInformation(
                     'comp-direct-security',
-                    'Security Issues In Direct Dependency',
+                    'Direct Dependencies with Security Issues',
                     'component',
                     this.fillColumnHeaders(cardType, 2),
                     compDetails
@@ -295,7 +295,7 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                 if (compDetails && compDetails.length > 0) {
                     reportInformations.push(new MReportInformation(
                         'comp-trans-security',
-                        'Security Issues In Transitive Dependency',
+                        'Transitive Dependencies with Security Issues',
                         'component',
                         this.fillColumnHeaders(cardType, 3),
                         compDetails
