@@ -121,50 +121,39 @@ export class ReportSummaryComponent implements OnInit, OnChanges {
         componentDetailsCard.reportSummaryDescription = this.titleAndDescription[this.cardTypes.COMP_DETAILS].description;
         componentDetailsCard.reportSummaryContent.infoEntries = [];
 
-        if (this.report.user_stack_info
-            && this.report.user_stack_info) {
+        if (this.report.user_stack_info) {
             let userStackInfo: UserStackInfoModel = this.report.user_stack_info;
 
-            let totalCount: number, unknownCount: number, analyzedTransCount = 0, analyzedDirectCount = 0;
-            totalCount = userStackInfo.dependencies ? userStackInfo.dependencies.length : 0;
-            unknownCount = userStackInfo.unknown_dependencies ? userStackInfo.unknown_dependencies.length : 0;
+            const unknownCount: number = userStackInfo.unknown_dependencies_count;
+            const totalCount: number = unknownCount + userStackInfo.analyzed_dependencies_count;
+            const analyzedDirectCount: number = userStackInfo.analyzed_dependencies.filter(d => !d.hasOwnProperty('transitive')).length;
+            const analyzedTransCount: number = userStackInfo.hasOwnProperty('transitive_count') ? userStackInfo.transitive_count : -1;
+            const isTransitiveSupported: boolean = analyzedTransCount >= 0;
 
-            if (userStackInfo && userStackInfo.hasOwnProperty('transitive_count')) {
-                analyzedTransCount = userStackInfo.transitive_count;
-            }
-            userStackInfo.analyzed_dependencies.forEach((analyzed) => {
-                if (!analyzed.hasOwnProperty('transitive')) {
-                    analyzedDirectCount = analyzedDirectCount + 1;
-                }
-            });
-
-            let totalEntry: MReportSummaryInfoEntry = new MReportSummaryInfoEntry();
-            totalEntry.infoText = 'Total Dependencies';
-            totalEntry.infoValue = totalCount;
-
-            let analyzedEntry: MReportSummaryInfoEntry = new MReportSummaryInfoEntry();
+            const analyzedEntry: MReportSummaryInfoEntry = new MReportSummaryInfoEntry();
             analyzedEntry.infoText = 'Analyzed Dependencies';
+            analyzedEntry.infoValue = analyzedDirectCount;
 
-
-            let analyzedTransEntry: MReportSummaryInfoEntry = new MReportSummaryInfoEntry();
-            analyzedTransEntry.infoText = 'Analyzed Transitive Dependencies';
-            analyzedTransEntry.infoValue = analyzedTransCount;
-
-            let unknownEntry: MReportSummaryInfoEntry = new MReportSummaryInfoEntry();
+            const unknownEntry: MReportSummaryInfoEntry = new MReportSummaryInfoEntry();
             unknownEntry.infoText = 'Unknown Dependencies';
             unknownEntry.infoValue = unknownCount;
 
-            if (analyzedTransCount && analyzedTransCount > 0) {
-                analyzedEntry.infoValue = analyzedDirectCount;
+            if (isTransitiveSupported) {
+                const analyzedTransEntry: MReportSummaryInfoEntry = new MReportSummaryInfoEntry();
+                analyzedTransEntry.infoText = 'Analyzed Transitive Dependencies';
+                analyzedTransEntry.infoValue = analyzedTransCount;
+
                 componentDetailsCard.reportSummaryContent.infoEntries.push(analyzedEntry);
                 componentDetailsCard.reportSummaryContent.infoEntries.push(analyzedTransEntry);
-                componentDetailsCard.reportSummaryContent.infoEntries.push(unknownEntry);
             } else {
-                analyzedEntry.infoValue = analyzedDirectCount;
+                const totalEntry: MReportSummaryInfoEntry = new MReportSummaryInfoEntry();
+                totalEntry.infoText = 'Total Dependencies';
+                totalEntry.infoValue = totalCount;
+
                 componentDetailsCard.reportSummaryContent.infoEntries.push(totalEntry);
                 componentDetailsCard.reportSummaryContent.infoEntries.push(analyzedEntry);
-                componentDetailsCard.reportSummaryContent.infoEntries.push(unknownEntry);
             }
+            componentDetailsCard.reportSummaryContent.infoEntries.push(unknownEntry);
         } else {
             // Handle no user dependencies scenario
         }
