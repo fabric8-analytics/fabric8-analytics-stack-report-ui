@@ -283,23 +283,27 @@ export class CardDetailsComponent implements OnInit, OnChanges {
                 genericReport.name = 'Security Issues';
                 // reportInformations.push(genericReport);
 
-                compDetails = this.getDirectDependencySecurityDetails(genericReport.componentDetails);
+                const effectedDirects: Array<MComponentDetails> = this.getDirectDependencySecurityDetails(genericReport.componentDetails);
                 reportInformations.push(new MReportInformation(
                     'comp-direct-security',
                     'Direct Dependencies with Security Issues',
                     'component',
                     this.fillColumnHeaders(cardType, 2),
-                    compDetails
+                    effectedDirects
                 ));
-                compDetails = this.getTransitiveDependencySecurityDetails(genericReport.componentDetails);
-                if (compDetails && compDetails.length > 0) {
-                    reportInformations.push(new MReportInformation(
-                        'comp-trans-security',
-                        'Transitive Dependencies with Security Issues',
-                        'component',
-                        this.fillColumnHeaders(cardType, 3),
-                        compDetails
-                    ));
+                const effectedTransitives: Array<MComponentDetails> = this.getTransitiveDependencySecurityDetails(genericReport.componentDetails);
+                if (effectedTransitives && effectedTransitives.length > 0) {
+                    // filter-out transitives which is also listed as direct
+                    const effectedPureTransitives = effectedTransitives.filter(t => !effectedDirects.find(d => (d.componentInformation.name === t.componentInformation.name && d.componentInformation.currentVersion === t.componentInformation.currentVersion)));
+                    if (effectedPureTransitives.length > 0) {
+                        reportInformations.push(new MReportInformation(
+                            'comp-trans-security',
+                            'Transitive Dependencies with Security Issues',
+                            'component',
+                            this.fillColumnHeaders(cardType, 3),
+                            effectedPureTransitives
+                        ));
+                    }
                 }
                 break;
             case 'insights':

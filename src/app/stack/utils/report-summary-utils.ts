@@ -87,7 +87,17 @@ export class ReportSummaryUtils {
                 temp: SecurityInformationModel = null;
 
             let analyzedDependencies: Array<ComponentInformationModel>;
-            analyzedDependencies = userStackInfo.analyzed_dependencies;
+
+            // filter-out transitives which is also listed as direct
+            const uniqueDependencies: Set<string> = new Set<string>();
+            analyzedDependencies = userStackInfo.analyzed_dependencies.filter(info => {
+                const key:string = `${info.name}+${info.version}`;
+                if (uniqueDependencies.has(key)) {
+                    return false;
+                }
+                uniqueDependencies.add(key);
+                return true;
+            });
             analyzedDependencies.forEach((analyzed) => {
                 if (analyzed.security && analyzed.security.length > 0) {
                     let currSecurity: Array<SecurityInformationModel> = analyzed.security;
