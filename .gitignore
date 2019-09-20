@@ -66,6 +66,5 @@ target/
 # NPM #
 
 npm-debug.log*
-package-lock.json
 
 .history
