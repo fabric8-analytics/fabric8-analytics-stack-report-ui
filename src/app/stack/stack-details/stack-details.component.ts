@@ -320,32 +320,36 @@ export class StackDetailsComponent implements OnChanges {
                     }
                     console.log(title);
                 });
-
-            let resultDetails = this.tokenDetail.status;
-
-            switch (resultDetails.toLowerCase()) {
-                case 'freetier':
-                    this.tokenAlertsMessage = 'Unregistered'
-                    this.tokenAlertType = 'yellow';
-                    break;
-                case 'registered':
-                    this.tokenAlertsMessage = 'Registered'
-                    this.tokenAlertType = 'green';
-                    break;
-                case 'expired':
-                    this.tokenAlertsMessage = 'Token Expired'
-                    this.tokenAlertType = 'yellow';
-                    break;
-                default:
-                    break;
-            }
+                this.setInfoStatus();
         } else {
             return;
         }
     }
 
+    setInfoStatus() {
+        let resultDetails = this.tokenDetail.status;
+        switch (resultDetails.toLowerCase()) {
+            case 'freetier':
+                this.tokenAlertsMessage = 'Unregistered'
+                this.tokenAlertType = 'yellow';
+                break;
+            case 'registered':
+                this.tokenAlertsMessage = 'Registered'
+                this.tokenAlertType = 'green';
+                break;
+            case 'expired':
+                this.tokenAlertsMessage = 'Token Expired'
+                this.tokenAlertType = 'yellow';
+                break;
+            default:
+                break;
+        }
+    }
+
     openModal(template: TemplateRef<any>) {
         this.token = '';
+        this.setInfoStatus();
+        this.checkToken()
         this.modalRef = this.modalService.show(template);
     }
 
