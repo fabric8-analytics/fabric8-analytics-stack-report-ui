@@ -78,7 +78,7 @@
         </div>
     </div>
 
-    <div *ngIf="view === 'normal' && !component.isTransitive && tabType =='compDetails'" class="github-osio-box">
+    <div *ngIf="view === 'normal' && tabType =='compDetails'" class="github-osio-box">
         <div class="github left">
             <div class="box-header">
                 GitHub Statistics:
@@ -121,14 +121,11 @@
                 <span class="info-head">Vulnerabilities:</span>
                 <span class="common-container">
                     <span *ngFor="let cve of component?.public_vulnerabilities" class="wrapper">
-                        <!-- <span class="severity"
-                        [ngClass]="{'critical':cve.severity == 'critical', 'high':cve.severity == 'high','medium':cve.severity == 'medium','low':cve.severity == 'low'}"> -->
+                       
                         <span *ngIf="cve.severity == 'critical'" class="circle critical" [innerText]="'C'"></span>
                         <span *ngIf="cve.severity == 'high'" class="circle high" [innerText]="'H'"></span>
                         <span *ngIf="cve.severity == 'medium'" class="circle medium" [innerText]="'M'"></span>
                         <span *ngIf="cve.severity == 'low'" class="circle low" [innerText]="'L'"></span>
-                        <!-- <span [innerText]="cve.severity"></span> -->
-                        <!-- </span> -->
                         <span class="custom-tooltip name"><a [href]="getUrl(cve.url, tabType)"
                                 target="_blank">{{cve.title}}</a>
                             <div class="custom-tooltip-wrapper">
@@ -147,7 +144,7 @@
                             </div>
                         </span>
                     </span>
-                    <a class="name" *ngIf="component?.private_vulnerabilities?.length>0"
+                    <a class="name" *ngIf="component?.private_vulnerabilities?.length > 0"
                         [href]="getUrl(component.url, tabType, component?.registrationStatus)" target="_blank"
                         title="command/ctrl + click">
                         Sign up with Snyk
