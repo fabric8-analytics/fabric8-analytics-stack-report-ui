@@ -171,9 +171,11 @@ export class ReportSummaryComponent implements OnChanges {
         let cards: Array<MReportSummaryCard> = [];
         if (this.report) {
             cards[0] = this.getSecurityReportCard();
-            cards[1] = this.getComponentDetailsReportCard();
-            cards[2] = this.getLicensesReportCard();
-            cards[3] = this.getInsightsReportCard();
+            if (this.report.user_stack_info.ecosystem != "golang"){
+                cards[1] = this.getComponentDetailsReportCard();
+                cards[2] = this.getLicensesReportCard();
+                cards[3] = this.getInsightsReportCard();
+            }
         }
         this.reportSummaryCards = cards;
         // Select the first card by default

@@ -45,12 +45,12 @@
                     <div
                         *ngIf="component?.public_vulnerabilities?.length > 0 || component?.private_vulnerabilities?.length > 0; else Latest_Version">
                         <p>Recommended Version</p>
-                        <p class="info-head" [innerText]="component?.recommended_version">
+                        <p class="info-head" [innerText]="component?.recommended_version || 'N/A'">
                         </p>
                     </div>
                     <ng-template #Latest_Version>
                         <p>Latest Version</p>
-                        <p class="info-head" [innerText]="component?.latestVersion">
+                        <p class="info-head" [innerText]="component?.latestVersion || 'N/A'">
                         </p>
                     </ng-template>
                 </div>
@@ -108,15 +108,12 @@
                                     <span class="url"><a [href]="getUrl(cve.url, tabType, 'freetier')" target="_blank"
                                             [innerText]="cve.id"></a></span>
                                 </div>
-                                <div class="footer no-wrap">
-                                    <span class="click">(cmd/ctrl + click)</span>
-                                </div>
                             </div>
                         </span>
                     </span>
                     <a class="name" *ngIf="component?.private_vulnerabilities?.length > 0"
                         [href]="this.generateUrl.registrationURL" target="_blank"
-                        title="command/ctrl + click">
+                        >
                         Sign up with Snyk
                     </a>
                 </span>
@@ -133,7 +130,7 @@
                                 <span *ngIf="cve.severity == 'high'" class="md-chip-icon high" [innerText]="'H'"></span>
                                 <span *ngIf="cve.severity == 'medium'" class="md-chip-icon medium" [innerText]="'M'"></span>
                                 <span *ngIf="cve.severity == 'low'" class="md-chip-icon low" [innerText]="'L'"></span>
-                              <span> {{cve.exploit}} </span>
+                              <span> {{renameExploit(cve.exploit)}} </span>
                             </span>
                         </span>
                         <span class="custom-tooltip name"><a [href]="getUrl(cve.url, tabType, component?.registrationStatus)"
@@ -147,9 +144,6 @@
                                     <span class="head">Snyk ID:</span>
                                     <span class="url"><a [href]="getUrl(cve.url, tabType, component?.registrationStatus)" target="_blank"
                                             [innerText]="cve.id"></a></span>
-                                </div>
-                                <div class="footer no-wrap">
-                                    <span class="click">(cmd/ctrl + click)</span>
                                 </div>
                             </div>
                         </span>
@@ -162,7 +156,7 @@
                                 <span *ngIf="cve.severity == 'high'" class="md-chip-icon high" [innerText]="'H'"></span>
                                 <span *ngIf="cve.severity == 'medium'" class="md-chip-icon medium" [innerText]="'M'"></span>
                                 <span *ngIf="cve.severity == 'low'" class="md-chip-icon low" [innerText]="'L'"></span>
-                              <span> {{cve.exploit}} </span>
+                              <span> {{renameExploit(cve.exploit)}} </span>
                             </span>
                         </span>
                         <span class="custom-tooltip name"><a [href]="getUrl(cve.url, tabType, component?.registrationStatus)"
@@ -176,9 +170,6 @@
                                     <span class="head">Snyk ID:</span>
                                     <span class="url"><a [href]="getUrl(cve.url, tabType, component?.registrationStatus)" target="_blank"
                                             [innerText]="cve.id"></a></span>
-                                </div>
-                                <div class="footer no-wrap">
-                                    <span class="click">(cmd/ctrl + click)</span>
                                 </div>
                             </div>
                         </span>
@@ -211,9 +202,6 @@
                                     <span class="url"><a [href]="getUrl(cve.url, tabType)" target="_blank"
                                             [innerText]="cve.id"></a></span>
                                 </div>
-                                <div class="footer no-wrap">
-                                    <span class="click">(cmd/ctrl + click)</span>
-                                </div>
                             </div>
                         </span>
                     </span>
@@ -222,7 +210,7 @@
                         <span>
                             <img src="/assets/icon/snyk-avatar.png" alt="snyk-avatar" class="avatar" />
                         </span>
-                        <a [href]="this.generateUrl.registrationURL" target="_blank" title="command/ctrl + click"
+                        <a [href]="this.generateUrl.registrationURL" target="_blank"
                             class="branding-url">
                             Sign up for a free Snyk account
                         </a>
@@ -238,7 +226,7 @@
                     <span>
                         <img src="/assets/icon/snyk-avatar.png" alt="snyk-avatar" class="avatar" />
                     </span>
-                    <a [href]="this.generateUrl.registrationURL" target="_blank" title="command/ctrl + click"
+                    <a [href]="this.generateUrl.registrationURL" target="_blank"
                         class="branding-url">
                         Sign up for a free Snyk account
                     </a>
@@ -258,7 +246,7 @@
                                 <span *ngIf="cve.severity == 'high'" class="md-chip-icon high" [innerText]="'H'"></span>
                                 <span *ngIf="cve.severity == 'medium'" class="md-chip-icon medium" [innerText]="'M'"></span>
                                 <span *ngIf="cve.severity == 'low'" class="md-chip-icon low" [innerText]="'L'"></span>
-                              <span> {{cve.exploit}} </span>
+                              <span> {{renameExploit(cve.exploit)}} </span>
                             </span>
                         </span>
                         <span class="custom-tooltip name"><a [href]="getUrl(cve.url, tabType)"
@@ -272,9 +260,6 @@
                                     <span class="head">Snyk ID:</span>
                                     <span class="url"><a [href]="getUrl(cve.url, tabType)" target="_blank"
                                             [innerText]="cve.id"></a></span>
-                                </div>
-                                <div class="footer no-wrap">
-                                    <span class="click">(cmd/ctrl + click)</span>
                                 </div>
                             </div>
                         </span>
@@ -293,7 +278,7 @@
                             <span *ngIf="cve.severity == 'high'" class="md-chip-icon high" [innerText]="'H'"></span>
                             <span *ngIf="cve.severity == 'medium'" class="md-chip-icon medium" [innerText]="'M'"></span>
                             <span *ngIf="cve.severity == 'low'" class="md-chip-icon low" [innerText]="'L'"></span>
-                          <span> {{cve.exploit}} </span>
+                          <span> {{renameExploit(cve.exploit)}} </span>
                         </span>
                     </span>
                     <span class="custom-tooltip name"><a [href]="getUrl(cve.url, tabType, component?.registrationStatus)"
@@ -307,9 +292,6 @@
                                 <span class="head">Snyk ID:</span>
                                 <span class="url"><a [href]="getUrl(cve.url, tabType, component?.registrationStatus)" target="_blank"
                                         [innerText]="cve.id"></a></span>
-                            </div>
-                            <div class="footer no-wrap">
-                                <span class="click">(cmd/ctrl + click)</span>
                             </div>
                         </div>
                     </span>
