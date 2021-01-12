@@ -1,10 +1,19 @@
 = Fabric8 Analytics Stack Report
 
-image:https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic%20release-b4d455.svg[Semantic Release, link="https://github.com/semantic-release/semantic-release"]
-image:https://ci.centos.org/job/devtools-fabric8-analytics-stack-report-ui-f8a-build-master/badge/icon[Build status, link="https://ci.centos.org/job/devtools-fabric8-analytics-stack-report-ui-f8a-build-master/"]
+<p align="center">
+    <a alt="Semantic Release" href="https://github.com/semantic-release/semantic-release">
+        <img alt="Semantic Release" src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic%20release-b4d455.svg">
+    </a>
+    <a href="https://github.com/fabric8-analytics/fabric8-analytics-stack-report-ui/actions?query=workflow%3ACI">
+        <img alt="CI" src="https://github.com/fabric8-analytics/fabric8-analytics-stack-report-ui/workflows/CI/badge.svg?branch=master">
+    </a>
+      <a href="https://codecov.io/gh/fabric8-analytics/fabric8-analytics-stack-report-ui">
+        <img src="https://codecov.io/gh/fabric8-analytics/fabric8-analytics-stack-report-ui/branch/master/graph/badge.svg?token=qi833miGbI"/>
+      </a>
+</p>
 
 **Fabric8 Analytics Stack Report is a stack analysis feature.** 
- 
+
 == Running the app 
  
 === Set NODE_ENV
