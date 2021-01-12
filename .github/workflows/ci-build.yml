@@ -23,6 +23,8 @@ jobs:
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         file: ./coverage/coverage.txt
+    - name: Run Docker Build
+      run: docker build --no-cache -t tests-image -f Dockerfile .
   openshift-yaml-validate:
     runs-on: ubuntu-latest
     steps:
@@ -37,11 +39,6 @@ jobs:
       uses: instrumenta/kubeval-action@master
       with:
           files: blueprint.yaml
-  Build-docker-image:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Run Docker Build
-      run: docker build --no-cache -t tests-image -f Dockerfile .
+
 
   
