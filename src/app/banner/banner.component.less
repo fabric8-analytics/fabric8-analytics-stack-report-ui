@@ -1,5 +1,5 @@
 .bg {
-  background-image: url('../../assets/img/rh-bg.jpg');
+  background-image: url('../../assets/img/bg.png');
   filter: blur(8px);
   -webkit-filter: blur(8px);
   height: 850px;
@@ -21,9 +21,12 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
-  width: 40%;
+  width: 60%;
   padding: 20px;
   text-align: center;
+  &:hover {
+    box-shadow: 0 16px 24px 0 rgba(0, 0, 0, .2);
+  }
 }
 
 .text {
@@ -31,7 +34,7 @@
     .heading {
         font-size: 2em;
         margin: .5em;
-        color: rgb(255, 255, 255);
+        color: black;
     }
     .content {
         font-size: 1.2em;
