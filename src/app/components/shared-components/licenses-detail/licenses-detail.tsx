@@ -48,7 +48,7 @@ const Licenses = ({ conflicts, unknown }: LicensesProps) => {
             <Split hasGutter>
               <SplitItem>License conflicts:</SplitItem>
               <SplitItem>
-                <Title headingLevel="h6" size="md">
+                <Title id="confilcts" headingLevel="h6" size="md">
                   {conflicts}
                 </Title>
               </SplitItem>
@@ -60,7 +60,7 @@ const Licenses = ({ conflicts, unknown }: LicensesProps) => {
             <Split hasGutter>
               <SplitItem>Unknown licenses:</SplitItem>
               <SplitItem>
-                <Title headingLevel="h6" size="md">
+                <Title id="unknown" headingLevel="h6" size="md">
                   {unknown}
                 </Title>
               </SplitItem>

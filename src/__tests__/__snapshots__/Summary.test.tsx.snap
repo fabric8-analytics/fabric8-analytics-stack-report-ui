@@ -1,0 +1,236 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Summary Card components Unit Tests  I Should be able to render the licenses component 1`] = `
+<div>
+  <Flex
+    direction={
+      Object {
+        "default": "column",
+      }
+    }
+    display={
+      Object {
+        "default": "inlineFlex",
+      }
+    }
+    key="1"
+  >
+    <FlexItem
+      spacer={
+        Object {
+          "default": "spacerXs",
+        }
+      }
+    >
+      <Split
+        hasGutter={true}
+      >
+        <SplitItem>
+          <FileAltIcon
+            className="icon-class"
+            color="currentColor"
+            noVerticalAlign={false}
+            size="sm"
+          />
+        </SplitItem>
+        <SplitItem>
+          <Title
+            headingLevel="h6"
+            size="md"
+          >
+            Licences
+          </Title>
+        </SplitItem>
+        <SplitItem>
+          <ExclamationCircleIcon
+            className="icon-class-exclamation"
+            color="currentColor"
+            noVerticalAlign={false}
+            size="sm"
+          />
+        </SplitItem>
+      </Split>
+    </FlexItem>
+  </Flex>
+  <Flex
+    direction={
+      Object {
+        "default": "column",
+      }
+    }
+    key="2"
+  >
+    <FlexItem
+      spacer={
+        Object {
+          "default": "spacerXs",
+        }
+      }
+    >
+      <Split
+        hasGutter={true}
+      >
+        <SplitItem>
+          License conflicts:
+        </SplitItem>
+        <SplitItem>
+          <Title
+            headingLevel="h6"
+            id="confilcts"
+            size="md"
+          >
+            7
+          </Title>
+        </SplitItem>
+      </Split>
+    </FlexItem>
+    <FlexItem
+      spacer={
+        Object {
+          "default": "spacerXs",
+        }
+      }
+    >
+      <Split
+        hasGutter={true}
+      >
+        <SplitItem>
+          Unknown licenses:
+        </SplitItem>
+        <SplitItem>
+          <Title
+            headingLevel="h6"
+            id="unknown"
+            size="md"
+          >
+            8
+          </Title>
+        </SplitItem>
+      </Split>
+    </FlexItem>
+  </Flex>
+</div>
+`;
+
+exports[`Summary Card components Unit Tests  Should be able to render the Summary Card component 1`] = `
+<Card
+  className="GridCard"
+  isFullHeight={true}
+  isHoverable={true}
+>
+  <CardTitle
+    className=""
+  >
+    <Flex>
+      <FlexItem>
+        <TextContent>
+          <Text
+            className="heading"
+          >
+             Summary of the stack 
+          </Text>
+        </TextContent>
+      </FlexItem>
+      <FlexItem>
+        <BTSynktoken
+          isUUID={false}
+        />
+      </FlexItem>
+      <FlexItem
+        align={
+          Object {
+            "default": "alignRight",
+          }
+        }
+      >
+        <ShareSquareIcon
+          className="icon-class"
+          color="currentColor"
+          noVerticalAlign={false}
+          size="sm"
+        />
+      </FlexItem>
+      <FlexItem>
+        <DownloadIcon
+          className="icon-class"
+          color="currentColor"
+          noVerticalAlign={false}
+          size="sm"
+        />
+      </FlexItem>
+    </Flex>
+  </CardTitle>
+  <Divider />
+  <CardBody>
+    <PoweredBySynk />
+    <SignUp
+      isUUID={false}
+    />
+    <br />
+    <Grid
+      hasGutter={true}
+      span={12}
+      xl={6}
+      xl2={6}
+    >
+      <GridItem
+        lg={6}
+        md={6}
+        sm={12}
+      >
+        <Dependency
+          analyzed={0}
+          transitive={0}
+          unknown={0}
+        />
+      </GridItem>
+      <GridItem
+        lg={6}
+        md={6}
+        sm={12}
+      >
+        <Security
+          vulnerable={0}
+          vulnerablities={0}
+        />
+      </GridItem>
+    </Grid>
+    <br />
+    <Divider
+      component="div"
+    />
+    <br />
+    <Grid
+      hasGutter={true}
+      span={12}
+      xl={6}
+      xl2={6}
+    >
+      <GridItem
+        lg={6}
+        md={6}
+        rowSpan={4}
+        sm={12}
+      >
+        <Licenses
+          conflicts={0}
+          unknown={0}
+        />
+      </GridItem>
+      <GridItem
+        lg={6}
+        md={6}
+        rowSpan={4}
+        sm={12}
+      >
+        <Addons
+          companion={0}
+        />
+      </GridItem>
+    </Grid>
+  </CardBody>
+  <Divider
+    component="div"
+  />
+</Card>
+`;

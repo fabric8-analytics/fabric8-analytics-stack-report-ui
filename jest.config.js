@@ -9,6 +9,16 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest',
   },
 
+  snapshotSerializers: [
+    "enzyme-to-json/serializer"
+  ],
+  setupFilesAfterEnv: [
+    "./src/setupTests.ts",
+    "./node_modules/jest-enzyme/lib/index.js",
+    "@testing-library/jest-dom/extend-expect"
+  ],
+  testEnvironment: "enzyme",
+  
   // Runs special logic, such as cleaning up components
   // when using React Testing Library and adds special
   // extended assertions to Jest
