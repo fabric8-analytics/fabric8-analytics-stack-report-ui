@@ -1,6 +1,7 @@
+/* eslint-disable global-require */
 import React from "react";
 import { Split, SplitItem } from "@patternfly/react-core";
-import logo from "src/app/images/snyk.png";
+import logo from "./snyk.png";
 
 const PoweredBySynk = () => {
   return (
