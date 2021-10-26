@@ -45,9 +45,11 @@ jobs:
       - name: SEE NODE ENV
         run: echo $NODE_ENV
       - name: Install requirements
-        run: npm ci
+        run: npm install
+      - name: Install Dev
+        run: npm install --only=dev
       - name: Run Unit tests
-        run: npm run coverage
+        run: npm run coverage --verbose
       - name: Lcov Coverage Report
         uses: vebr/jest-lcov-reporter@v0.2.0
         with:
