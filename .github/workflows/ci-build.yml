@@ -45,5 +45,18 @@ jobs:
       - name: Install requirements
         run: npm install -g yarn && yarn
       - name: Run Unit tests
-        run: yarn test
+        run: yarn coverage
+      - name: Lcov Coverage Report
+        uses: vebr/jest-lcov-reporter@v0.2.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          lcov-file: ./coverage/lcov.info
+      - name: Codecov Coverage Report
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} 
+          files: ./coverage/lcov.info, ./coverage/clover.xml 
+          flags: unittests
+
+
 

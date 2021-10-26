@@ -1,6 +1,6 @@
 import React from "react";
 import { Split, SplitItem } from "@patternfly/react-core";
-import logo from "../../../images/snyk.png";
+import logo from "src/app/images/snyk.png";
 
 const PoweredBySynk = () => {
   return (
