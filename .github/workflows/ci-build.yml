@@ -49,7 +49,7 @@ jobs:
       - name: Install Dev
         run: npm install --only=dev
       - name: Run Unit tests
-        run: npm run coverage --verbose
+        run: npm run coverage --verbose --ci --config=jest.config.js
       - name: Lcov Coverage Report
         uses: vebr/jest-lcov-reporter@v0.2.0
         with:
