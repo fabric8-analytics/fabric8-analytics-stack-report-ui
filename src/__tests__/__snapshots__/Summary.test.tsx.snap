@@ -869,7 +869,7 @@ exports[`Summary Card components Unit Tests  I should be able to render the snyk
       alt="snyk"
       className="bitmap"
       id="imgHome"
-      src="test-file-stub"
+      src="https://i.ibb.co/4pq8L4M/snyk.png"
     />
   </SplitItem>
 </Split>

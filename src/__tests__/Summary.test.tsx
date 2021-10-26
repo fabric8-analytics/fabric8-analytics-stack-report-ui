@@ -16,7 +16,6 @@ import Addons from "../app/components/shared-components/addons-detail/addons-det
 describe("Summary Card components Unit Tests ", () => {
   test("Should be able to render the Summary Card component", async () => {
     GetStackDetails("5264cdab4838457d9c7ce2a420039dd2", "valid-uuid");
-    jest.mock('./snyk.png', ()=> 'hello')
     const component = shallow(<SummaryCard />);
     expect(component).toMatchSnapshot();
   });
@@ -55,7 +54,6 @@ describe("Summary Card components Unit Tests ", () => {
   });
   describe("I should be able to render the snyk logo", () => {
     test("Render Powered By Snyk Component", async () => {
-      jest.mock('./snyk.png', ()=> 'hello')
       const component = shallow(<PoweredBySynk />);
       expect(toJson(component)).toMatchSnapshot();
       console.log(toJson(component.find("#imgHome")));
