@@ -56,7 +56,7 @@ describe("Summary Card components Unit Tests ", () => {
     test("Render Powered By Snyk Component", async () => {
       const component = shallow(<PoweredBySynk />);
       expect(toJson(component)).toMatchSnapshot();
-      console.log(component.find)
+      console.log(toJson(component.find("#imgHome")));
       expect(toJson(component.find("#imgHome"))).toBeDefined();
     });
   });
