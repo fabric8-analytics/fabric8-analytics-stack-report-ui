@@ -45,7 +45,7 @@ jobs:
       - name: Install requirements
         run: npm install
       - name: Run Unit tests
-        run: npm run coverage --verbose --ci --config=jest.config.js
+        run: npm run coverage 
       - name: Codecov Coverage Report
         uses: codecov/codecov-action@v2
         with:
