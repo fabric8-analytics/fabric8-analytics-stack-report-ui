@@ -42,10 +42,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14.x
+      - name: SEE NODE ENV
+        run: echo $NODE_ENV
       - name: Install requirements
-        run: npm install -g yarn && yarn
+        run: npm ci
       - name: Run Unit tests
-        run: yarn coverage
+        run: npm run coverage
       - name: Lcov Coverage Report
         uses: vebr/jest-lcov-reporter@v0.2.0
         with:
