@@ -52,13 +52,14 @@ describe("Summary Card components Unit Tests ", () => {
       expect(toJson(component.find("#warning-conflicts-unknown"))).toBe(null);
     });
   });
-  /* describe("I should be able to render the snyk logo", () => {
+  describe("I should be able to render the snyk logo", () => {
     test("Render Powered By Snyk Component", async () => {
       const component = shallow(<PoweredBySynk />);
       expect(toJson(component)).toMatchSnapshot();
+      console.log(component.find)
       expect(toJson(component.find("#imgHome"))).toBeDefined();
     });
-  }); */
+  });
   describe("I should be able to render the security component", () => {
     test("Render Basic Security component", async () => {
       const SecurityProps = { vulnerablities: 5, vulnerable: 3 };
