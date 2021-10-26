@@ -3,7 +3,7 @@ import useGlobalState from "./useGlobalState";
 import Context from "./context";
 
 type GlobalStateProviderProps = {
-  children: React.ReactNode;
+  children: React.ReactNode,
 };
 
 function GlobalStateProvider({ children }: GlobalStateProviderProps) {

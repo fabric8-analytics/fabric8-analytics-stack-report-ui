@@ -22,16 +22,16 @@ import { RegisterUser, GetStackDetails } from "../../../utils/apiCalls";
 import Context from "../../../store/context";
 
 type Signprop = {
-  isUUID: boolean;
+  isUUID: boolean,
 };
 
 type State = {
-  isModalOpen: boolean;
+  isModalOpen: boolean,
 };
 
 type Modalprops = {
-  isModalOpen: boolean;
-  handleToggle: () => void;
+  isModalOpen: boolean,
+  handleToggle: () => void,
 };
 
 function reset(handleToggle: any, setError: any, setTokenValue: any) {
@@ -191,6 +191,7 @@ const BTSynktoken = ({ isUUID }: Signprop) => {
           icon={<ExclamationTriangleIcon />}
           iconPosition="right"
           className="warningbtn"
+          id="yellow-sign-btn"
           isSmall
           variant="warning"
           onClick={() => setModalValue(!isModalOpen)}
@@ -211,6 +212,7 @@ const BTSynktoken = ({ isUUID }: Signprop) => {
         iconPosition="right"
         className="mybutton"
         isSmall
+        id="green-sign-btn"
         variant="warning"
         onClick={() => setModalValue(!isModalOpen)}
       >

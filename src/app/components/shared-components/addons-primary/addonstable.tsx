@@ -56,18 +56,18 @@ const FeedbackButtons = (data: any, name: string) => {
 };
 
 type tableProps = {
-  setDrawerState: any;
-  drawerSta: boolean;
-  rowData: any;
-  setDrawerData: any;
+  setDrawerState: any,
+  drawerSta: boolean,
+  rowData: any,
+  setDrawerData: any,
 };
 
 const GenerateRows = (data: any) => {
   const rowsData: (
-    | { title: JSX.Element; drawer: any }
-    | { title: JSX.Element; drawer?: any }
+    | { title: JSX.Element, drawer: any }
+    | { title: JSX.Element, drawer?: any }
   )[][] = [];
-  data.forEach((element: { name: string; drawer: any; progress: number }) => {
+  data.forEach((element: { name: string, drawer: any, progress: number }) => {
     const result = [
       { title: TextTable(element.name), drawer: element.drawer },
       { title: ProgressBar(element.progress) },

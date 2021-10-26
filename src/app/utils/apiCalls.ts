@@ -10,8 +10,8 @@ import {
 import { Logger } from "./logger";
 
 type ApiResponse = {
-  code: number;
-  data: any;
+  code: number,
+  data: any,
 };
 
 async function GetStackDetails(
@@ -65,8 +65,8 @@ async function getStatus(uuid: string) {
 }
 
 type Register = {
-  code: number;
-  data: any;
+  code: number,
+  data: any,
 };
 
 async function RegisterUser(

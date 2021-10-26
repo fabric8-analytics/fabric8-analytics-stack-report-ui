@@ -62,7 +62,7 @@ export default class Utils {
   };
 
   GetCompanionData = (data: any): any => {
-    const rows: { name: any; progress: any; drawer: any }[] = [];
+    const rows: { name: any, progress: any, drawer: any }[] = [];
     data?.forEach((dep: any) => {
       const dependency = {
         name: dep.name,

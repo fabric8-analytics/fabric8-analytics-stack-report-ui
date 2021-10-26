@@ -9,9 +9,9 @@ import {
 import { CubeIcon, ExclamationCircleIcon } from "@patternfly/react-icons";
 
 type DependencyProps = {
-  analyzed: number;
-  transitive: number;
-  unknown: number;
+  analyzed: number,
+  transitive: number,
+  unknown: number,
 };
 
 const Dependency = ({ analyzed, transitive, unknown }: DependencyProps) => {
@@ -34,7 +34,10 @@ const Dependency = ({ analyzed, transitive, unknown }: DependencyProps) => {
             </SplitItem>
             {unknown > 0 && (
               <SplitItem>
-                <ExclamationCircleIcon className="icon-class-exclamation" />
+                <ExclamationCircleIcon
+                  id="unknown-deps-warning"
+                  className="icon-class-exclamation"
+                />
               </SplitItem>
             )}
           </Split>
@@ -45,7 +48,7 @@ const Dependency = ({ analyzed, transitive, unknown }: DependencyProps) => {
           <Split hasGutter>
             <SplitItem>Analysed dependencies:</SplitItem>
             <SplitItem>
-              <Title headingLevel="h6" size="md">
+              <Title id="analyzed-deps" headingLevel="h6" size="md">
                 {analyzed}
               </Title>
             </SplitItem>
@@ -55,7 +58,7 @@ const Dependency = ({ analyzed, transitive, unknown }: DependencyProps) => {
           <Split hasGutter>
             <SplitItem>Transitive dependencies:</SplitItem>
             <SplitItem>
-              <Title headingLevel="h6" size="md">
+              <Title id="transitive-deps" headingLevel="h6" size="md">
                 {transitive}
               </Title>
             </SplitItem>
@@ -66,7 +69,7 @@ const Dependency = ({ analyzed, transitive, unknown }: DependencyProps) => {
             <Split hasGutter>
               <SplitItem>Unknown dependencies:</SplitItem>
               <SplitItem>
-                <Title headingLevel="h6" size="md">
+                <Title id="unknown-deps" headingLevel="h6" size="md">
                   {unknown}
                 </Title>
               </SplitItem>
