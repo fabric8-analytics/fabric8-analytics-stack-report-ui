@@ -8,7 +8,8 @@
 
 # production
 /build
-
+/src/__tests__/__snapshots__/*
+/target
 # misc
 src/*.d.ts
 .DS_Store

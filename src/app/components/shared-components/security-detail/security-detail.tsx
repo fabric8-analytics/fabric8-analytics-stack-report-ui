@@ -9,8 +9,8 @@ import {
 import { ExclamationCircleIcon, SecurityIcon } from "@patternfly/react-icons";
 
 type SecurityProps = {
-  vulnerablities: number;
-  vulnerable: number;
+  vulnerablities: number,
+  vulnerable: number,
 };
 
 const Security = ({ vulnerablities, vulnerable }: SecurityProps) => {
@@ -34,7 +34,10 @@ const Security = ({ vulnerablities, vulnerable }: SecurityProps) => {
             </SplitItem>
             {condition && (
               <SplitItem>
-                <ExclamationCircleIcon className="icon-class-exclamation" />
+                <ExclamationCircleIcon
+                  id="warning-security"
+                  className="icon-class-exclamation"
+                />
               </SplitItem>
             )}
           </Split>
@@ -46,7 +49,7 @@ const Security = ({ vulnerablities, vulnerable }: SecurityProps) => {
             <Split hasGutter>
               <SplitItem>Total vulnerabilities:</SplitItem>
               <SplitItem>
-                <Title headingLevel="h6" size="md">
+                <Title id="vulnerablities" headingLevel="h6" size="md">
                   {vulnerablities}
                 </Title>
               </SplitItem>
@@ -58,7 +61,7 @@ const Security = ({ vulnerablities, vulnerable }: SecurityProps) => {
             <Split hasGutter>
               <SplitItem>Vulnerable dependencies:</SplitItem>
               <SplitItem>
-                <Title headingLevel="h6" size="md">
+                <Title id="vulnerable" headingLevel="h6" size="md">
                   {vulnerable}
                 </Title>
               </SplitItem>

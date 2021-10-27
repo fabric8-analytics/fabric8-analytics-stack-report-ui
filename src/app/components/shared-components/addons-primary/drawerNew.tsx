@@ -19,7 +19,7 @@ import {
   Title,
 } from "@patternfly/react-core";
 import "./addons.scss";
-import Utils from "src/app/utils/utility";
+import Utils from "../../../utils/utility";
 import GithubStats from "./github_stats";
 import ComposableTableMisc from "./addonstable";
 import Context from "../../../store/context";

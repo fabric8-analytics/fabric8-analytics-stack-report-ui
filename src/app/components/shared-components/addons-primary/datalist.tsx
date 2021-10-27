@@ -23,9 +23,9 @@ import {
 import DrawerStack from "./drawer";
 
 type DataListState = {
-  isOpen1: boolean;
-  isOpen2: boolean;
-  selectedDataListItemId: string;
+  isOpen1: boolean,
+  isOpen2: boolean,
+  selectedDataListItemId: string,
 };
 
 // eslint-disable-next-line

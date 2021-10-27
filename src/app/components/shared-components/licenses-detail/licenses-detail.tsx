@@ -10,13 +10,12 @@ import {
 import { ExclamationCircleIcon, FileAltIcon } from "@patternfly/react-icons";
 
 type LicensesProps = {
-  conflicts: number;
-  unknown: number;
+  conflicts: number,
+  unknown: number,
 };
 
 const Licenses = ({ conflicts, unknown }: LicensesProps) => {
-  const condition = true; // conflicts > 0 || unknown > 0;
-
+  const condition = conflicts > 0 || unknown > 0;
   return (
     <div>
       <Flex
@@ -36,7 +35,10 @@ const Licenses = ({ conflicts, unknown }: LicensesProps) => {
             </SplitItem>
             {condition && (
               <SplitItem>
-                <ExclamationCircleIcon className="icon-class-exclamation" />
+                <ExclamationCircleIcon
+                  id="warning-conflicts-unknown"
+                  className="icon-class-exclamation"
+                />
               </SplitItem>
             )}
           </Split>
@@ -48,7 +50,7 @@ const Licenses = ({ conflicts, unknown }: LicensesProps) => {
             <Split hasGutter>
               <SplitItem>License conflicts:</SplitItem>
               <SplitItem>
-                <Title headingLevel="h6" size="md">
+                <Title id="confilcts" headingLevel="h6" size="md">
                   {conflicts}
                 </Title>
               </SplitItem>
@@ -60,7 +62,7 @@ const Licenses = ({ conflicts, unknown }: LicensesProps) => {
             <Split hasGutter>
               <SplitItem>Unknown licenses:</SplitItem>
               <SplitItem>
-                <Title headingLevel="h6" size="md">
+                <Title id="unknown" headingLevel="h6" size="md">
                   {unknown}
                 </Title>
               </SplitItem>

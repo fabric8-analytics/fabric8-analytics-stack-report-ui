@@ -12,7 +12,7 @@ const initialState = {
   Companion: [],
 };
 
-const reducer = (state: any, action: { type: any; data: any }) => {
+const reducer = (state: any, action: { type: any, data: any }) => {
   switch (action.type) {
     case "APIData":
       return {

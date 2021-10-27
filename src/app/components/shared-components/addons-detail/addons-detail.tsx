@@ -9,7 +9,7 @@ import {
 import { ZoneIcon } from "@patternfly/react-icons";
 
 type AddonsProps = {
-  companion: number;
+  companion: number,
 };
 
 const Addons = ({ companion }: AddonsProps) => {
@@ -38,7 +38,7 @@ const Addons = ({ companion }: AddonsProps) => {
           <Split hasGutter>
             <SplitItem>Companion Dependencies:</SplitItem>
             <SplitItem>
-              <Title headingLevel="h6" size="md">
+              <Title id="companion" headingLevel="h6" size="md">
                 {companion}
               </Title>
             </SplitItem>

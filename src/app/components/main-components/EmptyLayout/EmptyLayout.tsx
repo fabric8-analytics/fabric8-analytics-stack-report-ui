@@ -48,7 +48,7 @@ const PercentageWidths = () => (
   </div>
 );
 type BasicProps = {
-  Header: JSX.Element;
+  Header: JSX.Element,
 };
 const Header = () => {
   const nav = <Nav variant="horizontal" />;
@@ -78,7 +78,7 @@ const Basic = () => (
   </Backdrop>
 );
 type Loader = {
-  loading: boolean;
+  loading: boolean,
 };
 const CRDALoader = ({ loading }: Loader) => {
   if (loading) {

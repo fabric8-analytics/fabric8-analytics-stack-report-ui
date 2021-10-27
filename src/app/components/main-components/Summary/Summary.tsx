@@ -28,10 +28,10 @@ import Context from "../../../store/context";
 import Utils from "../../../utils/utility";
 
 type SummaryState = {
-  dependency: Record<string, number>;
-  addons: Record<string, number>;
-  licenses: Record<string, number>;
-  security: Record<string, number>;
+  dependency: Record<string, number>,
+  addons: Record<string, number>,
+  licenses: Record<string, number>,
+  security: Record<string, number>,
 };
 
 // eslint-disable-next-line

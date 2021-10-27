@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Split, SplitItem, Button } from "@patternfly/react-core";
 
 type Signprop = {
-  isUUID: boolean;
+  isUUID: boolean,
 };
 
 type State = {
-  signUpText: string;
+  signUpText: string,
 };
 
 const SignUp = ({ isUUID }: Signprop) => {
@@ -23,6 +23,7 @@ const SignUp = ({ isUUID }: Signprop) => {
             iconPosition="right"
             className=".pf-m-progress"
             target="_blank"
+            id="snyk-sign-up-btn"
             isSmall
           >
             Sign up for Snyk

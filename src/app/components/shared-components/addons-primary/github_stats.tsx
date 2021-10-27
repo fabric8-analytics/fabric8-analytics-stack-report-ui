@@ -16,11 +16,11 @@ import {
 import "./addons.scss";
 
 type GithubStatsProps = {
-  contributors: number;
-  dependentRepos: number;
-  usage: number;
-  forks: number;
-  stars: number;
+  contributors: number,
+  dependentRepos: number,
+  usage: number,
+  forks: number,
+  stars: number,
 };
 
 const GithubStats = ({
