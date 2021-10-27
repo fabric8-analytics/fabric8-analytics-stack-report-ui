@@ -5,3 +5,7 @@ export interface RowDetailType {
   low: number;
   total: number;
 }
+
+export interface ServerityColors {
+  [severity: string] : string;
+}
