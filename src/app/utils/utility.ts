@@ -22,9 +22,7 @@ export default class Utils {
           const countVulnerable = publicVulns + privateVulns + vulnerable;
           const count = publicVulns + privateVulns;
           TotalVulnerabilities += count;
-          VulnerableDeps +=
-            countVulnerable +
-            this.VulnerableHelper(element.vulnerable_dependencies);
+          VulnerableDeps += 1;
         }
       });
       return { total: TotalVulnerabilities, vulnerable: VulnerableDeps };
