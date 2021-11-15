@@ -4,7 +4,7 @@ LABEL Codeready dependency analytics
 
 RUN mkdir -p /opt/scripts /var/www/html
 
-ADD dist /var/www/html
+COPY dist /var/www/html
 
 ADD ./fix-permissions.sh ./install.sh ./passwd.template ./run.sh /opt/scripts/
 
