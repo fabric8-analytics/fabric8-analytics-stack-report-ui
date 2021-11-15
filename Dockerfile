@@ -2,15 +2,15 @@ FROM registry.centos.org/centos/centos:7
 
 LABEL Codeready dependency analytics
 
-RUN mkdir -p /opt/scripts /var/www/html
+RUN mkdir -p /opt/scripts 
 
-COPY dist /var/www/html
+ADD dist /opt/scripts
 
 ADD ./fix-permissions.sh ./install.sh ./passwd.template ./run.sh /opt/scripts/
 
 RUN chmod -R 777 /opt/scripts && . /opt/scripts/install.sh
 
-WORKDIR /var/www/html
+WORKDIR /opt/scripts
 
 EXPOSE 8080 8443
 
