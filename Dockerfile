@@ -4,7 +4,7 @@ LABEL Codeready dependency analytics
 
 RUN mkdir -p /opt/scripts 
 
-ADD dist /opt/scripts
+ADD ./dist /opt/scripts
 
 ADD ./fix-permissions.sh ./install.sh ./passwd.template ./run.sh /opt/scripts/
 
