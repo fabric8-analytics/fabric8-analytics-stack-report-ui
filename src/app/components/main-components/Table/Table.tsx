@@ -50,7 +50,6 @@ const Table = () => {
       }
       return 0;
     });
-    console.log("analyzed dep", analyzedDependencies)
     analyzedDependencies?.forEach((dep: any, index: any) => {
       // eslint-disable-next-line no-console
       const tempRowData = [];
