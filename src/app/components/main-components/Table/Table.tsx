@@ -126,7 +126,7 @@ const Table = () => {
       const child = {
         [`${childArrayLength}_2`]: {
           // @ts-ignore
-          component: <VersionDetails dep={dep} loc/>,
+          component: <VersionDetails dep={dep}/>,
         },
         [`${childArrayLength}_3`]: {
           component: (
