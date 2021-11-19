@@ -13,7 +13,11 @@ import {
   ExpandableRowContent,
   sortable,
 } from "@patternfly/react-table";
+<<<<<<< HEAD
 import Snyklogo from '../../../images/snyk.png'
+=======
+import { SecurityIcon } from "@patternfly/react-icons";
+>>>>>>> 6c4b2f0... display snyk icon against private vulnerabilities
 // https://github.com/patternfly/patternfly-react/blob/master/packages/react-table/src/components/Table/examples/DemoSortableTable.js
 import Context from "../../../store/context";
 import DemoSortableTable from "./DemoSortableTable.js";
@@ -122,7 +126,7 @@ const Table = () => {
       const child = {
         [`${childArrayLength}_2`]: {
           // @ts-ignore
-          component: <VersionDetails dep={dep} />,
+          component: <VersionDetails dep={dep} loc/>,
         },
         [`${childArrayLength}_3`]: {
           component: (
