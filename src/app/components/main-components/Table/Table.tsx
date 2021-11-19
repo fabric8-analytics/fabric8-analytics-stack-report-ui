@@ -13,6 +13,7 @@ import {
   ExpandableRowContent,
   sortable,
 } from "@patternfly/react-table";
+import Snyklogo from '../../../images/snyk.png'
 // https://github.com/patternfly/patternfly-react/blob/master/packages/react-table/src/components/Table/examples/DemoSortableTable.js
 import Context from "../../../store/context";
 import DemoSortableTable from "./DemoSortableTable.js";
@@ -108,7 +109,7 @@ const Table = () => {
       dep.private_vulnerabilities?.forEach(
         (vul: { title: any, severity: any, cvss: any }) => {
           const tempDepRowData = [];
-          const vulnerability =<div>{vul.title}<img className="bitmap" id="imgHome" alt="snyk" src="https://i.ibb.co/4pq8L4M/snyk.png" /></div>
+          const vulnerability =<div>{vul.title}<img className="bitmap" id="imgHome" alt="snyk" src={Snyklogo} /></div>
           tempDepRowData.push(vulnerability);
           tempDepRowData.push(
             vul.severity[0].toUpperCase() + vul.severity.slice(1),
