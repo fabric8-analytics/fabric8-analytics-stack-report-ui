@@ -50,6 +50,7 @@ const Table = () => {
       }
       return 0;
     });
+    console.log("analyzed dep", analyzedDependencies)
     analyzedDependencies?.forEach((dep: any, index: any) => {
       // eslint-disable-next-line no-console
       const tempRowData = [];
@@ -95,25 +96,27 @@ const Table = () => {
     }
 
       dep.public_vulnerabilities?.forEach(
-        (vul: { title: any, severity: any, cvss: any }) => {
+        (vul: { title: any, severity: any, cvss: any, exploit: any }) => {
           const tempDepRowData = [];
           tempDepRowData.push(vul.title);
           tempDepRowData.push(
             vul.severity[0].toUpperCase() + vul.severity.slice(1),
           );
+          tempDepRowData.push(vul.exploit)
           tempDepRowData.push(vul.cvss);
           childRowData.push(tempDepRowData);
         },
       );
 
       dep.private_vulnerabilities?.forEach(
-        (vul: { title: any, severity: any, cvss: any }) => {
+        (vul: { title: any, severity: any, cvss: any, exploit: any }) => {
           const tempDepRowData = [];
           const vulnerability =<div>{vul.title}<img className="bitmap" id="imgHome" alt="snyk" src={Snyklogo} /></div>
           tempDepRowData.push(vulnerability);
           tempDepRowData.push(
             vul.severity[0].toUpperCase() + vul.severity.slice(1),
           );
+          tempDepRowData.push(vul.exploit)
           tempDepRowData.push(vul.cvss);
           childRowData.push(tempDepRowData);
         },
@@ -133,6 +136,7 @@ const Table = () => {
                   transforms: [sortable],
                 },
                 "Severity",
+                "Exploit Information",
                 {
                   title: "CVSS Score",
                   transforms: [sortable],
