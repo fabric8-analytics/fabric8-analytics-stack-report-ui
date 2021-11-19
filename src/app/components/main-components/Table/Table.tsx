@@ -13,6 +13,7 @@ import {
   ExpandableRowContent,
   sortable,
 } from "@patternfly/react-table";
+import { SecurityIcon } from "@patternfly/react-icons";
 // https://github.com/patternfly/patternfly-react/blob/master/packages/react-table/src/components/Table/examples/DemoSortableTable.js
 import Context from "../../../store/context";
 import DemoSortableTable from "./DemoSortableTable.js";
@@ -51,7 +52,6 @@ const Table = () => {
     });
     analyzedDependencies?.forEach((dep: any, index: any) => {
       // eslint-disable-next-line no-console
-      console.log(dep);
       const tempRowData = [];
       const tempIssuesData = [];
       tempRowData.push(dep.name);
@@ -82,21 +82,35 @@ const Table = () => {
         tempRowData.push("N/A");
       }
       rowData.push(tempRowData);
-
       const childRowData: any[][] = [];
       let totalVulnerabilities = [];
       if (globalState.APIData?.registration_status === "FREETIER") {
         totalVulnerabilities = dep.public_vulnerabilities;
-      } else {
-        totalVulnerabilities = [
-          ...dep.public_vulnerabilities,
-          ...dep.private_vulnerabilities,
-        ];
-      }
-      totalVulnerabilities?.forEach(
+      } 
+      else {
+      totalVulnerabilities = [
+        ...dep.public_vulnerabilities,
+        ...dep.private_vulnerabilities,
+      ];
+    }
+
+      dep.public_vulnerabilities?.forEach(
         (vul: { title: any, severity: any, cvss: any }) => {
           const tempDepRowData = [];
           tempDepRowData.push(vul.title);
+          tempDepRowData.push(
+            vul.severity[0].toUpperCase() + vul.severity.slice(1),
+          );
+          tempDepRowData.push(vul.cvss);
+          childRowData.push(tempDepRowData);
+        },
+      );
+
+      dep.private_vulnerabilities?.forEach(
+        (vul: { title: any, severity: any, cvss: any }) => {
+          const tempDepRowData = [];
+          const vulnerability =<div>{vul.title}<img className="bitmap" id="imgHome" alt="snyk" src="https://i.ibb.co/4pq8L4M/snyk.png" /></div>
+          tempDepRowData.push(vulnerability);
           tempDepRowData.push(
             vul.severity[0].toUpperCase() + vul.severity.slice(1),
           );
@@ -108,7 +122,7 @@ const Table = () => {
       const child = {
         [`${childArrayLength}_2`]: {
           // @ts-ignore
-          component: <VersionDetails dep={dep} />,
+          component: <VersionDetails dep={dep} loc/>,
         },
         [`${childArrayLength}_3`]: {
           component: (
