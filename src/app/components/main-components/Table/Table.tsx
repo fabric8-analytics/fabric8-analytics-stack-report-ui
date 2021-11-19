@@ -13,7 +13,6 @@ import {
   ExpandableRowContent,
   sortable,
 } from "@patternfly/react-table";
-import { SecurityIcon } from "@patternfly/react-icons";
 // https://github.com/patternfly/patternfly-react/blob/master/packages/react-table/src/components/Table/examples/DemoSortableTable.js
 import Context from "../../../store/context";
 import DemoSortableTable from "./DemoSortableTable.js";
@@ -122,7 +121,7 @@ const Table = () => {
       const child = {
         [`${childArrayLength}_2`]: {
           // @ts-ignore
-          component: <VersionDetails dep={dep}/>,
+          component: <VersionDetails dep={dep} />,
         },
         [`${childArrayLength}_3`]: {
           component: (
