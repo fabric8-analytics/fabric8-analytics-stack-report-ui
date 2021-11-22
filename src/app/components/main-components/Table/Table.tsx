@@ -13,6 +13,8 @@ import {
   ExpandableRowContent,
   sortable,
 } from "@patternfly/react-table";
+import { SecurityIcon } from "@patternfly/react-icons";
+import { ServerityColors } from "./TableInterfaces";
 import Snyklogo from '../../../images/snyk.png'
 // https://github.com/patternfly/patternfly-react/blob/master/packages/react-table/src/components/Table/examples/DemoSortableTable.js
 import Context from "../../../store/context";
@@ -93,13 +95,18 @@ const Table = () => {
         ...dep.private_vulnerabilities,
       ];
     }
-
+      const severityColors: ServerityColors = {};   
+      severityColors.Critical = "#7D1007";
+      severityColors.High = "#C9190B";
+      severityColors.Medium = "#EC7A08";
+      severityColors.Low = "#F0AB00";
       dep.public_vulnerabilities?.forEach(
         (vul: { title: any, severity: any, cvss: any, exploit: any }) => {
           const tempDepRowData = [];
           tempDepRowData.push(vul.title);
+          const severity = vul.severity[0].toUpperCase() + vul.severity.slice(1);
           tempDepRowData.push(
-            vul.severity[0].toUpperCase() + vul.severity.slice(1),
+           <div><SecurityIcon className="security-icon" color={severityColors[severity]}/>{severity}</div>,
           );
           tempDepRowData.push(vul.exploit)
           tempDepRowData.push(vul.cvss);
@@ -112,8 +119,9 @@ const Table = () => {
           const tempDepRowData = [];
           const vulnerability =<div>{vul.title}<img className="bitmap" id="imgHome" alt="snyk" src={Snyklogo} /></div>
           tempDepRowData.push(vulnerability);
+          const severity = vul.severity[0].toUpperCase() + vul.severity.slice(1);
           tempDepRowData.push(
-            vul.severity[0].toUpperCase() + vul.severity.slice(1),
+           <div><SecurityIcon className="security-icon" color={severityColors[severity]}/>{severity}</div>,
           );
           tempDepRowData.push(vul.exploit)
           tempDepRowData.push(vul.cvss);
