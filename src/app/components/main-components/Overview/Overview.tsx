@@ -121,7 +121,7 @@ const VersionUpdates: FC<{ VersionUpdatesCount: number }> = ({
   </TextContent>
 );
 
-const VulnerabilityCount = (props: any) => (
+export const VulnerabilityCount = (props: any) => (
   <GridItem span={8}>
     <TextContent className="vulnerability-count-overview">
       <Text>

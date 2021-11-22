@@ -180,44 +180,6 @@ const Table = () => {
     setChildDataTest(childDataObj);
   }, [globalState]);
 
-  function getVulnerabilitiesDetailsObj(dep: any) {
-    const VulnerabilitiesDetailsObj = {
-      critical: 0,
-      high: 0,
-      medium: 0,
-      low: 0,
-      total: 0,
-    };
-    const allVuls = [
-      ...dep.public_vulnerabilities,
-      ...dep.private_vulnerabilities,
-    ];
-    if (allVuls.length) {
-      let total = 0;
-      allVuls.forEach((vul: { severity: any }) => {
-        const { severity } = vul;
-        if (severity === "critical") {
-          VulnerabilitiesDetailsObj.critical += 1;
-          total += 1;
-        }
-        if (severity === "high") {
-          VulnerabilitiesDetailsObj.high += 1;
-          total += 1;
-        }
-        if (severity === "medium") {
-          VulnerabilitiesDetailsObj.medium += 1;
-          total += 1;
-        }
-        if (severity === "low") {
-          VulnerabilitiesDetailsObj.low += 1;
-          total += 1;
-        }
-      });
-      VulnerabilitiesDetailsObj.total = total;
-    }
-    return VulnerabilitiesDetailsObj;
-  }
-
   const columns = [
     "Dependencies",
     "Dependency Check",
@@ -244,6 +206,7 @@ const Table = () => {
   //     "0.3.1",
   //   ],
   // ];
+  
   // index corresponds to row index, and value corresponds to column index of the expanded, null means no cell is expanded
   const [activeChild, setActiveChild] = React.useState([null, null]);
   // key = row_col of the parent it corresponds to
@@ -468,5 +431,43 @@ const Table = () => {
     </TableComposable>
   );
 };
+
+export function getVulnerabilitiesDetailsObj(dep: any) {
+  const VulnerabilitiesDetailsObj = {
+    critical: 0,
+    high: 0,
+    medium: 0,
+    low: 0,
+    total: 0,
+  };
+  const allVuls = [
+    ...dep.public_vulnerabilities,
+    ...dep.private_vulnerabilities,
+  ];
+  if (allVuls.length) {
+    let total = 0;
+    allVuls.forEach((vul: { severity: any }) => {
+      const { severity } = vul;
+      if (severity === "critical") {
+        VulnerabilitiesDetailsObj.critical += 1;
+        total += 1;
+      }
+      if (severity === "high") {
+        VulnerabilitiesDetailsObj.high += 1;
+        total += 1;
+      }
+      if (severity === "medium") {
+        VulnerabilitiesDetailsObj.medium += 1;
+        total += 1;
+      }
+      if (severity === "low") {
+        VulnerabilitiesDetailsObj.low += 1;
+        total += 1;
+      }
+    });
+    VulnerabilitiesDetailsObj.total = total;
+  }
+  return VulnerabilitiesDetailsObj;
+}
 
 export default Table;

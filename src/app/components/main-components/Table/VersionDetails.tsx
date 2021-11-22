@@ -10,57 +10,59 @@ import {
   TextContent,
   Title,
 } from "@patternfly/react-core";
-import { SecurityIcon } from "@patternfly/react-icons";
 import React, { FC, useState } from "react";
+import VulnerabilityCount from "../Overview/Overview";
 import GithubStats from "../../shared-components/addons-primary/github_stats";
+import { getVulnerabilitiesDetailsObj } from './Table'
+
 
 function VersionDetails({ dep }: any) {
+
+  const directVulnerabilitiesDetailsObj = getVulnerabilitiesDetailsObj(dep);
   const SummaryDonut = () => (
-    <div style={{ height: "200px", width: "200px" }}>
-      <ChartDonut
-        ariaDesc="Average number of pets"
-        ariaTitle="Donut chart example"
-        constrainToVisibleArea
-        data={[
-          { x: "a", y: 33 },
-          { x: "b", y: 33 },
-          { x: "c", y: 33 },
-        ]}
-        labels={({ datum }) => `${datum.x}: ${datum.y}%`}
-        legendData={[
-          { name: "Critical: 3" },
-          { name: "High: 5" },
-          { name: "low: 2" },
-        ]}
-        legendOrientation="vertical"
-        legendPosition="right"
-        padding={{
-          bottom: 0,
-          left: 0,
-          right: 140, // Adjusted to accommodate legend
-          top: 0,
-        }}
-        subTitle="Vul"
-        title="10"
-        themeColor={ChartThemeColor.multiOrdered}
+    <div style={{ height: "300px", width: "300px" }}>
+    <ChartDonut
+      ariaDesc="Security Issues"
+      ariaTitle="Security Issues"
+      constrainToVisibleArea
+      colorScale={["#7D1007", "#C9190B", "#EC7A08", "#F0AB00", "#6A6E73"]}
+      labels={({ datum }) => `${datum.x}: ${datum.y}`}
+      data={[
+        {
+          x: "Critical",
+          y: directVulnerabilitiesDetailsObj.critical,
+        },
+        { x: "High", y: directVulnerabilitiesDetailsObj.high },
+        { x: "Medium", y: directVulnerabilitiesDetailsObj.medium },
+        { x: "Low", y: directVulnerabilitiesDetailsObj.low },
+          ]}
+      subTitle="Total"
+      title={directVulnerabilitiesDetailsObj.total.toString()}
+      padding={{
+                bottom: 0,
+                left: 0,
+                right: 140, // Adjusted to accommodate legend
+                top: -100,
+              }}
         width={280}
-      />
+        />
     </div>
   );
   return (
-    // @ts-ignore
+        // @ts-ignore
     <Flex justifyContent={{ default: "justifyContentSpaceEvenly" }}>
       <FlexItem>
         <Split>
           <SplitItem>
-            <Title headingLevel="h6" size="md">
+            <Title headingLevel="h6" size="md" className="title">
               Latest Version
               <div>{dep.latest_version}</div>
             </Title>
+            <br/>
           </SplitItem>
         </Split>
         <Split>
-          <Title headingLevel="h6" size="md">
+          <Title headingLevel="h6" size="md" >
             Licence(s) used
             <div>{dep.licenses}</div>
           </Title>
@@ -75,11 +77,13 @@ function VersionDetails({ dep }: any) {
           stars={Number(dep.github.stargazers_count)}
         />
       </FlexItem>
-
-      {/* <FlexItem>
+      <FlexItem>
+          <Title headingLevel="h6" size="md" >
+            Security Issues
+          </Title>
         <SummaryDonut />
-      </FlexItem> */}
-    </Flex>
+     </FlexItem>
+  </Flex>
   );
 }
 
