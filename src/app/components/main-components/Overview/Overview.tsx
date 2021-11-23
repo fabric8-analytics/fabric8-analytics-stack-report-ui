@@ -91,7 +91,7 @@ const SummaryDonut = () => (
       { x: "Unique to Snyk", y: VulnerabilitiesDetailsObj.uniqueToSnyk },
     ]}
     height={208}
-    labels={({ datum }) => `${datum.x}: ${datum.y}%`}
+    labels={({ datum }) => `${datum.x}: ${datum.y}`}
     subTitle="Total"
     title={VulnerabilitiesDetailsObj.total.toString()}
     width={202}
