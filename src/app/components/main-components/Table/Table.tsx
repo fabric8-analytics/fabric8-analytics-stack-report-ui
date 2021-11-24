@@ -28,10 +28,9 @@ const Table = () => {
   // @ts-ignore
   const { globalState, globalDispatch } = useContext(Context);
   const [rowz, setRowz] = useState([]);
-
+  const [activeChild, setActiveChild] = useState([null]);
   const [rows, setRows] = useState([]);
   const [childData, setChildDataTest] = useState({});
-
   useEffect(() => {
     const analyzedDependencies = globalState.APIData?.analyzed_dependencies;
     const rowData: ((prevState: never[]) => never[]) | any[][] = [];
@@ -148,6 +147,8 @@ const Table = () => {
     setRows(rowData);
     // @ts-ignore
     setChildDataTest(childDataObj);
+    // @ts-ignore
+    setActiveChild(new Array(globalState.APIData?.analyzed_dependencies === undefined? 0:globalState.APIData?.analyzed_dependencies.length).fill(null));
   }, [globalState]);
 
   const columns = [
@@ -158,6 +159,7 @@ const Table = () => {
     "Transitive Vulnerabilities",
     "Recommended Version",
   ];
+
   // const rows = [
   //   [
   //     "aniso8601",
@@ -176,9 +178,8 @@ const Table = () => {
   //     "0.3.1",
   //   ],
   // ];
-  
+
   // index corresponds to row index, and value corresponds to column index of the expanded, null means no cell is expanded
-  const [activeChild, setActiveChild] = React.useState([null, null]);
   // key = row_col of the parent it corresponds to
   // const childData = {
   //   "0_2": {
@@ -290,6 +291,7 @@ const Table = () => {
   //     ),
   //   },
   // };
+
   const customRender = (cell: {} | null | undefined, index: number) => {
     if (index === 0) {
       return <h6>{cell}</h6>;
