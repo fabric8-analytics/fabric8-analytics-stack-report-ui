@@ -357,7 +357,6 @@ const Table = () => {
                             isExpanded: isCompoundExpanded(rowIndex, cellIndex),
                             onToggle: () => {
                               if (activeChild[rowIndex] === cellIndex) {
-
                                 // closing the expansion on the current toggle
                                 // set the corresponding item to null
                                 const updatedActiveChild = activeChild.map(
@@ -384,7 +383,6 @@ const Table = () => {
                     // @ts-ignore
                     <Td
                       key={`${rowIndex}_${cellIndex}`}
-                      
                       dataLabel={columns[cellIndex]}
                       component={cellIndex === 0 ? "th" : "td"}
                       {...compoundExpandParams}
