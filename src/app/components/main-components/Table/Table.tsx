@@ -52,6 +52,7 @@ const Table = () => {
       }
       return 0;
     });
+    
     analyzedDependencies?.forEach((dep: any, index: any) => {
       // eslint-disable-next-line no-console
       const tempRowData = [];
@@ -68,7 +69,7 @@ const Table = () => {
       tempRowData.push(dep.version);
 
       const directVulnerabilitiesDetailsObj = getVulnerabilitiesDetailsObj(dep);
-      const transitiveVulnerabilitiesDetailsObj = {
+      const cumalativeTransitiveVulnerabilitiesDetailsObj = {
         critical: 0,
         high: 0,
         medium: 0,
@@ -76,58 +77,26 @@ const Table = () => {
         total: 0,
       };
 
+      dep.vulnerable_dependencies?.forEach((transitiveDep: any, depIndex: any) => {
+        const transitiveVulnerabilities = getVulnerabilitiesDetailsObj(transitiveDep);
+        cumalativeTransitiveVulnerabilitiesDetailsObj.critical += transitiveVulnerabilities.critical;
+        cumalativeTransitiveVulnerabilitiesDetailsObj.high += transitiveVulnerabilities.high;
+        cumalativeTransitiveVulnerabilitiesDetailsObj.medium += transitiveVulnerabilities.medium;
+        cumalativeTransitiveVulnerabilitiesDetailsObj.low += transitiveVulnerabilities.low;
+        cumalativeTransitiveVulnerabilitiesDetailsObj.total+= transitiveVulnerabilities.total;
+      });
+
       tempRowData.push(directVulnerabilitiesDetailsObj);
-      tempRowData.push(transitiveVulnerabilitiesDetailsObj);
+      tempRowData.push(cumalativeTransitiveVulnerabilitiesDetailsObj);
       if (dep.recommended_version !== "") {
         tempRowData.push(dep.recommended_version);
       } else {
         tempRowData.push("N/A");
       }
       rowData.push(tempRowData);
-      const childRowData: any[][] = [];
-      let totalVulnerabilities = [];
-      if (globalState.APIData?.registration_status === "FREETIER") {
-        totalVulnerabilities = dep.public_vulnerabilities;
-      } 
-      else {
-      totalVulnerabilities = [
-        ...dep.public_vulnerabilities,
-        ...dep.private_vulnerabilities,
-      ];
-    }
-      const severityColors: ServerityColors = {};   
-      severityColors.Critical = "#7D1007";
-      severityColors.High = "#C9190B";
-      severityColors.Medium = "#EC7A08";
-      severityColors.Low = "#F0AB00";
-      dep.public_vulnerabilities?.forEach(
-        (vul: { title: any, severity: any, cvss: any, exploit: any }) => {
-          const tempDepRowData = [];
-          tempDepRowData.push(vul.title);
-          const severity = vul.severity[0].toUpperCase() + vul.severity.slice(1);
-          tempDepRowData.push(
-           <div><SecurityIcon className="security-icon" color={severityColors[severity]}/>{severity}</div>,
-          );
-          tempDepRowData.push(vul.exploit)
-          tempDepRowData.push(vul.cvss);
-          childRowData.push(tempDepRowData);
-        },
-      );
-
-      dep.private_vulnerabilities?.forEach(
-        (vul: { title: any, severity: any, cvss: any, exploit: any }) => {
-          const tempDepRowData = [];
-          const vulnerability =<div>{vul.title}<img className="bitmap" id="imgHome" alt="snyk" src={Snyklogo} /></div>
-          tempDepRowData.push(vulnerability);
-          const severity = vul.severity[0].toUpperCase() + vul.severity.slice(1);
-          tempDepRowData.push(
-           <div><SecurityIcon className="security-icon" color={severityColors[severity]}/>{severity}</div>,
-          );
-          tempDepRowData.push(vul.exploit)
-          tempDepRowData.push(vul.cvss);
-          childRowData.push(tempDepRowData);
-        },
-      );
+      
+      const childRowData = directvulnerabilityDetails(dep, globalState.APIData?.registration_status);
+      const transitiveChildRowData = transitiveVulnerabilityDetail(dep, globalState.APIData?.registration_status);
       const childArrayLength = index;
       const child = {
         [`${childArrayLength}_2`]: {
@@ -163,10 +132,11 @@ const Table = () => {
                 "Severity",
                 "CVSS Score",
                 "Transitive dependency",
+                "Exploit Information",
                 "Current Version",
-                "Latest Version",
+                "Latest Version"
               ]}
-              rows={childRowData}
+              rows={transitiveChildRowData}
             />
           ),
         },
@@ -468,6 +438,112 @@ export function getVulnerabilitiesDetailsObj(dep: any) {
     VulnerabilitiesDetailsObj.total = total;
   }
   return VulnerabilitiesDetailsObj;
+}
+
+function directvulnerabilityDetails(dep: any, registrationStatus: string) {
+  const childRowData: any[][] = [];
+      let totalVulnerabilities = [];
+      if (registrationStatus === "FREETIER") {
+        totalVulnerabilities = dep.public_vulnerabilities;
+      } 
+      else {
+      totalVulnerabilities = [
+        ...dep.public_vulnerabilities,
+        ...dep.private_vulnerabilities,
+      ];
+    }
+      const severityColors: ServerityColors = {};   
+      severityColors.Critical = "#7D1007";
+      severityColors.High = "#C9190B";
+      severityColors.Medium = "#EC7A08";
+      severityColors.Low = "#F0AB00";
+      dep.public_vulnerabilities?.forEach(
+        (vul: { title: any, severity: any, cvss: any, exploit: any }) => {
+          const tempDepRowData = [];
+          tempDepRowData.push(vul.title);
+          const severity = vul.severity[0].toUpperCase() + vul.severity.slice(1);
+          tempDepRowData.push(
+           <div><SecurityIcon className="security-icon" color={severityColors[severity]}/>{severity}</div>,
+          );
+          tempDepRowData.push(vul.exploit)
+          tempDepRowData.push(vul.cvss);
+          childRowData.push(tempDepRowData);
+        },
+      );
+
+      dep.private_vulnerabilities?.forEach(
+        (vul: { title: any, severity: any, cvss: any, exploit: any }) => {
+          const tempDepRowData = [];
+          const vulnerability =<div>{vul.title}<img className="bitmap" id="imgHome" alt="snyk" src={Snyklogo} /></div>
+          tempDepRowData.push(vulnerability);
+          const severity = vul.severity[0].toUpperCase() + vul.severity.slice(1);
+          tempDepRowData.push(
+           <div><SecurityIcon className="security-icon" color={severityColors[severity]}/>{severity}</div>,
+          );
+          tempDepRowData.push(vul.exploit)
+          tempDepRowData.push(vul.cvss);
+          childRowData.push(tempDepRowData);
+        },
+      );
+      return childRowData;
+
+}
+
+function transitiveVulnerabilityDetail(dep: any, registrationStatus: string) {
+  const childRowData: any[][] = [];
+  const severityColors: ServerityColors = {};   
+  severityColors.Critical = "#7D1007";
+  severityColors.High = "#C9190B";
+  severityColors.Medium = "#EC7A08";
+  severityColors.Low = "#F0AB00";
+  dep.vulnerable_dependencies?.forEach((transitiveDep: any, depIndex: any) => {
+      let totalVulnerabilities = [];
+      if (registrationStatus === "FREETIER") {
+        totalVulnerabilities = transitiveDep.public_vulnerabilities;
+      } 
+      else {
+      totalVulnerabilities = [
+        ...transitiveDep.public_vulnerabilities,
+        ...transitiveDep.private_vulnerabilities,
+      ];
+    }
+
+    transitiveDep.public_vulnerabilities?.forEach(
+        (vul: { name: any, title: any, severity: any, cvss: any, exploit: any, version:any, latestversion: any }) => {
+        const tempDepRowData = [];
+          tempDepRowData.push(vul.title);
+          const severity = vul.severity[0].toUpperCase() + vul.severity.slice(1);
+          tempDepRowData.push(
+           <div><SecurityIcon className="security-icon" color={severityColors[severity]}/>{severity}</div>,
+          );
+          tempDepRowData.push(vul.cvss);
+          tempDepRowData.push(transitiveDep.name);
+          tempDepRowData.push(vul.exploit);
+          tempDepRowData.push(transitiveDep.version);
+          tempDepRowData.push(transitiveDep.latest_version);
+          childRowData.push(tempDepRowData);
+        },
+      );
+
+      transitiveDep.private_vulnerabilities?.forEach(
+        (vul: { name: any, title: any, severity: any, cvss: any, exploit: any, version:any, latestversion: any }) => {
+          const tempDepRowData = [];
+          const vulnerability =<div>{vul.title}<img className="bitmap" id="imgHome" alt="snyk" src={Snyklogo} /></div>
+          tempDepRowData.push(vulnerability);
+          const severity = vul.severity[0].toUpperCase() + vul.severity.slice(1);
+          tempDepRowData.push(
+           <div><SecurityIcon className="security-icon" color={severityColors[severity]}/>{severity}</div>,
+          );
+          tempDepRowData.push(vul.cvss);
+          tempDepRowData.push(transitiveDep.name);
+          tempDepRowData.push(vul.exploit);
+          tempDepRowData.push(transitiveDep.version);
+          tempDepRowData.push(transitiveDep.latest_version);
+          childRowData.push(tempDepRowData);
+        },
+      );
+    });
+      return childRowData;
 }
 
 export default Table;
