@@ -161,6 +161,9 @@ const Table = () => {
   ];
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> fcb15cf... undo comment removal
   // const rows = [
   //   [
   //     "aniso8601",
@@ -293,8 +296,11 @@ const Table = () => {
   //   },
   // };
 
+<<<<<<< HEAD
 =======
 >>>>>>> 7b513cc... display dependency information for all rows
+=======
+>>>>>>> fcb15cf... undo comment removal
   const customRender = (cell: {} | null | undefined, index: number) => {
     if (index === 0) {
       return <h6>{cell}</h6>;
