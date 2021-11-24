@@ -160,6 +160,7 @@ const Table = () => {
     "Recommended Version",
   ];
 
+<<<<<<< HEAD
   // const rows = [
   //   [
   //     "aniso8601",
@@ -292,6 +293,8 @@ const Table = () => {
   //   },
   // };
 
+=======
+>>>>>>> 7b513cc... display dependency information for all rows
   const customRender = (cell: {} | null | undefined, index: number) => {
     if (index === 0) {
       return <h6>{cell}</h6>;
@@ -348,6 +351,7 @@ const Table = () => {
                             isExpanded: isCompoundExpanded(rowIndex, cellIndex),
                             onToggle: () => {
                               if (activeChild[rowIndex] === cellIndex) {
+
                                 // closing the expansion on the current toggle
                                 // set the corresponding item to null
                                 const updatedActiveChild = activeChild.map(
@@ -374,6 +378,7 @@ const Table = () => {
                     // @ts-ignore
                     <Td
                       key={`${rowIndex}_${cellIndex}`}
+                      
                       dataLabel={columns[cellIndex]}
                       component={cellIndex === 0 ? "th" : "td"}
                       {...compoundExpandParams}
