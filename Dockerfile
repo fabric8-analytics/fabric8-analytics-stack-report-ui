@@ -2,7 +2,9 @@ FROM registry.centos.org/centos/centos:7
 
 LABEL Codeready dependency analytics
 
-RUN mkdir -p /opt/scripts /var/www/html
+RUN mkdir -p /opt/scripts 
+
+RUN mkdir -p /var/www/html
 
 ADD dist /var/www/html
 
