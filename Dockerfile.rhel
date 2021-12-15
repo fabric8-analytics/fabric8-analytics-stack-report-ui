@@ -1,6 +1,6 @@
 # base image sources https://github.com/rhdt/EL-Dockerfiles/tree/master/base/fabric8-analytics-stack-report-ui
 
-FROM quay.io/openshiftio/rhel-base-fabric8-analytics-stack-report-ui:latest
+FROM quay.io/app-sre/rhel-base-fabric8-analytics-stack-report-ui:latest
 
 RUN mkdir -p /opt/scripts /var/www/html
 
