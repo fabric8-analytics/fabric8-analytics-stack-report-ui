@@ -7,6 +7,10 @@ IMG="${BASE_IMG}:latest"
 
 GIT_HASH=`git rev-parse --short=7 HEAD`
 
+npm install phantomjs-prebuilt@2.1.14 --ignore-scripts 
+npm install
+npm run build:prod
+
 # build the image
 docker build  --no-cache \
               --force-rm \
