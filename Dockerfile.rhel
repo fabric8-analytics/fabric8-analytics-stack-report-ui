@@ -1,14 +1,12 @@
 # base image sources https://github.com/rhdt/EL-Dockerfiles/tree/master/base/fabric8-analytics-stack-report-ui
 
-FROM quay.io/app-sre/rhel-fabric8-analytics-stack-report-ui:1fa89e7
+FROM quay.io/app-sre/rhel-base-fabric8-analytics-stack-report-ui:latest
 
 RUN mkdir -p /opt/scripts /var/www/html
 
 ADD dist /var/www/html/
 
 ADD ./passwd.template ./run.sh /opt/scripts/
-
-USER root 
 
 RUN chmod -R 777 /opt/scripts/run.sh
 
