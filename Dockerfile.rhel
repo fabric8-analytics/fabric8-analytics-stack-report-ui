@@ -1,38 +1,16 @@
-# base image sources https://github.com/rhdt/EL-Dockerfiles/tree/master/base/fabric8-analytics-stack-report-ui
-FROM registry.access.redhat.com/ubi8/nodejs-14:latest AS builder 
-USER 0
-WORKDIR  /tmp/src
-RUN chown -R 1001:0 /tmp/src/
-ADD package.json  /tmp/src/
-ADD package-lock.json /tmp/src/
-USER 1001
-RUN npm install phantomjs-prebuilt@2.1.14 --ignore-scripts
-RUN npm install
-ENV PATH="./tmp/src/node_modules/.bin:$PATH"
+FROM registry.access.redhat.com/ubi8/ubi-minimal
+
+RUN microdnf module enable nodejs:14
+RUN microdnf install nodejs
+RUN microdnf install httpd
+RUN sed -i 's/Listen 80/Listen 80\nServerName localhost\nListen 8080/' /etc/httpd/conf/httpd.conf
 ADD . /tmp/src/
-# Requires root user to build a production build
+WORKDIR /tmp/src
 USER root
-# Create A production build
-RUN npm run build:prod
-
-
-FROM quay.io/app-sre/rhel-base-fabric8-analytics-stack-report-ui:latest
-
-RUN mkdir -p /opt/scripts /var/www/html
-
-COPY --from=builder /tmp/src/dist /var/www/html/
-# ADD dist /var/www/html/
-
-ADD ./passwd.template ./run.sh /opt/scripts/
-
-RUN chmod -R 777 /opt/scripts/run.sh
-
+RUN npm install phantomjs-prebuilt@2.1.14 --ignore-scripts
+RUN npm install 
+RUN npm run build:produbi
 WORKDIR /var/www/html
-
-EXPOSE 8080 8443
-
-USER apache
-
-ENTRYPOINT ["/opt/scripts/run.sh"]
-
-CMD ["apache"]
+EXPOSE 80 8080 8443
+CMD ["-D", "FOREGROUND"]
+ENTRYPOINT ["/usr/sbin/httpd"]
