@@ -35,6 +35,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:prod": "BUILD_PATH=/var/www/html react-scripts build",
     "test": "jest",
     "coverage": "jest --coverage --verbose --updateSnapshot .",
     "eject": "react-scripts eject",
