@@ -22,7 +22,7 @@ objects:
           service: crda-new-ui
       spec:
         containers:
-        - image: "${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${IMAGE_TAG}"
+        - image: "${DOCKER_REGISTRY}/${DOCKER_IMAGE}:revamp-${IMAGE_TAG}"
           name: crda-new-ui
           ports:
           - containerPort: 8080
