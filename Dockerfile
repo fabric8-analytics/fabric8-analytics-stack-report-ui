@@ -11,6 +11,7 @@ WORKDIR /tmp/src
 USER root
 RUN npm install 
 RUN npm run build:prod
+RUN ./fix-permissions.sh
 USER apache
 WORKDIR /var/www/html
 EXPOSE 80 8080 8443
