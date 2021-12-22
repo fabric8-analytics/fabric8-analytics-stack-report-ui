@@ -6,6 +6,10 @@ RUN microdnf module enable nodejs:14
 RUN microdnf install nodejs
 RUN microdnf install httpd
 RUN sed -i 's/Listen 80/Listen 80\nServerName localhost\nListen 8080/' /etc/httpd/conf/httpd.conf
+RUN sed -i 's/^Group apache/Group root/g' /etc/httpd/conf/httpd.conf
+RUN sed -i 's/logs\/error_log/\/dev\/stderr/g' /etc/httpd/conf/httpd.conf
+RUN sed -i 's/logs\/access_log/\/dev\/stdout/g' /etc/httpd/conf/httpd.conf
+RUN mkdir -p /etc/httpd/logs && touch /etc/httpd/logs/error_log && touch /etc/httpd/logs/access_log;
 ADD . /tmp/src/
 WORKDIR /tmp/src
 USER root
