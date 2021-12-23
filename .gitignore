@@ -29,7 +29,7 @@ build/Release
 ehthumbs.db
 Icon?
 Thumbs.db
-
+.env
 # Node Files #
 /node_modules
 /bower_components
