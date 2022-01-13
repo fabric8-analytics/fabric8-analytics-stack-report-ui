@@ -71,7 +71,7 @@ objects:
     name: crda-new-ui
   spec:
     ports:
-    - name: "8080"
+    - name: "proxy"
       port: 8080
       protocol: TCP
       targetPort: 8080
