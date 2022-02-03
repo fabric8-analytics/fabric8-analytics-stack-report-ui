@@ -17,6 +17,7 @@ import {
   Progress,
   ProgressMeasureLocation,
   ProgressSize,
+  ProgressVariant,
 } from "@patternfly/react-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
@@ -27,6 +28,14 @@ const TextTable = (data: string) => {
 };
 
 const ProgressBar = (data: number) => {
+  let progressVariant;
+  if(Math.ceil(data)<50)
+  {
+    progressVariant=ProgressVariant.warning;
+  }
+  else{
+    progressVariant=ProgressVariant.success;
+  }
   const title = String(Math.ceil(data)).concat("%");
   return (
     <Progress
@@ -34,6 +43,7 @@ const ProgressBar = (data: number) => {
       title={title}
       size={ProgressSize.sm}
       measureLocation={ProgressMeasureLocation.none}
+      variant={progressVariant}
     />
   );
 };
