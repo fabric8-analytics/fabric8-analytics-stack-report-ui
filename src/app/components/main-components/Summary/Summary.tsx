@@ -93,15 +93,15 @@ const SummaryCard = () => {
               <Text className="heading"> Summary of the stack </Text>
             </TextContent>
           </FlexItem>
-          <FlexItem>
-            <BTSynktoken isUUID={Showsignup} />
-          </FlexItem>
           <FlexItem align={{ default: "alignRight" }}>
+            <BTSynktoken isUUID={Showsignup}/>
+          </FlexItem>
+          {/* <FlexItem align={{ default: "alignRight" }}> // can be implemented later. good to have
             <ShareSquareIcon className="icon-class" />
           </FlexItem>
           <FlexItem>
             <DownloadIcon className="icon-class" />
-          </FlexItem>
+          </FlexItem> */}
         </Flex>
       </CardTitle>
       <Divider />
