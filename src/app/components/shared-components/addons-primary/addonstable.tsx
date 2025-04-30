@@ -13,6 +13,7 @@ import {
   TableText,
 } from "@patternfly/react-table";
 import {
+  Alert,
   Button,
   Progress,
   ProgressMeasureLocation,
@@ -54,12 +55,12 @@ const FeedbackButtons = (data: any, name: string) => {
       <Button
         onClick={(event) => submitFeedback(data, true, name)}
         variant="link"
-        icon={<FontAwesomeIcon icon={faThumbsUp} />}
+        icon={<FontAwesomeIcon icon={faThumbsUp}/>}
       />
       <Button
         onClick={(event) => submitFeedback(data, false, name)}
         variant="link"
-        icon={<FontAwesomeIcon icon={faThumbsDown} />}
+        icon={<FontAwesomeIcon icon={faThumbsDown}/>}
       />
     </div>
   );

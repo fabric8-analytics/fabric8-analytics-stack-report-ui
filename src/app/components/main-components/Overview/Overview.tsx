@@ -14,6 +14,7 @@ import {
   TabTitleText,
   TabTitleIcon,
   PageSection,
+  TextVariants,
 } from "@patternfly/react-core";
 import { ChartDonut } from "@patternfly/react-charts";
 import SecurityIcon from "@patternfly/react-icons/dist/js/icons/security-icon";
@@ -124,8 +125,8 @@ const VersionUpdates: FC<{ VersionUpdatesCount: number }> = ({
 export const VulnerabilityCount = (props: any) => (
   <GridItem span={8}>
     <TextContent className="vulnerability-count-overview">
-      <Text>
-        <SecurityIcon color={props.color} /> <strong>{props.count}</strong>{" "}
+      <Text component={TextVariants.h6}>
+        <SecurityIcon color={props.color}/> <strong>{props.count}</strong>{" "}
         {props.severity}
       </Text>
     </TextContent>

@@ -8,6 +8,7 @@ import {
   SplitItem,
   Text,
   TextContent,
+  TextVariants,
   Title,
 } from "@patternfly/react-core";
 import React, { FC, useState } from "react";
@@ -23,10 +24,15 @@ function VersionDetails({ dep }: any) {
     <div style={{ height: "300px", width: "300px" }}>
     <ChartDonut
       ariaDesc="Security Issues"
-      ariaTitle="Security Issues"
       constrainToVisibleArea
-      colorScale={["#7D1007", "#C9190B", "#EC7A08", "#F0AB00", "#6A6E73"]}
+      // colorScale={["#7D1007", "#C9190B", "#EC7A08", "#F0AB00", "#6A6E73"]}
       labels={({ datum }) => `${datum.x}: ${datum.y}`}
+      legendData={[{ name: `Critical: ${directVulnerabilitiesDetailsObj.critical}` }, 
+      { name: `High: ${directVulnerabilitiesDetailsObj.high}` }, { name: `Medium: ${directVulnerabilitiesDetailsObj.medium}` },
+      { name: `Low: ${directVulnerabilitiesDetailsObj.low}`}]}
+      legendOrientation="vertical"
+      legendPosition="right"
+      themeColor={ChartThemeColor.orange}
       data={[
         {
           x: "Critical",
@@ -35,7 +41,7 @@ function VersionDetails({ dep }: any) {
         { x: "High", y: directVulnerabilitiesDetailsObj.high },
         { x: "Medium", y: directVulnerabilitiesDetailsObj.medium },
         { x: "Low", y: directVulnerabilitiesDetailsObj.low },
-          ]}
+          ].filter((data) => data.y !== 0)}
       subTitle="Total"
       title={directVulnerabilitiesDetailsObj.total.toString()}
       padding={{
@@ -62,10 +68,10 @@ function VersionDetails({ dep }: any) {
           </SplitItem>
         </Split>
         <Split>
-          <Title headingLevel="h6" size="md" >
+          <Text>
             Licence(s) used
             <div>{dep.licenses}</div>
-          </Title>
+          </Text>
         </Split>
       </FlexItem>
       <FlexItem>
@@ -78,9 +84,9 @@ function VersionDetails({ dep }: any) {
         />
       </FlexItem>
       <FlexItem>
-          <Title headingLevel="h6" size="md" >
+          <Text component={TextVariants.h1}>
             Security Issues
-          </Title>
+          </Text>
         <SummaryDonut />
      </FlexItem>
   </Flex>
